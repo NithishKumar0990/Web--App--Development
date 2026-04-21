@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+body {
+  position: static !important;
+  top: auto !important;
+}
+
+/* ========================================= */
+/*  Glassy Reflection Effect on Hover        */
+/* ========================================= */
+.reflection-effect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* The "sheen" is a diagonal gradient */
+    background: linear-gradient(
+        110deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent 70%
+    );
+
+    /* Start off-screen to the left */
+    transform: translateX(-100%);
+    
+    /* Animation settings */
+    transition: transform 1s ease-in-out;
+}
+
+/* On group hover, move the sheen across the card */
+.group:hover .reflection-effect::after {
+    transform: translateX(100%);
+}

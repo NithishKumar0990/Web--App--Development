@@ -1,0 +1,52 @@
+{
+  "name": "react-vite-tailwind",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.9.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.8.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-router-dom": "^7.14.1",
+    "react-tsparticles": "^2.12.2",
+    "tailwind-merge": "^3.4.0",
+    "tsparticles": "^3.9.1",
+    "tsparticles-engine": "^2.12.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.1.17",
+    "@types/node": "^22.0.0",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.1",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.10",
+    "sass": "^1.99.0",
+    "tailwindcss": "^4.2.2",
+    "typescript": "5.9.3",
+    "vite": "^7.3.2",
+    "vite-plugin-singlefile": "2.3.0"
+  },
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NithishKumar0990/Web----App--Development.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NithishKumar0990/Web----App--Development/issues"
+  },
+  "homepage": "https://github.com/NithishKumar0990/Web----App--Development#readme"
+}

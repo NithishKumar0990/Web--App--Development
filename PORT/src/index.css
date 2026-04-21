@@ -1,0 +1,69 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+}
+
+/* Ensuring the flip is buttery smooth */
+div[style*="preserve-3d"] {
+  transform-style: preserve-3d;
+}
+
+@layer components {
+  /* Shine/Reflection Animation */
+  .group:hover::before {
+    animation: shine 2s infinite linear;
+  }
+
+  @keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+}
+
+/* ========================================= */
+/*  Glassy Reflection Effect - FIXED         */
+/* ========================================= */
+
+.reflection-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.reflection-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+  
+  /* High-opacity white sheen - actually visible now */
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.85) 48%,
+    rgba(255, 255, 255, 0.9) 52%,
+    transparent 50%
+  );
+  
+  transform: translateX(-120%);
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Trigger on group hover */
+.group:hover .reflection-effect::after {
+  transform: translateX(120%);
+}
