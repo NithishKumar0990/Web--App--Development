@@ -281,13 +281,32 @@ const Hero = () => (
   </h2>
 
   {/* Main Heading */}
-  <h1 className="text-xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-6">
-    Engineering Intelligence.
-    <br />
-    <span className="text-slate-400 font-medium">
-      Architecting Systems.
-    </span>
-  </h1>
+<h1 className="text-4xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-6 flex flex-col">
+  
+  {/* LINE 1: Fades in smoothly */}
+  <motion.span 
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }} // Premium cubic-bezier ease
+    className="relative z-10"
+  >
+    Engineering Intelligence
+  </motion.span>
+
+  {/* LINE 2: The Mask Wrapper */}
+  <span className="relative overflow-hidden block">
+    {/* The Text that slides out from the mask */}
+    <motion.span 
+      initial={{ opacity: 0, y: "-100%" }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.70, ease: [0.25, 1, 0.5, 1] }}
+      className="block text-slate-400 font-medium"
+    >
+      Architecting Systems...
+    </motion.span>
+  </span>
+
+</h1>
 
   {/* Core Statement */}
   <p className="text-lg text-slate-600 leading-relaxed mb-8">
@@ -808,7 +827,136 @@ const Projects = () => {
 const Experience = () => (
   <Section id="experience" title="Internships & Training" className="relative bg-transparent py-20 px-10">
     <div className="space-y-8">
-      {/* ================= CARD 1 ================= */}
+
+
+ {/* ================= CARD 1 ================= */}
+<motion.div
+  className="group relative"
+  initial={{ y: 0 }}
+  whileHover={{ y: -10 }}
+  transition={{ duration: 0.4, ease: "easeOut" }}
+>
+  {/* ========== CARD ========== */}
+  <div className="relative rounded-3xl border border-slate-100 bg-white shadow-sm overflow-hidden transition-all duration-800 group-hover:shadow-lg">
+
+    {/* ========== RIGHT INSIDE GRADIENT ENTRY ========== */}
+   <div
+  className="
+    pointer-events-none absolute inset-y-0 left-0 z-0 w-[85%]
+    opacity-0 -translate-x-10
+    group-hover:opacity-100 group-hover:translate-x-0
+    transition-all duration-900 ease-out
+  "
+>
+      {/* main gradient wash from right */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-200/80 via-cyan-100/80 to-transparent" />
+
+      {/* soft blue blob */}
+      <div className="absolute top-0 left-0 h-72 w-80 rounded-full bg-blue-300/45 blur-3xl" />
+
+      {/* soft cyan blob */}
+      <div className="absolute bottom-0 left-20 h-56 w-70 rounded-full bg-cyan-200/35 blur-3xl" />
+    </div>
+
+    {/* ========== OPTIONAL FULL-CARD LIGHT WASH ========== */}
+    <div
+  className="
+    pointer-events-none absolute inset-0 z-0
+    opacity-0 group-hover:opacity-100
+    transition-opacity duration-700
+    bg-gradient-to-r from-blue-200/60 via-cyan-50/30 to-transparent
+  "
+/>
+
+    {/* ========== GIF LAYER ========== */}
+    <img
+      src="/images/Video.gif"
+      alt=""
+      className="
+        absolute z-[1]
+        right-4 bottom-4
+        w-auto h-[80%]
+        max-w-[45%]
+
+        opacity-0 translate-x-24
+        group-hover:opacity-95
+        group-hover:translate-x-0
+
+        transition-all duration-700 ease-out
+        mix-blend-multiply
+        pointer-events-none
+        object-contain
+      "
+    />
+
+    {/* ========== TEXT SAFETY FADE ========== */}
+    <div className="absolute inset-0 z-[2] pointer-events-none bg-gradient-to-l from-white via-white/70 to-transparent" />
+
+    {/* ========== CONTENT ========== */}
+    <div className="relative z-10 p-8">
+
+      {/* Header */}
+      <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
+        <div>
+          <h3 className="text-lg font-bold text-slate-900">
+            Web-Developer Trainee
+          </h3>
+          <p className="text-blue-600 text-sm font-semibold uppercase tracking-wider">
+            ICEICO TECHNOLOGIES PVT LTD
+          </p>
+        </div>
+        <span className="text-xs font-bold text-slate-400 px-3 py-1 bg-white-50 rounded-full uppercase tracking-tighter">
+          April 2026 - Till Date | Nagpur
+        </span>
+      </div>
+
+      {/* SUMMARY */}
+      <ul className="space-y-3">
+        <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
+          Developed a decoupled full-stack application using Laravel and React.js, ensuring high performance and a modern user interface through RESTful API integration.
+        </li>
+      </ul>
+
+      {/* DETAILED VIEW */}
+      <div className="overflow-hidden transition-all duration-300 max-h-0 opacity-0 group-hover:max-h-96 group-hover:opacity-100">
+        <ul className="space-y-3 mt-3">
+          <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
+            <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
+            <p>
+              Architected relational database schemas using Laravel Migrations and Eloquent ORM, maintaining data integrity and efficient query performance for complex data sets.
+            </p>
+          </li>
+          <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
+            <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
+            <p>
+              Optimized local development workflows by migrating legacy XAMPP environments to Laravel Herd, leveraging isolated PHP binaries to streamline environment management and site speed.
+            </p>
+          </li>
+          <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
+            <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
+            <p>
+              Implemented secure backend logic including custom Request Validation and Middleware, ensuring that all incoming data from the React frontend is sanitized and secure.
+            </p>
+          </li>
+          <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
+            <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
+            <p>
+              Configured automated mail services and SMTP protocols to handle real-time user communications, focusing on reliable delivery and backend troubleshooting.
+            </p>
+          </li>
+          <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
+            <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
+            <p>
+              Adopted clean-code principles within the MVC architecture, writing modular, reusable code to ensure the long-term scalability of the application.
+            </p>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</motion.div>
+      {/* ================= CARD 2 ================= */}
       <motion.div
         className="group relative"
         initial={{ y: 0 }}
@@ -829,7 +977,7 @@ const Experience = () => (
               </p>
             </div>
             <span className="text-xs font-bold text-slate-400 px-3 py-1 bg-slate-50 rounded-full uppercase tracking-tighter">
-              Jul 2024 – May 2025
+              Jul 2024 – May 2025 | Madurai
             </span>
           </div>
 
@@ -882,7 +1030,7 @@ const Experience = () => (
         </div>
       </motion.div>
 
-      {/* ================= CARD 2 ================= */}
+      {/* ================= CARD 3 ================= */}
       <motion.div
         className="group relative"
         initial={{ y: 0 }}
@@ -903,7 +1051,7 @@ const Experience = () => (
               </p>
             </div>
             <span className="text-xs font-bold text-slate-400 px-3 py-1 bg-slate-50 rounded-full uppercase tracking-tighter">
-              5-days Program
+              5-days Program | Madurai
             </span>
           </div>
 

@@ -75,8 +75,8 @@ export default function DotMatrixBackground({
   repel = true,
 
   pulse = true,
-  pulseSpeed = 1.1,
-  pulseAmount = 0.12,
+  pulseSpeed = 1.5,
+  pulseAmount = 0.50,
 
   edgeFade = true,
   edgeFadeDistance = 140,

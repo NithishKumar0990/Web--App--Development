@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Mail, Phone, User, MessageSquare, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function ContactForm() {
   const [success, setSuccess] = useState(false);
@@ -114,19 +115,29 @@ export default function ContactForm() {
       <div className="bg-slate-100 shadow-xl rounded-2xl p-8">
         {/* Success Screen */}
         {success ? (
-          <div className="text-center py-16 bg-white rounded-xl">
-            <CheckCircle size={70} className="mx-auto text-green-500 mb-6" />
-            <h2 className="text-3xl font-bold text-slate-900 mb-3">Message Sent! 🎉</h2>
-            <p className="text-slate-500 text-lg mb-8">
-              Thanks for reaching out. I'll reply as soon as possible.
-            </p>
-            <a
-              href="/"
-              className="inline-block px-6 py-3 bg-slate-900 text-white rounded-full text-sm font-medium hover:bg-slate-800 transition"
-            >
-              ← Back to Home
-            </a>
-          </div>
+          <div className="max-w-xl mx-auto py-16 px-4 perspective-1000">
+  <motion.div
+    className="relative w-full h-[650px]" // Adjust height as needed
+    style={{ transformStyle: "preserve-3d" }}
+    animate={{ rotateY: success ? 180 : 0 }}
+    transition={{ duration: 0.8, ease: "easeInOut" }}
+  >
+    {/* --- FRONT: The Form --- */}
+    <div style={{ backfaceVisibility: "hidden" }} className="absolute inset-0 w-full h-full bg-slate-100 shadow-xl rounded-2xl p-8">
+      {/* YOUR FORM JSX GOES HERE */}
+    </div>
+
+    {/* --- BACK: Success Screen --- */}
+    <div style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }} className="absolute inset-0 w-full h-full bg-white text-powder-blue-600 shadow-xl rounded-2xl p-8 flex flex-col items-center justify-center text-center">
+      <CheckCircle size={70} className="mb-6" />
+      <h2 className="text-3xl font-bold mb-3">Message Sent! 🎉</h2>
+      <p className="text-lg opacity-80 mb-8">Thanks for reaching out. I'll reply as soon as possible.</p>
+      <a href="/" className="px-6 py-3 bg-green-600 text-white rounded-full text-sm font-medium hover:bg-green-700 transition">
+        ← Back to Home
+      </a>
+    </div>
+  </motion.div>
+</div>
         ) : (
           <>
             <h1 className="text-3xl font-bold text-slate-900 mb-2">Get In Touch</h1>
@@ -254,23 +265,33 @@ export default function ContactForm() {
               </div>
 
               {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex items-center justify-center gap-2 py-3.5 bg-slate-900 text-white rounded-xl font-semibold text-sm hover:bg-slate-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              
+        <button
+            type="submit"
+            disabled={loading}
+              className="group w-full flex items-center justify-center gap-3 py-3.5 px-6
+              bg-slate-900 text-white rounded-xl font-semibold text-sm
+              hover:bg-slate-800 transition-colors duration-300
+              disabled:opacity-50"
               >
-                {loading ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send size={16} />
-                    Send Message
-                  </>
-                )}
-              </button>
+            {loading ? (
+            <>
+          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          <span>Sending...</span>
+           </>
+         ) : (
+       <>
+      {/* The icon has its own transition */}
+      <motion.div
+        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+        className="transition-transform duration-300 group-hover:scale-125 group-hover:-rotate-12"
+      >
+        <Send size={16} />
+      </motion.div>
+      <span>Send Message</span>
+    </>
+  )}
+</button>
             </form>
           </>
         )}
