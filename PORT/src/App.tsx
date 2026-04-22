@@ -267,65 +267,127 @@ const Hero = () => (
     <div className="max-w-10xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
       
       
-      {/* --- LEFT SIDE: Your Text Content --- */}
-      <motion.div 
-         initial={{ opacity: 0, y: 50 }}
-         animate={{ opacity: 1, y: 0 }}
-         transition={{ duration: 0.8 }}
-        className="order-2 lg:order-1 max-w-2xl"
-      >
-        <h2 className="text-blue-600 text-sm font-semibold mb-3 tracking-wide uppercase">AI & Data Science Specialist</h2>
-        <h1 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1] mb-6">
-          Building the future with <br />
-          <span className="text-slate-500 font-medium">Intelligence & Data.</span>
-        </h1>
-        <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-          I am a B.Tech graduate in Artificial Intelligence & Data Science with a passion for building systems that don't just analyze data, but automate the decision-making process. With a solid foundation in Python, SQL, and cloud-native tools, I specialize in creating scalable ETL pipelines and deploying machine learning models into production.
-        </p>
-        
-        <div className="flex flex-wrap items-center gap-4">
-          
-
-          <div className="flex items-center gap-4 px-2">
-            <a href="https://github.com/Nithishkumar0990" target="_blank" className="p-2.5 text-slate-500 hover:text-slate-900 transition-colors">
-              <GitHubIcon size={20} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/nithish-kumar-l-04a998372/" target="_blank"
-              rel="noopener noreferrer">
-              <LinkedInIcon size={20} />
-            </a>
-            <a
-  href="/contact"
-  className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-full text-sm font-medium hover:bg-slate-800 transition-colors shadow-lg shadow-slate-200"
+      {/* --- LEFT SIDE: Refined Dual Identity --- */}
+<motion.div 
+  initial={{ opacity: 0, y: 50 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8 }}
+  className="order-2 lg:order-1 max-w-2xl"
 >
-  <Mail size={16} />
-  Contact Me
-</a>
-            <div className="w-px h-4 bg-slate-200 hidden sm:block"></div>
-            <span className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <MapPin size={14} />
-              Madurai,Tamil Nadu, India
-            </span>
-          </div>
-        </div>
-      </motion.div>
 
-      {/* --- RIGHT SIDE: Image (MODIFIED WITH NEURAL MESH) --- */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, delay: 0.2 }}
-        className="relative order-1 lg:order-2 flex justify-center lg:justify-end"
+  {/* Identity Label */}
+  <h2 className="text-blue-600 text-xs font-semibold mb-3 tracking-[0.2em] uppercase">
+    Artificial Intelligence & Software Engineering
+  </h2>
+
+  {/* Main Heading */}
+  <h1 className="text-xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-6">
+    Engineering Intelligence.
+    <br />
+    <span className="text-slate-400 font-medium">
+      Architecting Systems.
+    </span>
+  </h1>
+
+  {/* Core Statement */}
+  <p className="text-lg text-slate-600 leading-relaxed mb-8">
+    I hold a B.Tech in Artificial Intelligence & Data Science, but my professional identity is defined by a deliberate duality.
+  </p>
+
+  {/* Dual Expertise Split */}
+  <div className="space-y-6 mb-10">
+
+    {/* AI Domain */}
+    <div className="border-l-2 border-blue-500 pl-4">
+      <h3 className="text-sm font-semibold text-slate-900 mb-2 tracking-wide uppercase">
+        Data Science Engineering
+      </h3>
+      <p className="text-sm text-slate-600 leading-relaxed">
+        Architecting scalable ETL pipelines in Python, modeling complex relationships in SQL, and deploying machine learning systems that automate decision-making at scale. My discipline lives in statistical modeling, feature engineering, and cloud-native compute environments.
+      </p>
+    </div>
+
+    {/* Software Domain */}
+    <div className="border-l-2 border-slate-900 pl-4">
+      <h3 className="text-sm font-semibold text-slate-900 mb-2 tracking-wide uppercase">
+        Software Architecture
+      </h3>
+      <p className="text-sm text-slate-600 leading-relaxed">
+        Engineering Laravel backends with robust API gateways, building React-driven interfaces, and maintaining production systems with enterprise-grade discipline. My craft lives in service containers, queue workers, Eloquent ORM, and CI/CD pipelines.
+      </p>
+    </div>
+
+  </div>
+
+  {/* Action + Social */}
+  <div className="flex flex-wrap items-center gap-4">
+    
+    <a
+      href="/contact"
+      className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-full text-sm font-medium hover:bg-slate-800 transition-all shadow-lg shadow-slate-200"
+    >
+      <Mail size={16} />
+      Contact Me
+    </a>
+
+    <div className="flex items-center gap-4 px-2">
+      <a href="https://github.com/Nithishkumar0990" target="_blank" rel="noopener noreferrer" className="p-2.5 text-slate-500 hover:text-slate-900 transition-colors">
+        <GitHubIcon size={20} />
+      </a>
+      <a
+        href="https://www.linkedin.com/in/nithish-kumar-l-04a998372/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="p-2.5 text-slate-500 hover:text-slate-900 transition-colors"
       >
-         
-         <img 
-           src="/images/image 1.png" // Ensure file is in public/images/ folder
-           alt="Nithish Kumar L"
-           className="relative z-10 w-full max-w-md rounded-2xl shadow-sm lg:translate-x-[-70px] border-2 border-transparent object-cover aspect-square transform transition-transform duration-500 ease-out rotate-[-3deg] hover:rotate-0 hover:scale-95"
+        <LinkedInIcon size={20} />
+      </a>
+    </div>
 
-         />
-      </motion.div>
+    <div className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-slate-500 ml-4">
+      <MapPin size={14} />
+      Madurai, Tamil Nadu, India
+    </div>
+
+  </div>
+
+</motion.div>
+
+      <motion.div 
+  initial={{ opacity: 0, scale: 0.9 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 1, delay: 0.2 }}
+  className="relative order-1 lg:order-2 flex justify-center lg:justify-end items-start"
+>
+
+  {/* Soft subtle glow behind image */}
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] bg-blue-500/20 blur-3xl rounded-full opacity-60" />
+
+  <img 
+    src="/images/image 1.png"
+    alt="Nithish Kumar L"
+    className={`
+      relative z-10 
+      w-full 
+      max-w-[280px] sm:max-w-[340px] lg:max-w-md 
+      rounded-2xl 
+      shadow-lg shadow-slate-200/80
+      object-cover aspect-square 
+      transition-all duration-500 ease-out
+
+      /* ✅ Lift image slightly up */
+      -translate-y-4 lg:-translate-y-12
+
+      /* Offset only on desktop */
+      lg:-translate-x-[70px]
+
+      /* Rotation ONLY on desktop, not mobile */
+      lg:rotate-[-3deg] 
+      hover:lg:rotate-0 
+      hover:scale-[0.97]
+    `}
+  />
+</motion.div>
 
     </div>
 </section>
@@ -897,9 +959,9 @@ const Education = () => (
         <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-300">
           <Code2 size={120} />
         </div>
-        <h3 className="text-xs font-bold text-blue-400 mb-1 uppercase tracking-widest">B.Tech - AI & Data Science</h3>
+        <h3 className="text-xs font-bold text-blue-400 mb-1 uppercase tracking-widest">B.Tech - Artificial Intelligence & Data Science</h3>
         <p className="text-xl font-bold mb-1">Sethu Institute of Technology</p>
-        <p className="text-sm opacity-60 mb-6">Virudhunagar, Tamil Nadu | 2021 – 2025</p>
+        <p className="text-sm opacity-60 mb-6"> Tamil Nadu | 2021 – 2025</p>
         <div className="flex items-center gap-3">
           <div className="px-4 py-1.5 bg-white/70 backdrop-blur-md rounded-full text-sm font-bold">CGPA: 8.0/10</div>
         </div>
