@@ -52,8 +52,7 @@ type Dot = {
   phase: number;
 };
 
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(max, Math.max(min, value));
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
 export default function DotMatrixBackground({
   backgroundColor = "transparent",
@@ -76,7 +75,7 @@ export default function DotMatrixBackground({
 
   pulse = true,
   pulseSpeed = 1.5,
-  pulseAmount = 0.50,
+  pulseAmount = 0.5,
 
   edgeFade = true,
   edgeFadeDistance = 140,
@@ -121,9 +120,7 @@ export default function DotMatrixBackground({
       active: false,
     };
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const getResponsiveValues = () => {
       const isMobile = viewport.width < 768;
@@ -222,11 +219,7 @@ export default function DotMatrixBackground({
         const dy = targetY - pointer.y;
         const distance = Math.hypot(dx, dy) || 0.0001;
 
-        if (
-          pointer.active &&
-          !prefersReducedMotion &&
-          distance < interactionRadius
-        ) {
+        if (pointer.active && !prefersReducedMotion && distance < interactionRadius) {
           const force = 1 - distance / interactionRadius;
           const direction = repel ? 1 : -1;
           const offset = Math.min(maxOffset, force * interactionStrength);
@@ -259,11 +252,7 @@ export default function DotMatrixBackground({
           const dist2 = Math.hypot(dx2, dy2);
 
           if (dist2 < cursorBoostRadius) {
-            alpha = clamp(
-              alpha + (1 - dist2 / cursorBoostRadius) * cursorBoostOpacity,
-              0,
-              1
-            );
+            alpha = clamp(alpha + (1 - dist2 / cursorBoostRadius) * cursorBoostOpacity, 0, 1);
           }
         }
 

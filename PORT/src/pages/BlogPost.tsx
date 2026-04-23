@@ -26,18 +26,18 @@ export default function BlogPost() {
   if (!post) return <div className="p-8 text-center text-xl text-red-500">Post not found</div>;
 
   return (
-    <div className="max-w-3xl mx-auto py-12 px-4">
-      <Link to="/blog" className="text-blue-600 hover:text-blue-800 font-medium mb-8 inline-block">
+    <div className="mx-auto max-w-3xl px-4 py-12">
+      <Link to="/blog" className="mb-8 inline-block font-medium text-blue-600 hover:text-blue-800">
         ← Back to Blog
       </Link>
-      
-      <article className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
-        <h1 className="text-4xl font-bold text-slate-900 mb-4">{post.title}</h1>
-        <small className="text-slate-500 block mb-8 border-b pb-4">
+
+      <article className="rounded-3xl border border-slate-100 bg-white p-8 shadow-sm">
+        <h1 className="mb-4 text-4xl font-bold text-slate-900">{post.title}</h1>
+        <small className="mb-8 block border-b pb-4 text-slate-500">
           Published on {new Date(post.created_at).toLocaleDateString()}
         </small>
-        
-        <div className="prose prose-slate max-w-none text-slate-700 leading-loose whitespace-pre-wrap">
+
+        <div className="prose prose-slate max-w-none whitespace-pre-wrap leading-loose text-slate-700">
           {post.body}
         </div>
       </article>

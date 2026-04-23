@@ -14,7 +14,7 @@ export const dotMatrixConfig: DotMatrixBackgroundProps = {
   mobileDotSize: 1.35,
 
   // Base visibility
-  opacity: 0.50,
+  opacity: 0.5,
 
   // Cursor interaction
   interactionRadius: 200,

@@ -1,51 +1,42 @@
 ﻿import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 import BlogPost from "./pages/BlogPost";
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import BlogList from './pages/BlogList'
+import { Routes, Route, Link, useLocation } from "react-router-dom";
+import BlogList from "./pages/BlogList";
 
-import { cn } from './utils/cn';
+import { cn } from "./utils/cn";
 import ContactForm from "./components/ContactForm";
 import DotMatrixBackground from "./components/DotMatrixBackground";
 import { dotMatrixConfig } from "./config/dotMatrixConfig";
-import PageTransition from './components/PageTransition';
+import PageTransition from "./components/PageTransition";
 
-
-
-
-
-
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  ExternalLink, 
+import {
+  Mail,
+  Phone,
+  MapPin,
+  ExternalLink,
   ChevronRight,
-  Database, 
-  Code2, 
-  LineChart, 
-  Cpu, 
+  Database,
+  Code2,
+  LineChart,
+  Cpu,
   Layers,
   BookOpen,
   Globe,
-} from 'lucide-react';
+} from "lucide-react";
 import PageTransition1 from "./components/PageTransition1";
-
-
-
-
-
+import { div } from "framer-motion/m";
 
 const GitHubIcon = ({ size = 20, className = "" }) => (
-  <svg 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="#1f2937" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="#1f2937"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
     className={className}
   >
     <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
@@ -63,7 +54,6 @@ const LinkedInIcon = ({ size = 20, className = "" }) => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className={className}
-    
   >
     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
     <rect x="2" y="9" width="4" height="12" />
@@ -71,12 +61,10 @@ const LinkedInIcon = ({ size = 20, className = "" }) => (
   </svg>
 );
 
-
-
 const Navbar = () => {
   const location = useLocation();
   const isBlogPage = location.pathname.startsWith("/blog");
-  
+
   const allItems = ["Profile", "Skills", "Projects", "Experience", "Education", "Blog", "Contact"];
   const visibleItems = isBlogPage ? ["Profile", "Blog"] : allItems;
 
@@ -105,17 +93,13 @@ const Navbar = () => {
   return (
     <>
       {/* Desktop Navbar */}
-      <nav 
-        className={`
-          fixed top-0 w-full z-50 transition-all duration-300
-          ${isScrolled ? 'bg-slate-500/50 backdrop-blur-md shadow-sm border-b border-slate-100' : 'bg-glass'}
-        `}
+      <nav
+        className={`fixed top-0 z-50 w-full transition-all duration-300 ${isScrolled ? "border-b border-slate-100 bg-slate-500/50 shadow-sm backdrop-blur-md" : "bg-glass"} `}
       >
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
-          
+        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
           {/* Logo/Name - Always visible */}
-          <motion.span 
-            className="text-sm sm:text-base font-semibold tracking-tight text-slate-900 cursor-pointer hover:scale-105 transition-transform"
+          <motion.span
+            className="cursor-pointer text-sm font-semibold tracking-tight text-slate-900 transition-transform hover:scale-105 sm:text-base"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -124,15 +108,16 @@ const Navbar = () => {
           </motion.span>
 
           {/* Desktop Nav Links - Hidden on mobile */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
-            <div className="flex gap-6 lg:gap-8 text-[15px] font-medium text-slate-500">
+          <div className="hidden items-center gap-6 md:flex lg:gap-8">
+            <div className="flex gap-6 text-[15px] font-medium text-slate-500 lg:gap-8">
               <AnimatePresence mode="popLayout">
                 {visibleItems.map((item) => {
-                  const href = item === "Blog"
-                    ? "/blog"
-                    : item === "Contact"
-                      ? "/contact"
-                      : `/#${item.toLowerCase()}`;
+                  const href =
+                    item === "Blog"
+                      ? "/blog"
+                      : item === "Contact"
+                        ? "/contact"
+                        : `/#${item.toLowerCase()}`;
                   return (
                     <motion.a
                       key={item}
@@ -141,11 +126,11 @@ const Navbar = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.3 }}
-                      className="opacity-70 hover:opacity-100 transform hover:scale-110 hover:text-slate-900 transition-all duration-300 relative group"
-                      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                      className="group relative transform opacity-70 transition-all duration-300 hover:scale-110 hover:text-slate-900 hover:opacity-100"
+                      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                     >
                       {item}
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-slate-900 group-hover:w-full transition-all duration-300"></span>
+                      <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-slate-900 transition-all duration-300 group-hover:w-full"></span>
                     </motion.a>
                   );
                 })}
@@ -156,7 +141,7 @@ const Navbar = () => {
             <motion.img
               src="/images/image 1.png"
               alt="Profile illustration"
-              className="w-10 h-10 lg:w-12 lg:h-12 rounded-full shadow-lg hover:shadow-xl cursor-pointer transition-all duration-300 hover:scale-110"
+              className="h-10 w-10 cursor-pointer rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl lg:h-12 lg:w-12"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -164,24 +149,29 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          <div className="flex items-center md:hidden">
             <motion.button
               onClick={toggleMenu}
-              className="p-2 rounded-lg hover:bg-slate-100 transition-colors duration-200"
+              className="rounded-lg p-2 transition-colors duration-200 hover:bg-slate-100"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: 0.3 }}
             >
-              <svg 
-                className="w-6 h-6" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
+              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 )}
               </svg>
             </motion.button>
@@ -190,7 +180,7 @@ const Navbar = () => {
             <motion.img
               src="/images/image 1.png"
               alt="Profile"
-              className="w-8 h-8 ml-3 rounded-full shadow-lg hover:shadow-xl cursor-pointer transition-all duration-300 hover:scale-110"
+              className="ml-3 h-8 w-8 cursor-pointer rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3, delay: 0.4 }}
@@ -207,7 +197,7 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
             onClick={toggleMenu}
           />
         )}
@@ -221,29 +211,30 @@ const Navbar = () => {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden fixed top-14 sm:top-16 left-0 w-full bg-white/95 backdrop-blur-md shadow-xl border-b border-slate-100 z-50"
+            className="fixed left-0 top-14 z-50 w-full border-b border-slate-100 bg-white/95 shadow-xl backdrop-blur-md sm:top-16 md:hidden"
           >
-            <div className="max-w-5xl mx-auto px-6 py-6">
+            <div className="mx-auto max-w-5xl px-6 py-6">
               <div className="flex flex-col gap-4 text-lg font-medium text-slate-700">
                 {visibleItems.map((item, index) => {
-                  const href = item === "Blog"
-                    ? "/blog"
-                    : item === "Contact"
-                      ? "/contact"
-                      : `/#${item.toLowerCase()}`;
+                  const href =
+                    item === "Blog"
+                      ? "/blog"
+                      : item === "Contact"
+                        ? "/contact"
+                        : `/#${item.toLowerCase()}`;
                   return (
                     <motion.a
                       key={item}
                       href={href}
                       onClick={() => {
                         toggleMenu();
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.2, delay: index * 0.05 }}
-                      className="py-3 px-4 rounded-xl hover:bg-slate-100 hover:text-slate-900 transition-all duration-300 border-r-4 border-transparent hover:border-slate-300"
+                      className="rounded-xl border-r-4 border-transparent px-4 py-3 transition-all duration-300 hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900"
                     >
                       {item}
                     </motion.a>
@@ -258,167 +249,154 @@ const Navbar = () => {
   );
 };
 
-
 // Hero Component
 const Hero = () => (
-  <section className="pt-28 pb-20 px-6 min-h-[80vh] flex items-center">
-   
-    
-    <div className="max-w-10xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      
-      
+  <section className="flex min-h-[80vh] items-center px-6 pb-20 pt-28">
+    <div className="max-w-10xl mx-auto grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2">
       {/* --- LEFT SIDE: Refined Dual Identity --- */}
-<motion.div 
-  initial={{ opacity: 0, y: 50 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.8 }}
-  className="order-2 lg:order-1 max-w-2xl"
->
-
-  {/* Identity Label */}
-  <h2 className="text-blue-600 text-xs font-semibold mb-3 tracking-[0.2em] uppercase">
-    Artificial Intelligence & Software Engineering
-  </h2>
-
-  {/* Main Heading */}
-<h1 className="text-4xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-6 flex flex-col">
-  
-  {/* LINE 1: Fades in smoothly */}
-  <motion.span 
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }} // Premium cubic-bezier ease
-    className="relative z-10"
-  >
-    Engineering Intelligence
-  </motion.span>
-
-  {/* LINE 2: The Mask Wrapper */}
-  <span className="relative overflow-hidden block">
-    {/* The Text that slides out from the mask */}
-    <motion.span 
-      initial={{ opacity: 0, y: "-100%" }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 0.70, ease: [0.25, 1, 0.5, 1] }}
-      className="block text-slate-400 font-medium"
-    >
-      Architecting Systems...
-    </motion.span>
-  </span>
-
-</h1>
-
-  {/* Core Statement */}
-  <p className="text-lg text-slate-600 leading-relaxed mb-8">
-    I hold a B.Tech in Artificial Intelligence & Data Science, but my professional identity is defined by a deliberate duality.
-  </p>
-
-  {/* Dual Expertise Split */}
-  <div className="space-y-6 mb-10">
-
-    {/* AI Domain */}
-    <div className="border-l-2 border-blue-500 pl-4">
-      <h3 className="text-sm font-semibold text-slate-900 mb-2 tracking-wide uppercase">
-        Data Science Engineering
-      </h3>
-      <p className="text-sm text-slate-600 leading-relaxed">
-        Architecting scalable ETL pipelines in Python, modeling complex relationships in SQL, and deploying machine learning systems that automate decision-making at scale. My discipline lives in statistical modeling, feature engineering, and cloud-native compute environments.
-      </p>
-    </div>
-
-    {/* Software Domain */}
-    <div className="border-l-2 border-slate-900 pl-4">
-      <h3 className="text-sm font-semibold text-slate-900 mb-2 tracking-wide uppercase">
-        Software Architecture
-      </h3>
-      <p className="text-sm text-slate-600 leading-relaxed">
-        Engineering Laravel backends with robust API gateways, building React-driven interfaces, and maintaining production systems with enterprise-grade discipline. My craft lives in service containers, queue workers, Eloquent ORM, and CI/CD pipelines.
-      </p>
-    </div>
-
-  </div>
-
-  {/* Action + Social */}
-  <div className="flex flex-wrap items-center gap-4">
-    
-    <a
-      href="/contact"
-      className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-full text-sm font-medium hover:bg-slate-800 transition-all shadow-lg shadow-slate-200"
-    >
-      <Mail size={16} />
-      Contact Me
-    </a>
-
-    <div className="flex items-center gap-4 px-2">
-      <a href="https://github.com/Nithishkumar0990" target="_blank" rel="noopener noreferrer" className="p-2.5 text-slate-500 hover:text-slate-900 transition-colors">
-        <GitHubIcon size={20} />
-      </a>
-      <a
-        href="https://www.linkedin.com/in/nithish-kumar-l-04a998372/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="p-2.5 text-slate-500 hover:text-slate-900 transition-colors"
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="order-2 max-w-2xl lg:order-1"
       >
-        <LinkedInIcon size={20} />
-      </a>
+        {/* Identity Label */}
+        <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
+          Artificial Intelligence & Software Engineering
+        </h2>
+
+        {/* Main Heading */}
+        <h1 className="mb-6 flex flex-col text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-900 md:text-7xl">
+          {/* LINE 1: Fades in smoothly */}
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }} // Premium cubic-bezier ease
+            className="relative z-10"
+          >
+            Engineering Intelligence
+          </motion.span>
+
+          {/* LINE 2: The Mask Wrapper */}
+          <span className="relative block overflow-hidden">
+            {/* The Text that slides out from the mask */}
+            <motion.span
+              initial={{ opacity: 0, y: "-100%" }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.7, ease: [0.25, 1, 0.5, 1] }}
+              className="block font-medium text-slate-400"
+            >
+              Architecting Systems...
+            </motion.span>
+          </span>
+        </h1>
+
+        {/* Core Statement */}
+        <p className="mb-8 text-lg leading-relaxed text-slate-600">
+          I hold a B.Tech in Artificial Intelligence & Data Science, but my professional identity is
+          defined by a deliberate duality.
+        </p>
+
+        {/* Dual Expertise Split */}
+        <div className="mb-10 space-y-6">
+          {/* AI Domain */}
+          <div className="border-l-2 border-blue-500 pl-4">
+            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-900">
+              Data Science Engineering
+            </h3>
+            <p className="text-sm leading-relaxed text-slate-600">
+              Architecting scalable ETL pipelines in Python, modeling complex relationships in SQL,
+              and deploying machine learning systems that automate decision-making at scale. My
+              discipline lives in statistical modeling, feature engineering, and cloud-native
+              compute environments.
+            </p>
+          </div>
+
+          {/* Software Domain */}
+          <div className="border-l-2 border-slate-900 pl-4">
+            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-900">
+              Software Architecture
+            </h3>
+            <p className="text-sm leading-relaxed text-slate-600">
+              Engineering Laravel backends with robust API gateways, building React-driven
+              interfaces, and maintaining production systems with enterprise-grade discipline. My
+              craft lives in service containers, queue workers, Eloquent ORM, and CI/CD pipelines.
+            </p>
+          </div>
+        </div>
+
+        {/* Action + Social */}
+        <div className="flex flex-wrap items-center gap-4">
+          <a
+            href="/contact"
+            className="flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-medium text-white shadow-lg shadow-slate-200 transition-all hover:bg-slate-800"
+          >
+            <Mail size={16} />
+            Contact Me
+          </a>
+
+          <div className="flex items-center gap-4 px-2">
+            <a
+              href="https://github.com/Nithishkumar0990"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 text-slate-500 transition-colors hover:text-slate-900"
+            >
+              <GitHubIcon size={20} />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/nithish-kumar-l-04a998372/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 text-slate-500 transition-colors hover:text-slate-900"
+            >
+              <LinkedInIcon size={20} />
+            </a>
+          </div>
+
+          <div className="ml-4 hidden items-center gap-1.5 text-xs font-medium text-slate-500 sm:flex">
+            <MapPin size={14} />
+            Madurai, Tamil Nadu, India
+          </div>
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.2 }}
+        className="relative order-1 flex items-start justify-center lg:order-2 lg:justify-end"
+      >
+        {/* Soft subtle glow behind image */}
+        <div className="absolute left-1/2 top-1/2 h-[90%] w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/20 opacity-60 blur-3xl" />
+
+        <img
+          src="/images/image 1.png"
+          alt="Nithish Kumar L"
+          className={`/* ✅ Lift image slightly up */ /* Offset only on desktop */ /* Rotation ONLY on desktop, not mobile */ relative z-10 aspect-square w-full max-w-[280px] -translate-y-4 rounded-2xl object-cover shadow-lg shadow-slate-200/80 transition-all duration-500 ease-out hover:scale-[0.97] sm:max-w-[340px] lg:max-w-md lg:-translate-x-[70px] lg:-translate-y-12 lg:rotate-[-3deg] hover:lg:rotate-0`}
+        />
+      </motion.div>
     </div>
-
-    <div className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-slate-500 ml-4">
-      <MapPin size={14} />
-      Madurai, Tamil Nadu, India
-    </div>
-
-  </div>
-
-</motion.div>
-
-      <motion.div 
-  initial={{ opacity: 0, scale: 0.9 }}
-  animate={{ opacity: 1, scale: 1 }}
-  transition={{ duration: 1, delay: 0.2 }}
-  className="relative order-1 lg:order-2 flex justify-center lg:justify-end items-start"
->
-
-  {/* Soft subtle glow behind image */}
-  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] bg-blue-500/20 blur-3xl rounded-full opacity-60" />
-
-  <img 
-    src="/images/image 1.png"
-    alt="Nithish Kumar L"
-    className={`
-      relative z-10 
-      w-full 
-      max-w-[280px] sm:max-w-[340px] lg:max-w-md 
-      rounded-2xl 
-      shadow-lg shadow-slate-200/80
-      object-cover aspect-square 
-      transition-all duration-500 ease-out
-
-      /* ✅ Lift image slightly up */
-      -translate-y-4 lg:-translate-y-12
-
-      /* Offset only on desktop */
-      lg:-translate-x-[70px]
-
-      /* Rotation ONLY on desktop, not mobile */
-      lg:rotate-[-3deg] 
-      hover:lg:rotate-0 
-      hover:scale-[0.97]
-    `}
-  />
-</motion.div>
-
-    </div>
-</section>
+  </section>
 );
 
 // Section Wrapper
-const Section = ({ id, title, children, className }: { id: string; title: string; children: React.ReactNode; className?: string }) => (
-  <section id={id} className={cn("py-20 px-6", className)}>
-        <div className="max-w-10xl mx-auto px-4">
-      <div className="flex items-center gap-4 mb-12">
-        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">{title}</h2>
-        <div className="h-px bg-slate-100 flex-grow"></div>
+const Section = ({
+  id,
+  title,
+  children,
+  className,
+}: {
+  id: string;
+  title: string;
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <section id={id} className={cn("px-6 py-20", className)}>
+    <div className="max-w-10xl mx-auto px-4">
+      <div className="mb-12 flex items-center gap-4">
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900">{title}</h2>
+        <div className="h-px flex-grow bg-slate-100"></div>
       </div>
       {children}
     </div>
@@ -427,273 +405,260 @@ const Section = ({ id, title, children, className }: { id: string; title: string
 
 // Skills Component
 const Skills = () => {
-    const [hoveredId, 
-    setHoveredId] = React.useState<null | number>(null); 
-    
-    const itemVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
-const skills = [  
-  { 
-    id: 1,
-    title: 'Core', 
-    icon: <Code2 size={20} />, 
-    list: 'Python (Pandas, NumPy, scikit-learn), SQL (MySQL)',
-    // 👇 Change the string to this JSX block
-    description: (
-      <div className="space-y-5 text-left">
-        <p>
-          <motion.div variants={itemVariants}></motion.div>
-          <strong className="text-slate-900 block">Pandas & NumPy</strong> 
-          Data manipulation, numerical computing, and efficient handling of large datasets.
-        </p>
-        <p>
-          <strong className="text-slate-900 block">Scikit-learn</strong> 
-          Building, training, and evaluating machine learning models for real-world tasks.
-          <motion.div variants={itemVariants}></motion.div>
-        </p>
-        <p>
-          <strong className="text-slate-900 block">SQL (MySQL)</strong> 
-          Database Design & Queries – Creating schemas and writing optimized SQL.
-        </p>
-        <p>
-          <strong className="text-slate-900 block">Integration</strong> 
-          Connecting MySQL with applications for seamless data storage and retrieval.
-        </p>
-      </div>
-    )
-  },
-   { 
-    id: 2,
-    title: 'Data/DE', 
-    icon: <Database size={20} />, 
-    list: 'Airflow, dbt, Snowflake, Spark/PySpark',
-    description: (
-      <div className="space-y-3 text-left">
-        <p>
-          <strong className="text-slate-900 block">Airflow</strong> 
-          Workflow orchestration; scheduling and automating complex data pipelines.
-        </p>
-        <p>
-          <strong className="text-slate-900 block">dbt</strong> 
-          SQL‑based data transformation; building modular, version‑controlled analytics workflows.
-        </p>
-        <p>
-          <strong className="text-slate-900 block">Snowflake</strong> 
-          Cloud data warehouse; scalable storage, fast querying, and secure data sharing.
-        </p>
-        <p>
-          <strong className="text-slate-900 block">Spark/PySpark</strong> 
-          Distributed big‑data processing; handling large datasets with parallel computation.
-        </p>
-      </div>
-    )
-  },
-    { 
-    id: 3,
-    title: 'BI/Apps, GIS', 
-    icon: <LineChart size={20} />, 
-    list: 'Power BI, Streamlit, GIS & Spatial Analytics',
-    description: (
-      <div className="space-y-3 text-left">
-        <p>
-          <strong className="text-slate-900 block">Power BI</strong> 
-          Designing enterprise-grade interactive dashboards and automated visual reporting.
-        </p>
-        <p>
-          <strong className="text-slate-900 block">Streamlit</strong> 
-          Rapidly prototyping data applications and web interfaces directly from Python scripts.
-        </p>
-        <p>
-          <strong className="text-slate-900 block">GIS & Spatial Analytics</strong> 
-          Processing coordinate-based data and generating QGIS mapping solutions.
-        </p>
-      </div>
-    )
-  },
-    { 
-    id: 4,
-    title: 'ML/CV', 
-    icon: <Layers size={20} />, 
-    list: 'CNN, YOLO, OpenCV, NLP basics',
-    description: (
-      <div className="space-y-3 text-left">
-        <p>
-          <strong className="text-slate-900 block">Computer Vision (CNN / YOLO)</strong> 
-          Implementing deep learning models for real-time object detection and classification.
-        </p>
-        <p>
-          <strong className="text-slate-900 block">Image Processing (OpenCV)</strong> 
-          Feature extraction, image manipulation, and visual data filtering.
-        </p>
-        <p>
-          <strong className="text-slate-900 block">NLP Basics</strong> 
-          Text preprocessing, sentiment scoring, and tokenization techniques.
-        </p>
-      </div>
-    )
-  },
-    { 
-    id: 5,
-    title: 'Domain', 
-    icon: <Cpu size={20} className="relative -top-1" />,
-    list: 'AI & DS, Machine Learning, IoT/Robotics',
-    description: (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-8 text-left relative -top-1">
-        
-        {/* Left Column */}
-        <div className="space-y-6">
-          <div>
-            <strong className="text-slate-900 block text-base mb-2">Artificial Intelligence & Data Science</strong>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Skilled in data preprocessing, feature engineering, and exploratory data analysis. 
-              Experienced with Python libraries (Pandas, NumPy, scikit-learn) for structured data, 
-              numerical computations, and building ML workflows.
-            </p>
-          </div>
+  const [hoveredId, setHoveredId] = React.useState<null | number>(null);
 
-          <div>
-            <strong className="text-slate-900 block text-base mb-2">Machine Learning</strong>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Understanding of supervised and unsupervised learning. Ability to train, evaluate, 
-              and fine-tune models using scikit-learn with focus on accuracy, precision, recall, and F1-score.
-            </p>
-          </div>
+  const itemVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
+  const skills = [
+    {
+      id: 1,
+      title: "Core",
+      icon: <Code2 size={20} />,
+      list: "Python (Pandas, NumPy, scikit-learn), SQL (MySQL)",
+      // 👇 Change the string to this JSX block
+      description: (
+        <div className="space-y-5 text-left">
+          <p>
+            <motion.div variants={itemVariants}></motion.div>
+            <strong className="block text-slate-900">Pandas & NumPy</strong>
+            Data manipulation, numerical computing, and efficient handling of large datasets.
+          </p>
+          <p>
+            <strong className="block text-slate-900">Scikit-learn</strong>
+            Building, training, and evaluating machine learning models for real-world tasks.
+            <motion.div variants={itemVariants}></motion.div>
+          </p>
+          <p>
+            <strong className="block text-slate-900">SQL (MySQL)</strong>
+            Database Design & Queries – Creating schemas and writing optimized SQL.
+          </p>
+          <p>
+            <strong className="block text-slate-900">Integration</strong>
+            Connecting MySQL with applications for seamless data storage and retrieval.
+          </p>
         </div>
-
-        {/* Right Column - Deep Learning moved here */}
-        <div className="space-y-6">
-          <div>
-            <strong className="text-slate-900 block text-base mb-2">IoT & Automation</strong>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Connecting microcontrollers (ESP32, Arduino) to edge computing hubs (Raspberry Pi).
-            </p>
-          </div>
-
-          <div>
-            <strong className="text-slate-900 block text-base mb-2">Deep Learning</strong>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Exposure to deep learning basics (ANN, CNN, RNN) and their applications in computer 
-              vision and natural language processing.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    )
-  },
-  
-];
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.18,
-      delayChildren: 0.2,
+      ),
     },
-  },
-};
+    {
+      id: 2,
+      title: "Data/DE",
+      icon: <Database size={20} />,
+      list: "Airflow, dbt, Snowflake, Spark/PySpark",
+      description: (
+        <div className="space-y-3 text-left">
+          <p>
+            <strong className="block text-slate-900">Airflow</strong>
+            Workflow orchestration; scheduling and automating complex data pipelines.
+          </p>
+          <p>
+            <strong className="block text-slate-900">dbt</strong>
+            SQL‑based data transformation; building modular, version‑controlled analytics workflows.
+          </p>
+          <p>
+            <strong className="block text-slate-900">Snowflake</strong>
+            Cloud data warehouse; scalable storage, fast querying, and secure data sharing.
+          </p>
+          <p>
+            <strong className="block text-slate-900">Spark/PySpark</strong>
+            Distributed big‑data processing; handling large datasets with parallel computation.
+          </p>
+        </div>
+      ),
+    },
+    {
+      id: 3,
+      title: "BI/Apps, GIS",
+      icon: <LineChart size={20} />,
+      list: "Power BI, Streamlit, GIS & Spatial Analytics",
+      description: (
+        <div className="space-y-3 text-left">
+          <p>
+            <strong className="block text-slate-900">Power BI</strong>
+            Designing enterprise-grade interactive dashboards and automated visual reporting.
+          </p>
+          <p>
+            <strong className="block text-slate-900">Streamlit</strong>
+            Rapidly prototyping data applications and web interfaces directly from Python scripts.
+          </p>
+          <p>
+            <strong className="block text-slate-900">GIS & Spatial Analytics</strong>
+            Processing coordinate-based data and generating QGIS mapping solutions.
+          </p>
+        </div>
+      ),
+    },
+    {
+      id: 4,
+      title: "ML/CV",
+      icon: <Layers size={20} />,
+      list: "CNN, YOLO, OpenCV, NLP basics",
+      description: (
+        <div className="space-y-3 text-left">
+          <p>
+            <strong className="block text-slate-900">Computer Vision (CNN / YOLO)</strong>
+            Implementing deep learning models for real-time object detection and classification.
+          </p>
+          <p>
+            <strong className="block text-slate-900">Image Processing (OpenCV)</strong>
+            Feature extraction, image manipulation, and visual data filtering.
+          </p>
+          <p>
+            <strong className="block text-slate-900">NLP Basics</strong>
+            Text preprocessing, sentiment scoring, and tokenization techniques.
+          </p>
+        </div>
+      ),
+    },
+    {
+      id: 5,
+      title: "Domain",
+      icon: <Cpu size={20} className="relative -top-1" />,
+      list: "AI & DS, Machine Learning, IoT/Robotics",
+      description: (
+        <div className="relative -top-1 grid grid-cols-1 gap-x-10 gap-y-8 text-left lg:grid-cols-2">
+          {/* Left Column */}
+          <div className="space-y-6">
+            <div>
+              <strong className="mb-2 block text-base text-slate-900">
+                Artificial Intelligence & Data Science
+              </strong>
+              <p className="text-sm leading-relaxed text-slate-600">
+                Skilled in data preprocessing, feature engineering, and exploratory data analysis.
+                Experienced with Python libraries (Pandas, NumPy, scikit-learn) for structured data,
+                numerical computations, and building ML workflows.
+              </p>
+            </div>
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 120, damping: 14 },
-  },
-};
+            <div>
+              <strong className="mb-2 block text-base text-slate-900">Machine Learning</strong>
+              <p className="text-sm leading-relaxed text-slate-600">
+                Understanding of supervised and unsupervised learning. Ability to train, evaluate,
+                and fine-tune models using scikit-learn with focus on accuracy, precision, recall,
+                and F1-score.
+              </p>
+            </div>
+          </div>
+
+          {/* Right Column - Deep Learning moved here */}
+          <div className="space-y-6">
+            <div>
+              <strong className="mb-2 block text-base text-slate-900">IoT & Automation</strong>
+              <p className="text-sm leading-relaxed text-slate-600">
+                Connecting microcontrollers (ESP32, Arduino) to edge computing hubs (Raspberry Pi).
+              </p>
+            </div>
+
+            <div>
+              <strong className="mb-2 block text-base text-slate-900">Deep Learning</strong>
+              <p className="text-sm leading-relaxed text-slate-600">
+                Exposure to deep learning basics (ANN, CNN, RNN) and their applications in computer
+                vision and natural language processing.
+              </p>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+  ];
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.18,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 120, damping: 14 },
+    },
+  };
 
   return (
-    <Section id="skills"
-  title="Technical Skills"
-  className="text-center mt-0 mb-0 ">
-    
-
-
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-          {skills.map(skill => (
-            <div key={skill.id}>
-              {/* render skill */}
+    <Section id="skills" title="Technical Skills" className="mb-0 mt-0 text-center">
+      <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+        {skills.map((skill) => (
+          <div key={skill.id}>{/* render skill */}</div>
+        ))}
+      </div>
+      <motion.div
+        className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 lg:grid-cols-3"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2, margin: "0px 0px -200px 0px" }}
+      >
+        {skills.map((skill) => (
+          <motion.div
+            key={skill.id}
+            variants={cardVariants}
+            layout // 👈 Senior Tip: This makes the transition smooth for the whole grid
+            onMouseEnter={() => setHoveredId(skill.id)}
+            onMouseLeave={() => setHoveredId(null)}
+            whileHover={{
+              // ✅ CONDITIONAL SCALE
+              scale: skill.id === 5 ? 1.1 : 1.02, // Double size for Domain card (id=5), Normal for others
+              zIndex: 50,
+              transition: {
+                type: "spring",
+                stiffness: 200,
+                damping: 50,
+              },
+            }}
+            className={cn(
+              "relative flex flex-col rounded-xl border bg-white p-6",
+              "relative rounded-xl border bg-white/70 p-6 backdrop-blur-md transition-all duration-300",
+              hoveredId === skill.id
+                ? "border-blue-400 shadow-2xl ring-1 ring-blue-100"
+                : "border-slate-100 shadow-sm",
+              skill.id === 5 && "md:col-span-2"
+            )}
+          >
+            {/* Icon & Category */}
+            <div className="mb-4 flex items-center gap-3">
+              <div className="rounded-lg bg-blue-50 p-2 text-blue-600">{skill.icon}</div>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400">
+                {skill.title}
+              </h3>
             </div>
-          ))}
-        </div>
-        <motion.div
-  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start"
-  variants={containerVariants}
-  initial="hidden"
-  whileInView="visible"
-   viewport={{ once: false, amount: 0.2, margin: "0px 0px -200px 0px" }}
->
-          {skills.map((skill) => (
-            <motion.div
-              key={skill.id}
-               variants={cardVariants}
-              layout // 👈 Senior Tip: This makes the transition smooth for the whole grid
-              onMouseEnter={() => setHoveredId(skill.id)}
-              onMouseLeave={() => setHoveredId(null)}
-              whileHover={{
-                // ✅ CONDITIONAL SCALE
-                scale: skill.id === 5 ? 1.1 : 1.02, // Double size for Domain card (id=5), Normal for others
-                zIndex: 50,
-                transition: {
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 50
-                }
-              }}
-              className={cn(
-                "relative bg-white p-6 rounded-xl border flex flex-col",
-                "relative bg-white/70 backdrop-blur-md p-6 rounded-xl border transition-all duration-300",
-                hoveredId === skill.id
-                  ? "shadow-2xl border-blue-400 ring-1 ring-blue-100"
-                  : "shadow-sm border-slate-100",
-                skill.id === 5 && "md:col-span-2"
+
+            {/* Main Skill List */}
+            <p className="text-sm font-medium leading-relaxed text-slate-800">{skill.list}</p>
+
+            {/* 🔥 Expandable Details */}
+            <AnimatePresence>
+              {hoveredId === skill.id && (
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  variants={{
+                    hidden: { opacity: 0, height: 0, marginTop: 0 },
+                    visible: {
+                      opacity: 1,
+                      height: "auto",
+                      marginTop: 16,
+                      transition: {
+                        height: { duration: 0.3 },
+                        staggerChildren: 0.12, // ⏱️ Time between each line appearing (reading speed)
+                        delayChildren: 0.15, // ⏱️ Wait for card to expand first
+                      },
+                    },
+                  }}
+                  className="overflow-hidden border-t border-slate-100 pt-4"
+                >
+                  {skill.description}
+                </motion.div>
               )}
-            >
-              {/* Icon & Category */}
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                  {skill.icon}
-                </div>
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                  {skill.title}
-                </h3>
-              </div>
-
-              {/* Main Skill List */}
-              <p className="text-slate-800 font-medium text-sm leading-relaxed">
-                {skill.list}
-              </p>
-
-              {/* 🔥 Expandable Details */}
-              <AnimatePresence>
-                {hoveredId === skill.id && (
-                  <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    exit="hidden"
-                    variants={{
-                      hidden: { opacity: 0, height: 0, marginTop: 0 },
-                      visible: {
-                        opacity: 1,
-                        height: "auto",
-                        marginTop: 16,
-                        transition: {
-                          height: { duration: 0.3 },
-                          staggerChildren: 0.12, // ⏱️ Time between each line appearing (reading speed)
-                          delayChildren: 0.15 // ⏱️ Wait for card to expand first
-                        }
-                      }
-                    }}
-                    className="pt-4 border-t border-slate-100 overflow-hidden"
-                  >
-                    {skill.description}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </motion.div>
-      </Section>
+            </AnimatePresence>
+          </motion.div>
+        ))}
+      </motion.div>
+    </Section>
   );
 };
 
@@ -701,41 +666,40 @@ const cardVariants = {
 const Projects = () => {
   const projects = [
     {
-      title: 'Geospatial Analytics Platform',
-      subtitle: 'Water Resource Management',
-      date: 'Dec 2025',
-      tech: 'Python, Streamlit, Plotly, SQL',
+      title: "Geospatial Analytics Platform",
+      subtitle: "Water Resource Management",
+      date: "Dec 2025",
+      tech: "Python, Streamlit, Plotly, SQL",
       description: [
-        'Processed 1.2M+ satellite data points across 108 water bodies to generate seasonal trend insights.',
-        'Reduced manual reporting time by 85% (40 hrs/week → 6 hrs/week) using automation and dashboards.',
-        'Built an ETL workflow integrating NDVI/SAR indices with temporal analysis.'
+        "Processed 1.2M+ satellite data points across 108 water bodies to generate seasonal trend insights.",
+        "Reduced manual reporting time by 85% (40 hrs/week → 6 hrs/week) using automation and dashboards.",
+        "Built an ETL workflow integrating NDVI/SAR indices with temporal analysis.",
       ],
-      video: '/images/78198-565144809_medium.mp4'  // 👈 FIXED: Use /path (public folder)
+      video: "/images/78198-565144809_medium.mp4", // 👈 FIXED: Use /path (public folder)
     },
     {
-      title: 'Object Detection Platform',
-      subtitle: 'YOLOv8 & Computer Vision',
-      date: 'Oct 2025',
-      tech: 'PyTorch, MLOps, CV',
+      title: "Object Detection Platform",
+      subtitle: "YOLOv8 & Computer Vision",
+      date: "Oct 2025",
+      tech: "PyTorch, MLOps, CV",
       description: [
-        'Built a pipeline over 5,000+ high-resolution images for multi-class detection; achieved 91% mAP.',
-        'Designed as a reusable framework for QC automation, inventory monitoring, and visual search.',
-        'Implemented real-time object tracking with OpenCV’s DNN module, achieving stable detection across varied lighting and motion conditions.'
-
+        "Built a pipeline over 5,000+ high-resolution images for multi-class detection; achieved 91% mAP.",
+        "Designed as a reusable framework for QC automation, inventory monitoring, and visual search.",
+        "Implemented real-time object tracking with OpenCV’s DNN module, achieving stable detection across varied lighting and motion conditions.",
       ],
-      video:  '/images/objectdet.mp4' // 👈 FIXED: Forward slashes, /path from public/
+      video: "/images/objectdet.mp4", // 👈 FIXED: Forward slashes, /path from public/
     },
     {
-      title: 'Autonomous 4WD Robot',  // 👈 FIXED: Merged duplicates (AWD/4WD), removed syntax error
-      subtitle: 'Sensor Fusion & Hardware',
-      date: '2024',
-      tech: 'Arduino, C++, Python',
+      title: "Autonomous 4WD Robot", // 👈 FIXED: Merged duplicates (AWD/4WD), removed syntax error
+      subtitle: "Sensor Fusion & Hardware",
+      date: "2024",
+      tech: "Arduino, C++, Python",
       description: [
-        'Integrated 5 sensor types (ultrasonic, IR, gyro, accelerometer, camera) for obstacle avoidance.',
-        'Built modular code for fast feature additions and hardware scalability.',
-        'Designed a scalable communication bus (I²C/SPI/UART) to support additional sensors and actuators without major code refactoring.'
+        "Integrated 5 sensor types (ultrasonic, IR, gyro, accelerometer, camera) for obstacle avoidance.",
+        "Built modular code for fast feature additions and hardware scalability.",
+        "Designed a scalable communication bus (I²C/SPI/UART) to support additional sensors and actuators without major code refactoring.",
       ],
-      video: '/images/Robot.mp4'  // 👈 FIXED: Forward slashes, /path from public/
+      video: "/images/Robot.mp4", // 👈 FIXED: Forward slashes, /path from public/
     },
   ];
 
@@ -743,79 +707,80 @@ const Projects = () => {
     <Section id="projects" title="Key Projects">
       <div className="space-y-16">
         {projects.map((project, index) => (
-          <motion.div 
+          <motion.div
             key={index}
             initial={{
               opacity: 0,
-              x: index % 2 === 0 ? -100 : 100
+              x: index % 2 === 0 ? -100 : 100,
             }}
             whileInView={{
               opacity: 1,
-              x: 0
+              x: 0,
             }}
-            viewport={{ 
+            viewport={{
               once: false,
-              amount: 0.65
+              amount: 0.65,
             }}
-            transition={{ 
-              duration: 0.5, 
+            transition={{
+              duration: 0.5,
               ease: "easeOut",
-              opacity: { duration: 0.6 }
+              opacity: { duration: 0.6 },
             }}
-            className="group grid grid-cols-1 md:grid-cols-12 gap-8 bg-white"
+            className="group grid grid-cols-1 gap-8 bg-white md:grid-cols-12"
           >
-            
             <div className="md:col-span-4">
-              <span className="text-xs font-semibold text-blue-600 mb-2 block uppercase tracking-widest">{project.date}</span>
-              <h3 className="text-2xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-2">{project.title}</h3>
-              <p className="text-lg font-medium text-slate-500 mb-6">{project.subtitle}</p>
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-widest text-blue-600">
+                {project.date}
+              </span>
+              <h3 className="mb-2 text-2xl font-bold text-slate-900 transition-colors group-hover:text-blue-600">
+                {project.title}
+              </h3>
+              <p className="mb-6 text-lg font-medium text-slate-500">{project.subtitle}</p>
               <div className="flex flex-wrap gap-2">
-                {project.tech.split(',').map(t => (
-                  <span key={t} className="text-[10px] font-bold px-2 py-1 bg-slate-100 text-slate-600 rounded uppercase tracking-tighter">{t.trim()}</span>
+                {project.tech.split(",").map((t) => (
+                  <span
+                    key={t}
+                    className="rounded bg-slate-100 px-2 py-1 text-[10px] font-bold uppercase tracking-tighter text-slate-600"
+                  >
+                    {t.trim()}
+                  </span>
                 ))}
               </div>
             </div>
 
-            
-            <div className="md:col-span-8 flex flex-col lg:flex-row gap-6 md:gap-8">
-              
+            <div className="flex flex-col gap-6 md:col-span-8 md:gap-8 lg:flex-row">
               {/* DESCRIPTION: Existing UL - Now flex-1 (takes remaining space) */}
               <div className="flex-1">
                 <ul className="space-y-4">
                   {project.description.map((point, i) => (
-                    <li key={i} className="flex gap-4 text-slate-600 text-sm leading-relaxed">
-                      <div className="mt-2 w-1.5 h-1.5 rounded-full bg-blue-100 border border-blue-400 flex-shrink-0"></div>
+                    <li key={i} className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                      <div className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full border border-blue-400 bg-blue-100"></div>
                       {point}
                     </li>
                   ))}
                 </ul>
               </div>
 
-             
               {project.video && (
                 <div className="video-section flex-shrink-0">
-                  
-                  <video 
-                    autoPlay 
-                    loop 
-                    muted 
-                    playsInline 
-                    className="w-[280px] h-[200px] md:w-[320px] md:h-[220px] lg:w-[280px] lg:h-[200px] xl:w-[340px] xl:h-[240px] object-cover rounded-xl shadow-lg border-2 border-slate-200 hover:shadow-xl transition-all"  /* 👈 CHANGE w-/h- for size */
-                    style={{  /* 👈 FINE-TUNE POSITION (px values) */
-                      minWidth: '280px',      /* 👈 Min width */
-                      maxWidth: '340px',      /* 👈 Max width */
-                      aspectRatio: '16/9'     /* 👈 Keep 16:9 ratio */
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="h-[200px] w-[280px] rounded-xl border-2 border-slate-200 object-cover shadow-lg transition-all hover:shadow-xl md:h-[220px] md:w-[320px] lg:h-[200px] lg:w-[280px] xl:h-[240px] xl:w-[340px]" /* 👈 CHANGE w-/h- for size */
+                    style={{
+                      /* 👈 FINE-TUNE POSITION (px values) */ minWidth: "280px" /* 👈 Min width */,
+                      maxWidth: "340px" /* 👈 Max width */,
+                      aspectRatio: "16/9" /* 👈 Keep 16:9 ratio */,
                     }}
                   >
                     <source src={project.video} type="video/mp4" />
                     {/* Fallback text hidden */}
                   </video>
-                
                 </div>
               )}
-
             </div>
-
           </motion.div>
         ))}
       </div>
@@ -825,260 +790,302 @@ const Projects = () => {
 
 // Experience Component
 const Experience = () => (
-  <Section id="experience" title="Internships & Training" className="relative bg-transparent py-20 px-10">
+  <Section
+    id="experience"
+    title="Internships & Training"
+    className="relative bg-transparent px-10 py-20"
+  >
     <div className="space-y-8">
+      {/* ================= CARD 1 ================= */}
+      <motion.div
+        className="group relative"
+        initial={{ y: 0 }}
+        whileHover={{ y: -10 }}
+        transition={{ duration: 0.1, ease: "easeOut" }}
+      >
+        {/* ========== CARD ========== */}
+        <div className="duration-800 relative overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all group-hover:shadow-lg">
+          {/* ========== RIGHT INSIDE GRADIENT ENTRY ========== */}
+          <div className="duration-900 pointer-events-none absolute inset-y-0 left-0 z-0 w-[85%] -translate-x-10 opacity-0 transition-all ease-out group-hover:translate-x-0 group-hover:opacity-100">
+            {/* main gradient wash from right */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-200/80 via-cyan-100/80 to-transparent" />
 
+            {/* soft blue blob */}
+            <div className="absolute left-0 top-0 h-72 w-80 rounded-full bg-blue-300/45 blur-3xl" />
 
- {/* ================= CARD 1 ================= */}
-<motion.div
-  className="group relative"
-  initial={{ y: 0 }}
-  whileHover={{ y: -10 }}
-  transition={{ duration: 0.4, ease: "easeOut" }}
->
-  {/* ========== CARD ========== */}
-  <div className="relative rounded-3xl border border-slate-100 bg-white shadow-sm overflow-hidden transition-all duration-800 group-hover:shadow-lg">
+            {/* soft cyan blob */}
+            <div className="w-70 absolute bottom-0 left-20 h-56 rounded-full bg-cyan-200/35 blur-3xl" />
+          </div>
 
-    {/* ========== RIGHT INSIDE GRADIENT ENTRY ========== */}
-   <div
-  className="
-    pointer-events-none absolute inset-y-0 left-0 z-0 w-[85%]
-    opacity-0 -translate-x-10
-    group-hover:opacity-100 group-hover:translate-x-0
-    transition-all duration-900 ease-out
-  "
->
-      {/* main gradient wash from right */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-200/80 via-cyan-100/80 to-transparent" />
+          {/* 
+  ========== OPTIONAL FULL-CARD LIGHT WASH ==========
+  <div
+    className="
+      pointer-events-none absolute inset-0 z-0
+      opacity-0 group-hover:opacity-100
+      transition-opacity duration-700
+      bg-gradient-to-r from-blue-200/60 via-cyan-50/30 to-transparent
+    "
+  />
+*/}
 
-      {/* soft blue blob */}
-      <div className="absolute top-0 left-0 h-72 w-80 rounded-full bg-blue-300/45 blur-3xl" />
+          {/* ========== GIF LAYER ========== */}
+          <img
+            src="/images/Video.gif"
+            alt=""
+            className="pointer-events-none absolute bottom-4 right-4 z-[1] h-[80%] w-auto max-w-[45%] translate-x-24 object-contain opacity-0 mix-blend-multiply transition-all duration-700 ease-out group-hover:translate-x-5 group-hover:opacity-100"
+          />
 
-      {/* soft cyan blob */}
-      <div className="absolute bottom-0 left-20 h-56 w-70 rounded-full bg-cyan-200/35 blur-3xl" />
-    </div>
+          {/* ========== TEXT SAFETY FADE ========== */}
+          <div className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-l from-white via-white/50 to-transparent" />
 
-    {/* ========== OPTIONAL FULL-CARD LIGHT WASH ========== */}
-    <div
-  className="
-    pointer-events-none absolute inset-0 z-0
-    opacity-0 group-hover:opacity-100
-    transition-opacity duration-700
-    bg-gradient-to-r from-blue-200/60 via-cyan-50/30 to-transparent
-  "
-/>
+          {/* ========== CONTENT ========== */}
+          <div className="relative z-10 p-8">
+            {/* Header */}
+            <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900">Web-Developer Trainee</h3>
+                <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
+                  ICEICO TECHNOLOGIES PVT LTD
+                </p>
+              </div>
+              <span className="bg-white-50 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-tighter text-slate-400">
+                April 2026 - Till Date | Nagpur
+              </span>
+            </div>
 
-    {/* ========== GIF LAYER ========== */}
-    <img
-      src="/images/Video.gif"
-      alt=""
-      className="
-        absolute z-[1]
-        right-4 bottom-4
-        w-auto h-[80%]
-        max-w-[45%]
+            {/* SUMMARY */}
+            <ul className="space-y-3">
+              <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                Developed a decoupled full-stack application using Laravel and React.js, ensuring
+                high performance and a modern user interface through RESTful API integration.
+              </li>
+            </ul>
 
-        opacity-0 translate-x-24
-        group-hover:opacity-95
-        group-hover:translate-x-0
-
-        transition-all duration-700 ease-out
-        mix-blend-multiply
-        pointer-events-none
-        object-contain
-      "
-    />
-
-    {/* ========== TEXT SAFETY FADE ========== */}
-    <div className="absolute inset-0 z-[2] pointer-events-none bg-gradient-to-l from-white via-white/70 to-transparent" />
-
-    {/* ========== CONTENT ========== */}
-    <div className="relative z-10 p-8">
-
-      {/* Header */}
-      <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
-        <div>
-          <h3 className="text-lg font-bold text-slate-900">
-            Web-Developer Trainee
-          </h3>
-          <p className="text-blue-600 text-sm font-semibold uppercase tracking-wider">
-            ICEICO TECHNOLOGIES PVT LTD
-          </p>
+            {/* DETAILED VIEW */}
+            <div className="max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-96 group-hover:opacity-100">
+              <ul className="mt-3 space-y-3">
+                <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                  <ChevronRight size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                  <p>
+                    Architected relational database schemas using Laravel Migrations and Eloquent
+                    ORM, maintaining data integrity and efficient query performance for complex data
+                    sets.
+                  </p>
+                </li>
+                <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                  <ChevronRight size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                  <p>
+                    Optimized local development workflows by migrating legacy XAMPP environments to
+                    Laravel Herd, leveraging isolated PHP binaries to streamline environment
+                    management and site speed.
+                  </p>
+                </li>
+                <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                  <ChevronRight size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                  <p>
+                    Implemented secure backend logic including custom Request Validation and
+                    Middleware, ensuring that all incoming data from the React frontend is sanitized
+                    and secure.
+                  </p>
+                </li>
+                <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                  <ChevronRight size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                  <p>
+                    Configured automated mail services and SMTP protocols to handle real-time user
+                    communications, focusing on reliable delivery and backend troubleshooting.
+                  </p>
+                </li>
+                <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                  <ChevronRight size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                  <p>
+                    Adopted clean-code principles within the MVC architecture, writing modular,
+                    reusable code to ensure the long-term scalability of the application.
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <span className="text-xs font-bold text-slate-400 px-3 py-1 bg-white-50 rounded-full uppercase tracking-tighter">
-          April 2026 - Till Date | Nagpur
-        </span>
-      </div>
+      </motion.div>
 
-      {/* SUMMARY */}
-      <ul className="space-y-3">
-        <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-          Developed a decoupled full-stack application using Laravel and React.js, ensuring high performance and a modern user interface through RESTful API integration.
-        </li>
-      </ul>
-
-      {/* DETAILED VIEW */}
-      <div className="overflow-hidden transition-all duration-300 max-h-0 opacity-0 group-hover:max-h-96 group-hover:opacity-100">
-        <ul className="space-y-3 mt-3">
-          <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-            <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-            <p>
-              Architected relational database schemas using Laravel Migrations and Eloquent ORM, maintaining data integrity and efficient query performance for complex data sets.
-            </p>
-          </li>
-          <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-            <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-            <p>
-              Optimized local development workflows by migrating legacy XAMPP environments to Laravel Herd, leveraging isolated PHP binaries to streamline environment management and site speed.
-            </p>
-          </li>
-          <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-            <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-            <p>
-              Implemented secure backend logic including custom Request Validation and Middleware, ensuring that all incoming data from the React frontend is sanitized and secure.
-            </p>
-          </li>
-          <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-            <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-            <p>
-              Configured automated mail services and SMTP protocols to handle real-time user communications, focusing on reliable delivery and backend troubleshooting.
-            </p>
-          </li>
-          <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-            <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-            <p>
-              Adopted clean-code principles within the MVC architecture, writing modular, reusable code to ensure the long-term scalability of the application.
-            </p>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</motion.div>
       {/* ================= CARD 2 ================= */}
       <motion.div
         className="group relative"
         initial={{ y: 0 }}
         whileHover={{ y: -10 }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
       >
-        {/* hover glow */}
-        <div className="pointer-events-none absolute -inset-1 rounded-3xl bg-gradient-to-r from-blue-500/20 via-cyan-400/10 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
+        {/* ========== CARD ========== */}
+        <div className="duration-800 relative overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all group-hover:shadow-lg">
+          {/* ========== RIGHT INSIDE GRADIENT ENTRY ========== */}
+          <div className="duration-900 pointer-events-none absolute inset-y-0 left-0 z-0 w-[85%] -translate-x-10 opacity-0 transition-all ease-out group-hover:translate-x-0 group-hover:opacity-100">
+            {/* main gradient wash from right */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-200/80 via-cyan-100/80 to-transparent" />
 
-        <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm overflow-hidden transition-all duration-300 group-hover:shadow-lg">
-          <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
-            <div>
-              <h3 className="text-lg font-bold text-slate-900">
-                Senior Technical Supervisor & Training Specialist
-              </h3>
-              <p className="text-blue-600 text-sm font-semibold uppercase tracking-wider">
-                Vellora Smart Kid (EduTech)
-              </p>
-            </div>
-            <span className="text-xs font-bold text-slate-400 px-3 py-1 bg-slate-50 rounded-full uppercase tracking-tighter">
-              Jul 2024 – May 2025 | Madurai
-            </span>
+            {/* soft blue blob */}
+            <div className="absolute left-0 top-0 h-72 w-80 rounded-full bg-blue-300/45 blur-3xl" />
+
+            {/* soft cyan blob */}
+            <div className="w-70 absolute bottom-0 left-20 h-56 rounded-full bg-cyan-200/35 blur-3xl" />
           </div>
 
-          {/* SUMMARY (always visible) */}
-          <ul className="space-y-3">
-            <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-              Trained 50+ students and educators in STEM and data-driven problem solving, enhancing technical literacy and confidence.
-            </li>
-          </ul>
+          {/* 
+  ========== OPTIONAL FULL-CARD LIGHT WASH ==========
+  <div
+    className="
+      pointer-events-none absolute inset-0 z-0
+      opacity-0 group-hover:opacity-100
+      transition-opacity duration-700
+      bg-gradient-to-r from-blue-200/60 via-cyan-50/30 to-transparent
+    "
+  />
+*/}
 
-          {/* DETAILED VIEW (only on hover) */}
-          <div
-            className="
-              overflow-hidden transition-all duration-300
-              max-h-0 opacity-0
-              group-hover:max-h-96 group-hover:opacity-100
-            "
-          >
-          <ul className="space-y-3 mt-3">
-  <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-    <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-    <p>
-      Executed 10+ IoT projects using Arduino and related hardware, showcasing practical applications of automation, sensors, and robotics.
-    </p>
-  </li>
+          {/* ========== GIF LAYER ========== */}
+          <img
+            src="/images/Video Project 2.gif"
+            alt=""
+            className="opacity-1 pointer-events-none absolute bottom-4 right-4 z-[1] h-[80%] w-auto max-w-[45%] translate-x-24 border-0 object-contain outline-none ring-0 transition-all duration-700 ease-out group-hover:translate-x-0 group-hover:opacity-50"
+          />
 
-  <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-    <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-    <p>
-      Conducted IoT/STEM workshops in 10+ schools, introducing students to future innovations in education technology and hands-on problem solving.
-    </p>
-  </li>
+          {/* ========== CONTENT ========== */}
+          <div className="relative z-10 p-8">
+            {/* Header */}
+            <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900">
+                  Senior Technical Supervisor & Training Specialist
+                </h3>
+                <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
+                  Vellora Smart Kid (EduTech)
+                </p>
+              </div>
+              <span className="bg-white-50 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-tighter text-slate-400">
+                Jul 2024 – May 2025 | Madurai
+              </span>
+            </div>
 
-  <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-    <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-    <p>
-      Developed troubleshooting documentation and IoT learning modules, enabling sustainable knowledge transfer and smoother adoption of new technologies.
-    </p>
-  </li>
+            {/* SUMMARY */}
+            <ul className="space-y-3">
+              <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                Trained 50+ students and educators in STEM and data-driven problem solving,
+                enhancing technical literacy and confidence.
+              </li>
+            </ul>
 
-  <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-    <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-    <p>
-      Advocated for future-ready innovations in school education, bridging the gap between classroom theory and real-world technology applications.
-    </p>
-  </li>
-</ul>
-
+            {/* DETAILED VIEW */}
+            <div className="max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-96 group-hover:opacity-100">
+              <ul className="mt-3 space-y-3">
+                <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                  <ChevronRight size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                  <p>
+                    Executed 15+ IoT projects using Arduino and related hardware, showcasing
+                    practical applications of automation, sensors, and robotics.
+                  </p>
+                </li>
+                <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                  <ChevronRight size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                  <p>
+                    Conducted IoT/STEM workshops in 10+ schools, introducing students to future
+                    innovations in education technology and hands-on problem solving.
+                  </p>
+                </li>
+                <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                  <ChevronRight size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                  <p>
+                    Developed troubleshooting documentation and IoT learning modules, enabling
+                    sustainable knowledge transfer and smoother adoption of new technologies.
+                  </p>
+                </li>
+                <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                  <ChevronRight size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                  <p>
+                    Advocated for future-ready innovations in school education, bridging the gap
+                    between classroom theory and real-world technology applications.
+                  </p>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </motion.div>
 
-      {/* ================= CARD 3 ================= */}
       <motion.div
         className="group relative"
         initial={{ y: 0 }}
         whileHover={{ y: -10 }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
       >
-        {/* hover glow */}
-        <div className="pointer-events-none absolute -inset-1 rounded-3xl bg-gradient-to-r from-blue-500/20 via-cyan-400/10 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
+        {/* ========== CARD ========== */}
+        <div className="duration-800 relative overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all group-hover:shadow-lg">
+          {/* ========== RIGHT INSIDE GRADIENT ENTRY ========== */}
+          <div className="duration-900 pointer-events-none absolute inset-y-0 left-0 z-0 w-[85%] -translate-x-10 opacity-0 transition-all ease-out group-hover:translate-x-0 group-hover:opacity-100">
+            {/* main gradient wash from right */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-200/80 via-cyan-100/80 to-transparent" />
 
-        <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm overflow-hidden transition-all duration-300 group-hover:shadow-lg">
-          <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
-            <div>
-              <h3 className="text-lg font-bold text-slate-900">
-                Computer Vision & Image Processing Intern
-              </h3>
-              <p className="text-blue-600 text-sm font-semibold uppercase tracking-wider">
-                Zetspire Technologies
-              </p>
-            </div>
-            <span className="text-xs font-bold text-slate-400 px-3 py-1 bg-slate-50 rounded-full uppercase tracking-tighter">
-              5-days Program | Madurai
-            </span>
+            {/* soft blue blob */}
+            <div className="absolute left-0 top-0 h-72 w-80 rounded-full bg-blue-300/45 blur-3xl" />
+
+            {/* soft cyan blob */}
+            <div className="w-70 absolute bottom-0 left-20 h-56 rounded-full bg-cyan-200/35 blur-3xl" />
           </div>
 
-          {/* SUMMARY (always visible) */}
-          <ul className="space-y-3">
-            <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-              Implemented object detection pipelines using Python and OpenCV, applying Canny edge filtering and contour analysis to identify and classify visual features with precision.
-            </li>
-          </ul>
+          {/* ========== OPTIONAL FULL-CARD LIGHT WASH ========== */}
+          <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-r from-blue-200/60 via-cyan-50/30 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
 
-          {/* DETAILED VIEW (only on hover) */}
-          <div
-            className="
-              overflow-hidden transition-all duration-300
-              max-h-0 opacity-0
-              group-hover:max-h-96 group-hover:opacity-100
-            "
-          >
-            <div className="mt-3 border-t border-slate-100 pt-3">
-              <ul className="space-y-3">
-                <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-                  <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-                  Developed a real-time object tracking system using OpenCV’s DNN module, achieving stable detection across varied lighting and motion conditions.
+          {/* ========== GIF LAYER ========== */}
+          <img
+            src="/images/Video Project 3.gif"
+            alt=""
+            className="pointer-events-none absolute bottom-4 right-4 z-[1] h-[80%] w-auto max-w-[45%] translate-x-24 object-contain opacity-0 transition-all duration-700 ease-out group-hover:translate-x-0 group-hover:opacity-50"
+          />
+
+          {/* ========== TEXT SAFETY FADE ========== */}
+          {/* <div className="absolute inset-0 z-[2] pointer-events-none bg-gradient-to-l from-white via-white/70 to-transparent" /> */}
+
+          {/* ========== CONTENT ========== */}
+          <div className="relative z-10 p-8">
+            {/* Header */}
+            <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900">
+                  Computer Vision & Image Processing Intern
+                </h3>
+                <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
+                  Zetspire Technologies
+                </p>
+              </div>
+              <span className="bg-white-50 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-tighter text-slate-400">
+                5-days Program - (2023) | Madurai
+              </span>
+            </div>
+
+            {/* SUMMARY */}
+            <ul className="space-y-3">
+              <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                Implemented object detection pipelines using Python and OpenCV, applying Canny edge
+                filtering and contour analysis to identify and classify visual features with
+                precision.
+              </li>
+            </ul>
+
+            {/* DETAILED VIEW */}
+            <div className="max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-96 group-hover:opacity-100">
+              <ul className="mt-3 space-y-3">
+                <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                  <ChevronRight size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                  <p>
+                    Developed a real-time object tracking system using OpenCV’s DNN module,
+                    achieving stable detection across varied lighting and motion conditions.
+                  </p>
                 </li>
-                <li className="flex gap-4 text-sm text-slate-600 leading-relaxed">
-                  <ChevronRight size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
-                 Executed 10+ IoT projects using Arduino and related hardware, showcasing practical applications of automation, sensors, and robotics.
+                <li className="flex gap-4 text-sm leading-relaxed text-slate-600">
+                  <ChevronRight size={16} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                  <p>
+                    Executed 5+ IoT projects using Arduino and related hardware, showcasing
+                    practical applications of automation, sensors, and robotics.
+                  </p>
                 </li>
               </ul>
             </div>
@@ -1091,27 +1098,29 @@ const Experience = () => (
 
 // Education Component
 
-
 const Education = () => (
   <Section id="education" title="Education">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      
+    <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
       {/* --- LEFT COLUMN: B.Tech Card (Slides from LEFT) --- */}
       <motion.div
         initial={{ opacity: 0, x: -80 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: false, amount: 0.75 }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className="relative p-8 bg-slate-900 rounded-3xl text-white overflow-hidden group"
+        className="group relative overflow-hidden rounded-3xl bg-slate-900 p-8 text-white"
       >
-        <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-300">
+        <div className="absolute right-0 top-0 p-8 opacity-10 transition-transform duration-300 group-hover:scale-110">
           <Code2 size={120} />
         </div>
-        <h3 className="text-xs font-bold text-blue-400 mb-1 uppercase tracking-widest">B.Tech - Artificial Intelligence & Data Science</h3>
-        <p className="text-xl font-bold mb-1">Sethu Institute of Technology</p>
-        <p className="text-sm opacity-60 mb-6"> Tamil Nadu | 2021 – 2025</p>
+        <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-blue-400">
+          B.Tech - Artificial Intelligence & Data Science
+        </h3>
+        <p className="mb-1 text-xl font-bold">Sethu Institute of Technology</p>
+        <p className="mb-6 text-sm opacity-60"> Tamil Nadu | 2021 – 2025</p>
         <div className="flex items-center gap-3">
-          <div className="px-4 py-1.5 bg-white/70 backdrop-blur-md rounded-full text-sm font-bold">CGPA: 8.0/10</div>
+          <div className="rounded-full bg-white/70 px-4 py-1.5 text-sm font-bold backdrop-blur-md">
+            CGPA: 8.0/10
+          </div>
         </div>
       </motion.div>
 
@@ -1121,82 +1130,92 @@ const Education = () => (
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: false, amount: 0.75 }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className="space-y-8 flex flex-col justify-center bg-slate-100 backdrop-blur-md p-3 rounded-3xl border border-slate-200 shadow-sm"
+        className="flex flex-col justify-center space-y-8 rounded-3xl border border-slate-200 bg-slate-100 p-3 shadow-sm backdrop-blur-md"
       >
         {/* HSC */}
         <div className="flex gap-4">
-          <div className="w-1 h-auto bg-slate-100 rounded-full"></div>
+          <div className="h-auto w-1 rounded-full bg-slate-100"></div>
           <div>
-            <h3 className="text-xs font-bold text-slate-400 mb-1 uppercase tracking-widest">HSC - 84%</h3>
-            <p className="text-base font-bold text-slate-800">C.S. Ramachary Memorial Matriculation & hr.sec School</p>
+            <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">
+              HSC - 84%
+            </h3>
+            <p className="text-base font-bold text-slate-800">
+              C.S. Ramachary Memorial Matriculation & hr.sec School
+            </p>
             <p className="text-xs text-slate-500">Madurai | 2021</p>
           </div>
         </div>
 
         {/* SSLC */}
         <div className="flex gap-4">
-          <div className="w-1 h-auto bg-slate-200 rounded-full"></div>
+          <div className="h-auto w-1 rounded-full bg-slate-200"></div>
           <div>
-            <h3 className="text-xs font-bold text-slate-400 mb-1 uppercase tracking-widest">SSLC - 80.2%</h3>
+            <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">
+              SSLC - 80.2%
+            </h3>
             <p className="text-base font-bold text-slate-800">Linga Matriculation School</p>
             <p className="text-xs text-slate-500"> Madurai | 2019</p>
           </div>
         </div>
       </motion.div>
-
     </div>
   </Section>
 );
 
 // Publication & Languages Component
 const Publication = () => (
-  <section className="relative bg-transparent py-20 px-10">
-    <div className="max-w-[90%] mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
-        
-       {/* Publication */}
-<div>
-  <div className="flex items-center gap-3 text-slate-600 mb-8">
-    <BookOpen size={20} className="text-blue-600" />
-    <h3 className="font-bold tracking-tight text-lg">Publication</h3>
-  </div>
-  <a 
-    href="https://matjournals.net/engineering/index.php/JoCNSDC/article/view/361" 
-    target="_blank" 
-    className="group block p-8 bg-slate-100 backdrop-blur-md rounded-3xl hover:bg-white/80 transition-all border border-slate-200/60 hover:animate-shake"
-  >
-    <p className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-3">
-      Journal of Cryptography and Network Security (2024)
-    </p>
-    <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
-      <Globe size={14} />
-      matjournals.net/engineering/JoCNSDC/361
-      <ExternalLink size={14} className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
-    </div>
-  </a>
-</div>
-
+  <section className="relative bg-transparent px-10 py-20">
+    <div className="mx-auto max-w-[90%]">
+      <div className="mb-24 grid grid-cols-1 gap-16 md:grid-cols-2">
+        {/* Publication */}
+        <div>
+          <div className="mb-8 flex items-center gap-3 text-slate-600">
+            <BookOpen size={20} className="text-blue-600" />
+            <h3 className="text-lg font-bold tracking-tight">Publication</h3>
+          </div>
+          <a
+            href="https://matjournals.net/engineering/index.php/JoCNSDC/article/view/361"
+            target="_blank"
+            className="hover:animate-shake group block rounded-3xl border border-slate-200/60 bg-slate-100 p-8 backdrop-blur-md transition-all hover:bg-white/80"
+          >
+            <p className="mb-3 text-base font-bold text-slate-900 transition-colors group-hover:text-blue-600">
+              Journal of Cryptography and Network Security (2024)
+            </p>
+            <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
+              <Globe size={14} />
+              matjournals.net/engineering/JoCNSDC/361
+              <ExternalLink
+                size={14}
+                className="ml-1 opacity-0 transition-opacity group-hover:opacity-100"
+              />
+            </div>
+          </a>
+        </div>
 
         {/* Languages */}
         <div>
-          <div className="flex items-center gap-3 text-slate-900 mb-8">
+          <div className="mb-8 flex items-center gap-3 text-slate-900">
             <Globe size={20} className="text-blue-600" />
-            <h3 className="font-bold tracking-tight text-lg">Languages</h3>
+            <h3 className="text-lg font-bold tracking-tight">Languages</h3>
           </div>
           <div className="flex flex-wrap gap-4">
             {[
-              { lang: 'English', level: 'Fluent' },
-              { lang: 'Tamil', level: 'Native' },
-              { lang: 'Kannada', level: 'Conversational' }
+              { lang: "English", level: "Fluent" },
+              { lang: "Tamil", level: "Native" },
+              { lang: "Kannada", level: "Conversational" },
             ].map((l, i) => (
-              <div key={i} className="px-6 py-4 bg-slate-100 backdrop-blur-md rounded-2xl border border-slate-200/60">
-                <p className="text-base font-bold text-slate-900 leading-none mb-2">{l.lang}</p>
-                <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold">{l.level}</p>
+              <div
+                key={i}
+                className="rounded-2xl border border-slate-200/60 bg-slate-100 px-6 py-4 backdrop-blur-md"
+              >
+                <p className="mb-2 text-base font-bold leading-none text-slate-900">{l.lang}</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                  {l.level}
+                </p>
               </div>
             ))}
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -1204,28 +1223,39 @@ const Publication = () => (
 
 //footer
 const Footer = () => (
-  <footer className="border-t border-slate-100 bg-transparent pt-12 pb-12 px-6 mt-auto">
-    <div className="max-w-[90%] mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+  <footer className="mt-auto border-t border-slate-100 bg-transparent px-6 pb-12 pt-12">
+    <div className="mx-auto max-w-[90%]">
+      <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
         <div className="flex flex-col gap-1">
           <span className="text-sm font-bold text-slate-900">Nithish Kumar L</span>
-          <span className="text-xs text-slate-400">© {new Date().getFullYear()} AI & Data Science Specialist</span>
+          <span className="text-xs text-slate-400">
+            © {new Date().getFullYear()} AI & Data Science Specialist
+          </span>
         </div>
-        <div className="flex flex-wrap justify-center items-center gap-8">
-          <a href="tel:+916382417367" className="text-slate-400 hover:text-slate-900 transition-colors flex items-center gap-2 text-[13px] font-medium">
+        <div className="flex flex-wrap items-center justify-center gap-8">
+          <a
+            href="tel:+916382417367"
+            className="flex items-center gap-2 text-[13px] font-medium text-slate-400 transition-colors hover:text-slate-900"
+          >
             <Phone size={14} /> +91 6382417367
           </a>
-          <a href="mailto:nithishkumarl168@gmail.com" className="text-slate-400 hover:text-slate-900 transition-colors flex items-center gap-2 text-[13px] font-medium">
+          <a
+            href="mailto:nithishkumarl168@gmail.com"
+            className="flex items-center gap-2 text-[13px] font-medium text-slate-400 transition-colors hover:text-slate-900"
+          >
             <Mail size={14} /> nithishkumarl168@gmail.com
           </a>
-          <a href="https://github.com/Nithishkumar0990" className="text-slate-400 hover:text-slate-900 transition-colors flex items-center gap-2 text-[13px] font-medium">
+          <a
+            href="https://github.com/Nithishkumar0990"
+            className="flex items-center gap-2 text-[13px] font-medium text-slate-400 transition-colors hover:text-slate-900"
+          >
             <GitHubIcon size={14} /> GitHub
           </a>
-          <a 
+          <a
             href="/images/resume.pdf"
-            target="_blank" 
+            target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-400 hover:text-slate-900 transition-colors flex items-center gap-2 text-[13px] font-medium"
+            className="flex items-center gap-2 text-[13px] font-medium text-slate-400 transition-colors hover:text-slate-900"
           >
             <ExternalLink size={14} /> View Resume
           </a>
@@ -1239,79 +1269,80 @@ export default function App() {
   return (
     <Routes>
       {/* ✅ YOUR ORIGINAL HOME PAGE */}
-      <Route path="/" element={
-      <div className="min-h-screen bg-transparent font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 antialiased">
-           <DotMatrixBackground {...dotMatrixConfig} />
-          <Navbar /> {/* 👈 YOUR ORIGINAL HEADER IS BACK */}
+      <Route
+        path="/"
+        element={
+          <div className="min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+            <DotMatrixBackground {...dotMatrixConfig} />
+            <Navbar /> {/* 👈 YOUR ORIGINAL HEADER IS BACK */}
+            <main className="mx-auto px-4 sm:px-6 lg:px-8">
+              <Hero />
+              {/* ... Your Profile Section ... */}
 
-          <main className="px-4 sm:px-6 lg:px-8 mx-auto">
-            <Hero />
-            {/* ... Your Profile Section ... */}
-            
-            <Skills />
-            <Projects />
-            <Experience />
-            
-            <Education />
-          </main>
-          <Publication />
-          <ContactForm />
-          <Footer />
-          
-        </div>
-      } />
+              <Skills />
+              <Projects />
+              <Experience />
+
+              <Education />
+            </main>
+            <Publication />
+            <ContactForm />
+            <Footer />
+          </div>
+        }
+      />
 
       {/* ✅ NEW BLOG LIST PAGE */}
       <Route
-  path="/blog"
-  element={
-    <div className="min-h-screen font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 antialiased relative">
-      
-      {/* Background sits behind everything */}
-      <div className="fixed inset-0 -z-10">
-        <DotMatrixBackground {...dotMatrixConfig} />
-      </div>
-
-      <Navbar /> {/* 👈 stays above background */}
-       <PageTransition>
-
-      <main className="px-4 sm:px-6 lg:px-8 mx-auto pt-24 bg-white/80 rounded-lg shadow-md relative z-10">
-        <BlogList />
-      </main>
-      </PageTransition>  
-      <Footer />
-    </div>
-  }
-/>
-
+        path="/blog"
+        element={
+          <div className="relative min-h-screen font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+            {/* Background sits behind everything */}
+            <div className="fixed inset-0 -z-10">
+              <DotMatrixBackground {...dotMatrixConfig} />
+            </div>
+            <Navbar /> {/* 👈 stays above background */}
+            <PageTransition>
+              <main className="relative z-10 mx-auto rounded-lg bg-white/80 px-4 pt-24 shadow-md sm:px-6 lg:px-8">
+                <BlogList />
+              </main>
+            </PageTransition>
+            <Footer />
+          </div>
+        }
+      />
 
       {/* ✅ NEW SINGLE BLOG POST PAGE */}
-      <Route path="/blog/:slug" element={
-       <div className="min-h-screen bg-transparent font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 antialiased">
-          <DotMatrixBackground {...dotMatrixConfig} />
-          <Navbar /> {/* 👈 YOUR ORIGINAL HEADER */}
-          <main className="px-4 sm:px-6 lg:px-8 mx-auto pt-24 bg-transparent rounded-lg shadow-md">
-            <BlogPost />
-          </main>
-          <Footer />
-        </div>
-      } />
+      <Route
+        path="/blog/:slug"
+        element={
+          <div className="min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+            <DotMatrixBackground {...dotMatrixConfig} />
+            <Navbar /> {/* 👈 YOUR ORIGINAL HEADER */}
+            <main className="mx-auto rounded-lg bg-transparent px-4 pt-24 shadow-md sm:px-6 lg:px-8">
+              <BlogPost />
+            </main>
+            <Footer />
+          </div>
+        }
+      />
 
-    <Route path="/contact" element={
-  <div className="min-h-screen flex flex-col font-sans text-slate-900 antialiased relative bg-white">
-    {/* ✅ ADD THIS LINE below (shows dots on contact page too) */}
-    
-    <Navbar />
-     <PageTransition1>
-    <main className="flex-1 pt-24 px-4 sm:px-6 lg:px-8 mx-auto w-full relative z-10">
-      <ContactForm />
-    </main>
-    </PageTransition1>
-  <Footer />
-</div>
+      <Route
+        path="/contact"
+        element={
+          <div className="relative flex min-h-screen flex-col bg-white font-sans text-slate-900 antialiased">
+            {/* ✅ ADD THIS LINE below (shows dots on contact page too) */}
 
-} />
+            <Navbar />
+            <PageTransition1>
+              <main className="relative z-10 mx-auto w-full flex-1 px-4 pt-24 sm:px-6 lg:px-8">
+                <ContactForm />
+              </main>
+            </PageTransition1>
+            <Footer />
+          </div>
+        }
+      />
     </Routes>
-
   );
 }

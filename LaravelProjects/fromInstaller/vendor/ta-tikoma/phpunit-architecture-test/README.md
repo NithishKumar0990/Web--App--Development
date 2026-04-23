@@ -5,6 +5,7 @@
 ## Example
 
 Don't use repositories in controllers use only in services classes. Take three layers "repositories", "services", "controllers" and add asserts on dependencies.
+
 ```php
 $controllers  = $this->layer()->leaveByNameStart('App\\Controllers');
 $services     = $this->layer()->leaveByNameStart('App\\Services');
@@ -14,7 +15,6 @@ $this->assertDoesNotDependOn($controllers, $repositories);
 $this->assertDependOn($controllers, $services);
 $this->assertDependOn($services, $repositories);
 ```
-
 
 ## Installation
 
@@ -52,6 +52,7 @@ abstract class TestCase extends BaseTestCase
 ```
 
 #### Run
+
 ```bash
 ./vendor/bin/phpunit
 ```
@@ -83,7 +84,6 @@ abstract class TestCase extends BaseTestCase
     - `->split($closure)` by closure
     - `->splitByNameRegex($closure)` by object name
 
-
 ## Asserts
 
 ### Dependencies
@@ -93,7 +93,7 @@ abstract class TestCase extends BaseTestCase
 - `assertDependOn($A, $B)` Layer A must contains dependencies by layer B.
 - `assertDoesNotDependOn($A, $B)` Layer A (or layers in array A) must not contains dependencies by layer B (or layers in array B).
 
-### Methods 
+### Methods
 
 - `assertIncomingsFrom($A, $B)` Layer A must contains arguments with types from Layer B
 - `assertIncomingsNotFrom($A, $B)` Layer A must not contains arguments with types from Layer B
@@ -114,12 +114,14 @@ You can use `$layer->essence($path)` method for collect data from layer. For exa
 - `assertAny($list, $check, $message)` - one or more item of list must not passed tested by $check-function
 
 ## Alternatives
+
 - [Deptrac](https://github.com/qossmic/deptrac)
 - [PHP Architecture Tester](https://github.com/carlosas/phpat)
 - [PHPArch](https://github.com/j6s/phparch)
 - [Arkitect](https://github.com/phparkitect/arkitect)
 
 #### Advantages
+
 - Dynamic creation of layers by regular expression (not need declare each module)
 - Run along with the rest of tests from [phpunit](https://github.com/sebastianbergmann/phpunit)
 - Asserts to method arguments and return types (for check dependent injection)

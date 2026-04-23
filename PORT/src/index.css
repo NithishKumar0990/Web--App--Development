@@ -3,7 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 html {
   scroll-behavior: smooth;
 }
@@ -26,8 +25,12 @@ div[style*="preserve-3d"] {
   }
 
   @keyframes shine {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
   }
 }
 
@@ -41,7 +44,7 @@ div[style*="preserve-3d"] {
 }
 
 .reflection-effect::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -49,7 +52,7 @@ div[style*="preserve-3d"] {
   height: 100%;
   z-index: 10;
   pointer-events: none;
-  
+
   /* High-opacity white sheen - actually visible now */
   background: linear-gradient(
     110deg,
@@ -58,7 +61,7 @@ div[style*="preserve-3d"] {
     rgba(255, 255, 255, 0.9) 52%,
     transparent 50%
   );
-  
+
   transform: translateX(-120%);
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }

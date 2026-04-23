@@ -6,13 +6,13 @@ const pageVariants = {
   animate: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }
+    transition: { duration: 0.85, ease: [0.25, 0.1, 0.25, 1] },
   },
   exit: {
     opacity: 0,
     y: -45,
-    transition: { duration: 0.5, ease: "easeInOut" }
-  }
+    transition: { duration: 0.5, ease: "easeInOut" },
+  },
 };
 
 const PageTransition = ({ children }) => {

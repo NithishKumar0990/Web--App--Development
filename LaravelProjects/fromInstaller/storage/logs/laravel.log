@@ -4300,3 +4300,5 @@ Test email from Laravel
 "} 
 [2026-04-22 12:35:36] local.INFO: Both emails sent successfully {"visitor":"nkinff@gmail.com"} 
 [2026-04-22 12:59:05] local.INFO: Both emails sent successfully {"visitor":"nkinff@gmail.com"} 
+[2026-04-23 06:01:55] local.INFO: Both emails sent successfully {"visitor":"hussainthowfiq4@gmail.com"} 
+[2026-04-23 07:06:01] local.INFO: Both emails sent successfully {"visitor":"hussainthowfiq4@gmail.com"} 

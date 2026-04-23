@@ -6,8 +6,8 @@ export default function ContactForm() {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
-  
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -19,7 +19,7 @@ export default function ContactForm() {
     e.preventDefault();
 
     // Reset errors
-    const newErrors: {[key: string]: string} = {};
+    const newErrors: { [key: string]: string } = {};
 
     // Name validation
     if (!form.name || form.name.trim().length < 2) {
@@ -60,9 +60,9 @@ export default function ContactForm() {
       const apiBase = import.meta.env.VITE_API_URL || "";
       const response = await fetch(`${apiBase}/api/contact`, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json"
+          Accept: "application/json",
         },
         body: JSON.stringify(form),
       });
@@ -72,7 +72,7 @@ export default function ContactForm() {
       const isJson = contentType && contentType.includes("application/json");
 
       let data: any = {};
-      
+
       if (isJson) {
         data = await response.json();
       } else {
@@ -91,7 +91,7 @@ export default function ContactForm() {
         // Handle validation errors (422) or other backend errors
         if (data.errors) {
           // Laravel validation errors
-          const backendErrors: {[key: string]: string} = {};
+          const backendErrors: { [key: string]: string } = {};
           Object.entries(data.errors).forEach(([key, value]) => {
             backendErrors[key] = Array.isArray(value) ? value[0] : String(value);
           });
@@ -111,54 +111,64 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="max-w-xl mx-auto py-16 px-4">
-      <div className="bg-slate-100 shadow-xl rounded-2xl p-8">
+    <div className="mx-auto max-w-xl px-4 py-16">
+      <div className="rounded-2xl bg-slate-100 p-8 shadow-xl">
         {/* Success Screen */}
         {success ? (
-          <div className="max-w-xl mx-auto py-16 px-4 perspective-1000">
-  <motion.div
-    className="relative w-full h-[650px]" // Adjust height as needed
-    style={{ transformStyle: "preserve-3d" }}
-    animate={{ rotateY: success ? 180 : 0 }}
-    transition={{ duration: 0.8, ease: "easeInOut" }}
-  >
-    {/* --- FRONT: The Form --- */}
-    <div style={{ backfaceVisibility: "hidden" }} className="absolute inset-0 w-full h-full bg-slate-100 shadow-xl rounded-2xl p-8">
-      {/* YOUR FORM JSX GOES HERE */}
-    </div>
+          <div className="perspective-1000 mx-auto max-w-xl px-4 py-16">
+            <motion.div
+              className="relative h-[650px] w-full" // Adjust height as needed
+              style={{ transformStyle: "preserve-3d" }}
+              animate={{ rotateY: success ? 180 : 0 }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+            >
+              {/* --- FRONT: The Form --- */}
+              <div
+                style={{ backfaceVisibility: "hidden" }}
+                className="absolute inset-0 h-full w-full rounded-2xl bg-slate-100 p-8 shadow-xl"
+              >
+                {/* YOUR FORM JSX GOES HERE */}
+              </div>
 
-    {/* --- BACK: Success Screen --- */}
-    <div style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }} className="absolute inset-0 w-full h-full bg-white text-powder-blue-600 shadow-xl rounded-2xl p-8 flex flex-col items-center justify-center text-center">
-      <CheckCircle size={70} className="mb-6" />
-      <h2 className="text-3xl font-bold mb-3">Message Sent! 🎉</h2>
-      <p className="text-lg opacity-80 mb-8">Thanks for reaching out. I'll reply as soon as possible.</p>
-      <a href="/" className="px-6 py-3 bg-green-600 text-white rounded-full text-sm font-medium hover:bg-green-700 transition">
-        ← Back to Home
-      </a>
-    </div>
-  </motion.div>
-</div>
+              {/* --- BACK: Success Screen --- */}
+              <div
+                style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+                className="text-powder-blue-600 absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-2xl bg-white p-8 text-center shadow-xl"
+              >
+                <CheckCircle size={70} className="mb-6" />
+                <h2 className="mb-3 text-3xl font-bold">Message Sent! 🎉</h2>
+                <p className="mb-8 text-lg opacity-80">
+                  Thanks for reaching out. I'll reply as soon as possible.
+                </p>
+                <a
+                  href="/"
+                  className="rounded-full bg-green-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-green-700"
+                >
+                  ← Back to Home
+                </a>
+              </div>
+            </motion.div>
+          </div>
         ) : (
           <>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Get In Touch</h1>
-            <p className="text-slate-500 mb-8">
+            <h1 className="mb-2 text-3xl font-bold text-slate-900">Get In Touch</h1>
+            <p className="mb-8 text-slate-500">
               Fill in the form below and I'll get back to you soon.
             </p>
 
             {/* Server Error Message */}
             {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
-                <AlertCircle className="text-red-500 mt-0.5" size={20} />
-                <p className="text-red-600 text-sm">{error}</p>
+              <div className="mb-6 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4">
+                <AlertCircle className="mt-0.5 text-red-500" size={20} />
+                <p className="text-sm text-red-600">{error}</p>
               </div>
             )}
 
             {/* 🔥 FIXED: Moved bg-white inside className */}
             <form onSubmit={handleSubmit} className="space-y-5 bg-white">
-              
               {/* Name */}
               <div>
-                <label className="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wide">
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-600">
                   Full Name *
                 </label>
                 <div className="relative">
@@ -168,15 +178,15 @@ export default function ContactForm() {
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder="John Doe"
-                    className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm focus:outline-none bg-white focus:ring-1 transition ${
-                      errors.name 
-                        ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
+                    className={`w-full rounded-xl border bg-white py-3 pl-10 pr-4 text-sm transition focus:outline-none focus:ring-1 ${
+                      errors.name
+                        ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                         : "border-slate-200 focus:border-slate-900 focus:ring-slate-900"
                     }`}
                   />
                 </div>
                 {errors.name && (
-                  <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
+                  <p className="mt-1.5 flex items-center gap-1 text-xs text-red-500">
                     <AlertCircle size={12} />
                     {errors.name}
                   </p>
@@ -185,7 +195,7 @@ export default function ContactForm() {
 
               {/* Phone */}
               <div>
-                <label className="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wide">
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-600">
                   Phone Number
                 </label>
                 <div className="relative">
@@ -195,15 +205,15 @@ export default function ContactForm() {
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     placeholder="+91 98765 43210"
-                    className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm focus:outline-none bg-white focus:ring-1 transition ${
-                      errors.phone 
-                        ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
+                    className={`w-full rounded-xl border bg-white py-3 pl-10 pr-4 text-sm transition focus:outline-none focus:ring-1 ${
+                      errors.phone
+                        ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                         : "border-slate-200 focus:border-slate-900 focus:ring-slate-900"
                     }`}
                   />
                 </div>
                 {errors.phone && (
-                  <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
+                  <p className="mt-1.5 flex items-center gap-1 text-xs text-red-500">
                     <AlertCircle size={12} />
                     {errors.phone}
                   </p>
@@ -212,7 +222,7 @@ export default function ContactForm() {
 
               {/* Email */}
               <div>
-                <label className="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wide">
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-600">
                   Email Address *
                 </label>
                 <div className="relative">
@@ -222,15 +232,15 @@ export default function ContactForm() {
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     placeholder="john@example.com"
-                    className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm focus:outline-none bg-white focus:ring-1 transition ${
-                      errors.email 
-                        ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
+                    className={`w-full rounded-xl border bg-white py-3 pl-10 pr-4 text-sm transition focus:outline-none focus:ring-1 ${
+                      errors.email
+                        ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                         : "border-slate-200 focus:border-slate-900 focus:ring-slate-900"
                     }`}
                   />
                 </div>
                 {errors.email && (
-                  <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
+                  <p className="mt-1.5 flex items-center gap-1 text-xs text-red-500">
                     <AlertCircle size={12} />
                     {errors.email}
                   </p>
@@ -239,7 +249,7 @@ export default function ContactForm() {
 
               {/* Message */}
               <div>
-                <label className="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wide">
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-600">
                   Your Message *
                 </label>
                 <div className="relative">
@@ -249,15 +259,15 @@ export default function ContactForm() {
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     rows={5}
                     placeholder="Hi Nithish, I'd like to discuss..."
-                    className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm focus:outline-none bg-white focus:ring-1 transition resize-none ${
-                      errors.message 
-                        ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
+                    className={`w-full resize-none rounded-xl border bg-white py-3 pl-10 pr-4 text-sm transition focus:outline-none focus:ring-1 ${
+                      errors.message
+                        ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                         : "border-slate-200 focus:border-slate-900 focus:ring-slate-900"
                     }`}
                   />
                 </div>
                 {errors.message && (
-                  <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
+                  <p className="mt-1.5 flex items-center gap-1 text-xs text-red-500">
                     <AlertCircle size={12} />
                     {errors.message}
                   </p>
@@ -265,33 +275,30 @@ export default function ContactForm() {
               </div>
 
               {/* Submit Button */}
-              
-        <button
-            type="submit"
-            disabled={loading}
-              className="group w-full flex items-center justify-center gap-3 py-3.5 px-6
-              bg-slate-900 text-white rounded-xl font-semibold text-sm
-              hover:bg-slate-800 transition-colors duration-300
-              disabled:opacity-50"
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="group flex w-full items-center justify-center gap-3 rounded-xl bg-slate-900 px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-slate-800 disabled:opacity-50"
               >
-            {loading ? (
-            <>
-          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-          <span>Sending...</span>
-           </>
-         ) : (
-       <>
-      {/* The icon has its own transition */}
-      <motion.div
-        transition={{ type: "spring", stiffness: 400, damping: 20 }}
-        className="transition-transform duration-300 group-hover:scale-125 group-hover:-rotate-12"
-      >
-        <Send size={16} />
-      </motion.div>
-      <span>Send Message</span>
-    </>
-  )}
-</button>
+                {loading ? (
+                  <>
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    {/* The icon has its own transition */}
+                    <motion.div
+                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                      className="transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-125"
+                    >
+                      <Send size={16} />
+                    </motion.div>
+                    <span>Send Message</span>
+                  </>
+                )}
+              </button>
             </form>
           </>
         )}

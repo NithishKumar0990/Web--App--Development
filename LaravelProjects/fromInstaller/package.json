@@ -15,3 +15,14 @@
         "vite": "^7.0.7"
     }
 }
+
+
+{
+  "name": "laravel-backend",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "php artisan serve",
+    "serve": "php artisan serve"
+  }
+}

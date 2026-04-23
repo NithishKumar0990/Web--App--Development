@@ -1,5 +1,4 @@
-ParaTest
-========
+# ParaTest
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/brianium/paratest.svg)](https://packagist.org/packages/brianium/paratest)
 [![Downloads](https://img.shields.io/packagist/dt/brianium/paratest.svg)](https://packagist.org/packages/brianium/paratest)
@@ -11,15 +10,15 @@ start using it with no additional bootstrap or configurations!
 
 Benefits:
 
-* Zero configuration. After the installation, run with `vendor/bin/paratest` to parallelize by TestCase or `vendor/bin/paratest --functional` to parallelize by Test. That's it!
-* Code Coverage report combining. Run your tests in N parallel processes and all the code coverage output will be combined into one report.
+- Zero configuration. After the installation, run with `vendor/bin/paratest` to parallelize by TestCase or `vendor/bin/paratest --functional` to parallelize by Test. That's it!
+- Code Coverage report combining. Run your tests in N parallel processes and all the code coverage output will be combined into one report.
 
 # Installation
 
 To install with composer run the following command:
 
     composer require --dev brianium/paratest
-    
+
 # Versions
 
 Only the latest version of PHPUnit is supported, and thus only the latest version of ParaTest is actively maintained.
@@ -131,8 +130,8 @@ PHPUnit output: during a debugging run remove that option to restore the output 
 ## Caveats
 
 1. Constants, static methods, static variables and everything exposed by test classes consumed by other test classes
-(including Reflection) are not supported. This is due to a limitation of the current implementation of `WrapperRunner`
-and how PHPUnit searches for classes. The fix is to put shared code into classes which are not tests _themselves_.
+   (including Reflection) are not supported. This is due to a limitation of the current implementation of `WrapperRunner`
+   and how PHPUnit searches for classes. The fix is to put shared code into classes which are not tests _themselves_.
 
 ## Integration with PHPStorm
 
@@ -149,7 +148,7 @@ It should natively work with the `Rerun failed tests` and `Toggle auto-test` but
 
 ### Run with Coverage
 
-Coverage with one of the [available coverage engines](#code-coverage) must already be [configured in PHPStorm](https://www.jetbrains.com/help/phpstorm/code-coverage.html) 
+Coverage with one of the [available coverage engines](#code-coverage) must already be [configured in PHPStorm](https://www.jetbrains.com/help/phpstorm/code-coverage.html)
 and working when running tests sequentially in order for the helper binary to correctly handle code coverage
 
 # For Contributors: testing ParaTest itself

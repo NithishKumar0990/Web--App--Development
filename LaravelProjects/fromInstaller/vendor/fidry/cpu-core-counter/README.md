@@ -6,7 +6,6 @@ This package is a tiny utility to get the number of CPU cores.
 composer require fidry/cpu-core-counter
 ```
 
-
 ## Usage
 
 ```php
@@ -41,7 +40,6 @@ $counter->getCount();   // e.g. 8
 
 ```
 
-
 ## Advanced usage
 
 ### Changing the finders
@@ -51,7 +49,7 @@ used or disable a specific finder. You can easily do so by passing the finders
 you want
 
 ```php
-// Remove WindowsWmicFinder 
+// Remove WindowsWmicFinder
 $finders = array_filter(
     CpuCoreCounter::getDefaultFinders(),
     static fn (CpuCoreFinder $finder) => !($finder instanceof WindowsWmicFinder)
@@ -84,7 +82,6 @@ By default, when using `CpuCoreCounter`, it will use the logical finders since
 it is more likely what you are looking for and is what is used by PHP source to
 build the PHP binary.
 
-
 ### Checks what finders find what on your system
 
 You have three scrips available that provides insight about what the finders
@@ -98,12 +95,12 @@ make diagnose                                     # From this repository
 ```
 
 And:
+
 ```shell
 # Execute all finders and display the result they found.
 make execute                                     # From this repository
 ./vendor/fidry/cpu-core-counter/bin/execute.php  # From the library
 ```
-
 
 ### Debug the results found
 
@@ -117,7 +114,6 @@ You have 3 methods available to help you find out what happened:
    for parallelisation was done, you can inspect the values of `ParallelisationResult`
    returned by `CpuCoreCounter::getAvailableForParallelisation()`.
 
-
 ## Backward Compatibility Promise (BCP)
 
 The policy is for the major part following the same as [Symfony's one][symfony-bc-policy].
@@ -127,7 +123,6 @@ The following elements are also excluded:
 
 - The `diagnose` and `execute` commands: those are for debugging/inspection purposes only
 - `FinderRegistry::get*Finders()`: new finders may be added or the order of finders changed at any time
-
 
 ## License
 
