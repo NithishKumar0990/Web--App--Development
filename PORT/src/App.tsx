@@ -23,9 +23,10 @@ import {
   Layers,
   BookOpen,
   Globe,
+  ArrowUp,
+  BadgeCheck,
 } from "lucide-react";
 import PageTransition1 from "./components/PageTransition1";
-import { div } from "framer-motion/m";
 
 const GitHubIcon = ({ size = 20, className = "" }) => (
   <svg
@@ -107,7 +108,6 @@ const Navbar = () => {
             Nithish Kumar L
           </motion.span>
 
-          {/* Desktop Nav Links - Hidden on mobile */}
           <div className="hidden items-center gap-6 md:flex lg:gap-8">
             <div className="flex gap-6 text-[15px] font-medium text-slate-500 lg:gap-8">
               <AnimatePresence mode="popLayout">
@@ -789,6 +789,7 @@ const Projects = () => {
 };
 
 // Experience Component
+
 const Experience = () => (
   <Section
     id="experience"
@@ -801,7 +802,7 @@ const Experience = () => (
         className="group relative"
         initial={{ y: 0 }}
         whileHover={{ y: -10 }}
-        transition={{ duration: 0.1, ease: "easeOut" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
       >
         {/* ========== CARD ========== */}
         <div className="duration-800 relative overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all group-hover:shadow-lg">
@@ -833,11 +834,11 @@ const Experience = () => (
           <img
             src="/images/Video.gif"
             alt=""
-            className="pointer-events-none absolute bottom-4 right-4 z-[1] h-[80%] w-auto max-w-[45%] translate-x-24 object-contain opacity-0 mix-blend-multiply transition-all duration-700 ease-out group-hover:translate-x-5 group-hover:opacity-100"
+            className="pointer-events-none absolute bottom-4 right-4 z-[1] h-[80%] w-auto max-w-[90%] translate-x-24 object-contain opacity-0 mix-blend-multiply transition-all duration-700 ease-out group-hover:translate-x-5 group-hover:opacity-100"
           />
 
           {/* ========== TEXT SAFETY FADE ========== */}
-          <div className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-l from-white via-white/50 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-l from-white via-white/20 to-transparent" />
 
           {/* ========== CONTENT ========== */}
           <div className="relative z-10 p-8">
@@ -1223,48 +1224,114 @@ const Publication = () => (
 
 //footer
 const Footer = () => (
-  <footer className="mt-auto border-t border-slate-100 bg-transparent px-6 pb-12 pt-12">
-    <div className="mx-auto max-w-[90%]">
-      <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
-        <div className="flex flex-col gap-1">
-          <span className="text-sm font-bold text-slate-900">Nithish Kumar L</span>
-          <span className="text-xs text-slate-400">
-            © {new Date().getFullYear()} AI & Data Science Specialist
-          </span>
-        </div>
-        <div className="flex flex-wrap items-center justify-center gap-8">
-          <a
-            href="tel:+916382417367"
-            className="flex items-center gap-2 text-[13px] font-medium text-slate-400 transition-colors hover:text-slate-900"
-          >
-            <Phone size={14} /> +91 6382417367
-          </a>
-          <a
-            href="mailto:nithishkumarl168@gmail.com"
-            className="flex items-center gap-2 text-[13px] font-medium text-slate-400 transition-colors hover:text-slate-900"
-          >
-            <Mail size={14} /> nithishkumarl168@gmail.com
-          </a>
-          <a
-            href="https://github.com/Nithishkumar0990"
-            className="flex items-center gap-2 text-[13px] font-medium text-slate-400 transition-colors hover:text-slate-900"
-          >
-            <GitHubIcon size={14} /> GitHub
-          </a>
-          <a
-            href="/images/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-[13px] font-medium text-slate-400 transition-colors hover:text-slate-900"
-          >
-            <ExternalLink size={14} /> View Resume
-          </a>
+  <footer className="mt-24 px-6 pb-12" bg-white>
+    <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-100/60 via-cyan-50/30 to-white/80" />
+    <div className="group mx-auto max-w-[90rem] overflow-hidden rounded-3xl border border-white/60 bg-white/70 backdrop-blur-2xl shadow-[0_20px_60px_rgba(148,163,184,0.18)]">
+    {/* 🎯 GIF — Appears when footer scrolls into view */}
+<motion.img
+  src="/images/Video Project 5.gif"
+  alt="Footer Illustration"
+  mix-blend-multiply 
+  initial={{ opacity: 0, y: 60, x: 30 }}
+  whileInView={{ opacity: 0.90, y: 0, x: 0 }}
+  transition={{ duration: 1.0, ease: "easeOut" }}
+  viewport={{ once: false, amount: 0.5 }}
+  className="pointer-events-none absolute bottom-18 right-30 z-[1] h-[75%] w-auto max-w-[48%] object-contain object-right-bottom mix-blend-darken"
+/>
+      {/* subtle gradient top border */}
+      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-400 to-blue-500" />
+
+      {/* --- THE UNTOUCHED TOP PART --- */}
+      <div className="px-5 py-5 md:px-3 md:py-1">
+        {/* Left Side (This part is exactly as you provided) */}
+        <div className="max-w-2xl">
+          <div className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/40 bg-gradient-to-r from-emerald-500/20 via-cyan-400/20 to-blue-500/20 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 shadow-md backdrop-blur-md">
+            <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
+            <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400" />
+            Available for opportunities
+          </div>
+
+          <div className="mt-3">
+            <h3 className="text-3xl font-bold leading-tight text-slate-900 md:text-5xl">
+              Let’s build something impactful together.
+            </h3>
+            <div className="mt-3 h-1 w-24 rounded-full bg-gradient-to-r from-emerald-500 via-cyan-400 to-blue-500" />
+          </div>
+
+          <p className="mt-5 max-w-2xl text-base leading-8 text-slate-700 md:text-lg">
+            Interested in AI, data-driven systems, or full-stack product development? I’m open to
+            internships, collaborations, and challenging roles where I can contribute, learn, and
+            grow.
+          </p>
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a
+              href="mailto:nithishkumarl168@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-slate-800 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-600"
+            >
+              Contact Me
+            </a>
+            <a
+              href="/images/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-slate-300 bg-white/80 px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white"
+            >
+              View Resume
+            </a>
+            <a
+              href="#top"
+              className="rounded-full border border-slate-300 bg-white/50 px-5 py-2.5 text-sm font-semibold text-slate-600 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/80"
+            >
+              Back to Top ↑
+            </a>
+          </div>
         </div>
       </div>
+      {/* --- END OF UNTOUCHED PART --- */}
+
+      {/* --- THE NEW, CONSOLIDATED BOTTOM SECTION --- */}
+      <div className="border-t border-white/60 px-8 py-6 md:px-10">
+        <div className="flex flex-col-reverse items-start justify-between gap-6 md:flex-row md:items-center">
+          {/* Copyright */}
+          <p className="text-sm text-slate-500">© {new Date().getFullYear()} Nithish Kumar L</p>
+
+          {/* All Links Grouped */}
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
+            <a
+              href="tel:+916382417367"
+              className="text-sm font-medium text-slate-600 hover:text-emerald-600"
+            >
+              +91 6382417367
+            </a>
+            <a
+              href="https://github.com/Nithishkumar0990"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium text-slate-600 hover:text-emerald-600"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/nithish-kumar-l-04a998372/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium text-slate-600 hover:text-emerald-600"
+            >
+              LinkedIn
+            </a>
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+              AI • Data Science • Full Stack
+            </p>
+          </div>
+        </div>
+      </div>
+      {/* --- END OF NEW BOTTOM SECTION --- */}
     </div>
   </footer>
 );
-
 export default function App() {
   return (
     <Routes>
@@ -1278,7 +1345,6 @@ export default function App() {
             <main className="mx-auto px-4 sm:px-6 lg:px-8">
               <Hero />
               {/* ... Your Profile Section ... */}
-
               <Skills />
               <Projects />
               <Experience />
@@ -1331,8 +1397,7 @@ export default function App() {
         path="/contact"
         element={
           <div className="relative flex min-h-screen flex-col bg-white font-sans text-slate-900 antialiased">
-            {/* ✅ ADD THIS LINE below (shows dots on contact page too) */}
-
+            <DotMatrixBackground {...dotMatrixConfig} />
             <Navbar />
             <PageTransition1>
               <main className="relative z-10 mx-auto w-full flex-1 px-4 pt-24 sm:px-6 lg:px-8">
