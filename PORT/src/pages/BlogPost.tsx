@@ -15,7 +15,7 @@ export default function BlogPost() {
 
   useEffect(() => {
     if (!slug) return;
-    fetch(`http://127.0.0.1:8000/api/posts/${slug}`)
+    fetch(`/api/posts/${slug}`)
       .then((res) => res.json())
       .then((data) => setPost(data))
       .catch((err) => console.error("Error fetching post:", err))

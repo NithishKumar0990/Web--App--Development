@@ -1,7 +1,7 @@
-﻿import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import BlogPost from "./pages/BlogPost";
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import BlogList from "./pages/BlogList";
 
 import { cn } from "./utils/cn";
@@ -12,7 +12,6 @@ import PageTransition from "./components/PageTransition";
 
 import {
   Mail,
-  Phone,
   MapPin,
   ExternalLink,
   ChevronRight,
@@ -23,8 +22,6 @@ import {
   Layers,
   BookOpen,
   Globe,
-  ArrowUp,
-  BadgeCheck,
 } from "lucide-react";
 import PageTransition1 from "./components/PageTransition1";
 
@@ -127,7 +124,10 @@ const Navbar = () => {
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.3 }}
                       className="group relative transform opacity-70 transition-all duration-300 hover:scale-110 hover:text-slate-900 hover:opacity-100"
-                      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                      onClick={() => {
+                        if (href.startsWith("/#")) return;
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
                     >
                       {item}
                       <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-slate-900 transition-all duration-300 group-hover:w-full"></span>
@@ -228,6 +228,7 @@ const Navbar = () => {
                       href={href}
                       onClick={() => {
                         toggleMenu();
+                        if (href.startsWith("/#")) return;
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
                       initial={{ opacity: 0, x: -20 }}
@@ -251,7 +252,9 @@ const Navbar = () => {
 
 // Hero Component
 const Hero = () => (
-  <section className="flex min-h-[80vh] items-center px-6 pb-20 pt-28">
+  <section className="relative z-0 flex min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] items-center px-6 pb-12 pt-20 md:pt-24 lg:pt-28">
+    {/* Left Gradient Beam - covers the left side and stops at 75% height (before contact buttons) */}
+    <div className="pointer-events-none absolute left-0 top-0 -z-10 h-[75%] w-[80%] bg-gradient-to-r from-blue-100/60 via-cyan-50/30 to-transparent blur-3xl" />
     <div className="max-w-10xl mx-auto grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2">
       {/* --- LEFT SIDE: Refined Dual Identity --- */}
       <motion.div
@@ -261,18 +264,18 @@ const Hero = () => (
         className="order-2 max-w-2xl lg:order-1"
       >
         {/* Identity Label */}
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
+        <h2 className="mt-[1.5rem] mb-[0.75rem] text-[clamp(0.75rem,1.5vw,1rem)] font-semibold uppercase tracking-[0.15em] text-blue-600">
           Artificial Intelligence & Software Engineering
         </h2>
 
         {/* Main Heading */}
-        <h1 className="mb-6 flex flex-col text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-900 md:text-7xl">
+        <h1 className="mb-6 flex flex-col gap-[4px] leading-[1.1] tracking-tight text-slate-900">
           {/* LINE 1: Fades in smoothly */}
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }} // Premium cubic-bezier ease
-            className="relative z-10"
+            className="relative z-10 text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[1.1]"
           >
             Engineering Intelligence
           </motion.span>
@@ -284,7 +287,7 @@ const Hero = () => (
               initial={{ opacity: 0, y: "-100%" }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.7, ease: [0.25, 1, 0.5, 1] }}
-              className="block font-medium text-slate-400"
+              className="block text-[clamp(1.2rem,3vw,2rem)] font-medium leading-[1.1] text-slate-400"
             >
               Architecting Systems...
             </motion.span>
@@ -407,7 +410,7 @@ const Section = ({
 const Skills = () => {
   const [hoveredId, setHoveredId] = React.useState<null | number>(null);
 
-  const itemVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
+  const itemVariants: Variants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
   const skills = [
     {
       id: 1,
@@ -559,7 +562,7 @@ const Skills = () => {
       ),
     },
   ];
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: {},
     visible: {
       transition: {
@@ -569,7 +572,7 @@ const Skills = () => {
     },
   };
 
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: { opacity: 0, y: 24 },
     visible: {
       opacity: 1,
@@ -580,11 +583,6 @@ const Skills = () => {
 
   return (
     <Section id="skills" title="Technical Skills" className="mb-0 mt-0 text-center">
-      <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
-        {skills.map((skill) => (
-          <div key={skill.id}>{/* render skill */}</div>
-        ))}
-      </div>
       <motion.div
         className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 lg:grid-cols-3"
         variants={containerVariants}
@@ -1224,20 +1222,20 @@ const Publication = () => (
 
 //footer
 const Footer = () => (
-  <footer className="mt-24 px-6 pb-12" bg-white>
+  <footer className="relative mt-24 px-6 pb-12 bg-white">
     <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-100/60 via-cyan-50/30 to-white/80" />
-    <div className="group mx-auto max-w-[90rem] overflow-hidden rounded-3xl border border-white/60 bg-white/70 backdrop-blur-2xl shadow-[0_20px_60px_rgba(148,163,184,0.18)]">
-    {/* 🎯 GIF — Appears when footer scrolls into view */}
-<motion.img
-  src="/images/Video Project 5.gif"
-  alt="Footer Illustration"
-  mix-blend-multiply 
-  initial={{ opacity: 0, y: 60, x: 30 }}
-  whileInView={{ opacity: 0.90, y: 0, x: 0 }}
-  transition={{ duration: 1.0, ease: "easeOut" }}
-  viewport={{ once: false, amount: 0.5 }}
-  className="pointer-events-none absolute bottom-18 right-30 z-[1] h-[75%] w-auto max-w-[48%] object-contain object-right-bottom mix-blend-darken"
-/>
+    <div className="group mx-auto max-w-[90rem] overflow-hidden rounded-3xl border border-white/60 bg-white/70 shadow-[0_20px_60px_rgba(148,163,184,0.18)] backdrop-blur-2xl">
+      {/* 🎯 GIF — Appears when footer scrolls into view */}
+      <motion.img
+        src="/images/Footer.gif"
+        alt="Footer Illustration"
+        mix-blend-multiply
+        initial={{ opacity: 0, y: 60, x: 30 }}
+        whileInView={{ opacity: 0.9, y: 0, x: 0 }}
+        transition={{ duration: 1.0, ease: "easeOut" }}
+        viewport={{ once: false, amount: 0.5 }}
+        className="bottom-18 right-30 pointer-events-none absolute z-[1] h-[75%] w-auto max-w-[48%] object-contain object-right-bottom mix-blend-darken"
+      />
       {/* subtle gradient top border */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-400 to-blue-500" />
 

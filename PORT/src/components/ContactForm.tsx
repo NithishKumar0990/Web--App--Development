@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Mail, Phone, User, MessageSquare, Send, CheckCircle, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function ContactForm() {
   const [success, setSuccess] = useState(false);
@@ -112,45 +113,18 @@ export default function ContactForm() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-16">
-      <div className="rounded-2xl bg-slate-100 p-8 shadow-xl">
-        {/* Success Screen */}
-        {success ? (
-          <div className="perspective-1000 mx-auto max-w-xl px-4 py-16">
-            <motion.div
-              className="relative h-[650px] w-full" // Adjust height as needed
-              style={{ transformStyle: "preserve-3d" }}
-              animate={{ rotateY: success ? 180 : 0 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-            >
-              {/* --- FRONT: The Form --- */}
-              <div
-                style={{ backfaceVisibility: "hidden" }}
-                className="absolute inset-0 h-full w-full rounded-2xl bg-slate-100 p-8 shadow-xl"
-              >
-                {/* YOUR FORM JSX GOES HERE */}
-              </div>
-
-              {/* --- BACK: Success Screen --- */}
-              <div
-                style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-                className="text-powder-blue-600 absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-2xl bg-white p-8 text-center shadow-xl"
-              >
-                <CheckCircle size={70} className="mb-6" />
-                <h2 className="mb-3 text-3xl font-bold">Message Sent! 🎉</h2>
-                <p className="mb-8 text-lg opacity-80">
-                  Thanks for reaching out. I'll reply as soon as possible.
-                </p>
-                <a
-                  href="/"
-                  className="rounded-full bg-green-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-green-700"
-                >
-                  ← Back to Home
-                </a>
-              </div>
-            </motion.div>
-          </div>
-        ) : (
-          <>
+      <div className="perspective-1000 w-full">
+        <motion.div
+          className="relative h-[720px] w-full"
+          style={{ transformStyle: "preserve-3d" }}
+          animate={{ rotateY: success ? 180 : 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+        >
+          {/* --- FRONT: The Form --- */}
+          <div
+            style={{ backfaceVisibility: "hidden" }}
+            className="absolute inset-0 h-full w-full rounded-2xl bg-slate-100 p-8 shadow-xl"
+          >
             <h1 className="mb-2 text-3xl font-bold text-slate-900">Get In Touch</h1>
             <p className="mb-8 text-slate-500">
               Fill in the form below and I'll get back to you soon.
@@ -164,8 +138,7 @@ export default function ContactForm() {
               </div>
             )}
 
-            {/* 🔥 FIXED: Moved bg-white inside className */}
-            <form onSubmit={handleSubmit} className="space-y-5 bg-white">
+            <form onSubmit={handleSubmit} className="space-y-5 bg-white p-6 rounded-2xl border border-slate-200">
               {/* Name */}
               <div>
                 <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-600">
@@ -257,7 +230,7 @@ export default function ContactForm() {
                   <textarea
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    rows={5}
+                    rows={4}
                     placeholder="Hi Nithish, I'd like to discuss..."
                     className={`w-full resize-none rounded-xl border bg-white py-3 pl-10 pr-4 text-sm transition focus:outline-none focus:ring-1 ${
                       errors.message
@@ -275,7 +248,6 @@ export default function ContactForm() {
               </div>
 
               {/* Submit Button */}
-
               <button
                 type="submit"
                 disabled={loading}
@@ -288,7 +260,6 @@ export default function ContactForm() {
                   </>
                 ) : (
                   <>
-                    {/* The icon has its own transition */}
                     <motion.div
                       transition={{ type: "spring", stiffness: 400, damping: 20 }}
                       className="transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-125"
@@ -300,8 +271,26 @@ export default function ContactForm() {
                 )}
               </button>
             </form>
-          </>
-        )}
+          </div>
+
+          {/* --- BACK: Success Screen --- */}
+          <div
+            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+            className="text-powder-blue-600 absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-2xl bg-white p-8 text-center shadow-xl"
+          >
+            <CheckCircle size={70} className="mb-6 text-green-500" />
+            <h2 className="mb-3 text-3xl font-bold text-slate-900">Message Sent! 🎉</h2>
+            <p className="mb-8 text-lg text-slate-600 opacity-80">
+              Thanks for reaching out. I'll reply as soon as possible.
+            </p>
+            <Link
+              to="/"
+              className="rounded-full bg-green-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-green-700"
+            >
+              ← Back to Home
+            </Link>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

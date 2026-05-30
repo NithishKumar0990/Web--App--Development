@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 type Post = {
   id: number;
@@ -13,7 +14,7 @@ export default function BlogList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/posts")
+    fetch("/api/posts")
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch((err) => console.error("Error fetching posts:", err))
@@ -36,9 +37,9 @@ export default function BlogList() {
               className="rounded-2xl border border-slate-100 bg-transparent p-6 shadow-sm transition hover:shadow-md"
             >
               <h2 className="mb-2 text-2xl font-semibold">
-                <a href={`/blog/${p.slug}`} className="text-blue-600 hover:text-blue-800">
+                <Link to={`/blog/${p.slug}`} className="text-blue-600 hover:text-blue-800">
                   {p.title}
-                </a>
+                </Link>
               </h2>
               <p className="mb-4 text-slate-600">{p.excerpt}</p>
               <small className="font-medium text-slate-400">

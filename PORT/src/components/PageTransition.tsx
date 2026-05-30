@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 
-const pageVariants = {
+const pageVariants: Variants = {
   initial: { opacity: 0, y: 60 },
   animate: {
     opacity: 1,
@@ -15,7 +16,7 @@ const pageVariants = {
   },
 };
 
-const PageTransition = ({ children }) => {
+const PageTransition = ({ children }: { children: ReactNode }) => {
   const location = useLocation(); // ✅ Proper way to track route changes
 
   return (
