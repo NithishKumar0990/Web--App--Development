@@ -1,9 +1,9 @@
 {
   "name": "web-project",
   "private": true,
-  "workspaces": ["LaravelProjects", "PORT"],
+  "workspaces": ["LaravelProjects/fromInstaller", "PORT"],
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix LaravelProjects\" \"npm run dev --prefix PORT\"",
+    "dev": "concurrently \"composer --working-dir=LaravelProjects/fromInstaller dev\" \"npm run dev --prefix PORT\"",
     "format": "prettier --write \"LaravelProjects/**/*.{js,jsx,ts,tsx,json,css,scss,html,php}\" \"PORT/**/*.{js,jsx,ts,tsx,json,css,scss,html}\"",
     "format:check": "prettier --check \"LaravelProjects/**/*.{js,jsx,ts,tsx,json,css,scss,html,php}\" \"PORT/**/*.{js,jsx,ts,tsx,json,css,scss,html}\""
   },

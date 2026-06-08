@@ -70,3 +70,70 @@ div[style*="preserve-3d"] {
 .group:hover .reflection-effect::after {
   transform: translateX(120%);
 }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FDFDFD;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(15, 47, 47, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 47, 47, 0.4);
+}
+
+/* Base scroll container override */
+html, body {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  overflow-x: clip;
+  height: 100%;
+  overflow: hidden;
+}
+
+#main-scroll-container {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  scroll-behavior: auto !important;
+}
+
+/* Lenis smooth scroll classes */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Primary Highlight Link Glow pulse */
+.pulse-glow-button {
+  animation: pulse-glow-shadow 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse-glow-shadow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4), 0 4px 6px -1px rgba(37, 99, 235, 0.1), 0 2px 4px -1px rgba(37, 99, 235, 0.06);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(37, 99, 235, 0), 0 10px 15px -3px rgba(37, 99, 235, 0.25), 0 4px 6px -2px rgba(37, 99, 235, 0.05);
+  }
+}

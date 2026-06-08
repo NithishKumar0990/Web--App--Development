@@ -22,8 +22,11 @@ import {
   Layers,
   BookOpen,
   Globe,
+  Eye,
 } from "lucide-react";
 import PageTransition1 from "./components/PageTransition1";
+import SmoothScroll from "./components/common/SmoothScroll";
+import ScrollToTopOnRouteChange from "./components/common/ScrollToTopOnRouteChange";
 
 const GitHubIcon = ({ size = 20, className = "" }) => (
   <svg
@@ -31,7 +34,7 @@ const GitHubIcon = ({ size = 20, className = "" }) => (
     height={size}
     viewBox="0 0 24 24"
     fill="none"
-    stroke="#1f2937"
+    stroke="currentColor"
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
@@ -62,6 +65,7 @@ const LinkedInIcon = ({ size = 20, className = "" }) => (
 const Navbar = () => {
   const location = useLocation();
   const isBlogPage = location.pathname.startsWith("/blog");
+  const isHomePage = location.pathname === "/";
 
   const allItems = ["Profile", "Skills", "Projects", "Experience", "Education", "Blog", "Contact"];
   const visibleItems = isBlogPage ? ["Profile", "Blog"] : allItems;
@@ -88,11 +92,45 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleNavClick = (e, item, href, isMobile = false) => {
+    if (isMobile) {
+      toggleMenu();
+    }
+
+    if (href.startsWith("/#")) {
+      const targetId = item.toLowerCase() === "profile" ? "top" : item.toLowerCase();
+      const targetEl = document.getElementById(targetId);
+
+      // Only scroll with Lenis (and block default browser routing) if we are on the Home page
+      if (isHomePage) {
+        e.preventDefault();
+        if (targetEl) {
+          if (window.lenis) {
+            window.lenis.scrollTo(targetEl, { offset: -80 });
+          } else {
+            targetEl.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+      }
+    } else {
+      // Reset scroll position on route change
+      if (window.lenis) {
+        window.lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo(0, 0);
+      }
+    }
+  };
+
   return (
     <>
       {/* Desktop Navbar */}
       <nav
-        className={`fixed top-0 z-50 w-full transition-all duration-300 ${isScrolled ? "border-b border-slate-100 bg-slate-500/50 shadow-sm backdrop-blur-md" : "bg-glass"} `}
+        className={`fixed top-0 z-50 w-full transition-all duration-500 ${
+          isScrolled
+            ? "border-b border-slate-200/50 bg-white/85 shadow-sm backdrop-blur-md"
+            : "border-b border-transparent bg-white/40 backdrop-blur-sm"
+        }`}
       >
         <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
           {/* Logo/Name - Always visible */}
@@ -124,10 +162,7 @@ const Navbar = () => {
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.3 }}
                       className="group relative transform opacity-70 transition-all duration-300 hover:scale-110 hover:text-slate-900 hover:opacity-100"
-                      onClick={() => {
-                        if (href.startsWith("/#")) return;
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                      }}
+                      onClick={(e) => handleNavClick(e, item, href)}
                     >
                       {item}
                       <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-slate-900 transition-all duration-300 group-hover:w-full"></span>
@@ -226,11 +261,7 @@ const Navbar = () => {
                     <motion.a
                       key={item}
                       href={href}
-                      onClick={() => {
-                        toggleMenu();
-                        if (href.startsWith("/#")) return;
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                      }}
+                      onClick={(e) => handleNavClick(e, item, href, true)}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
@@ -408,7 +439,8 @@ const Section = ({
 
 // Skills Component
 const Skills = () => {
-  const [hoveredId, setHoveredId] = React.useState<null | number>(null);
+  const [hoveredId, setHoveredId] = useState<null | number>(null);
+  const [activeSkill, setActiveSkill] = useState<any | null>(null);
 
   const itemVariants: Variants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
   const skills = [
@@ -417,7 +449,7 @@ const Skills = () => {
       title: "Core",
       icon: <Code2 size={20} />,
       list: "Python (Pandas, NumPy, scikit-learn), SQL (MySQL)",
-      // 👇 Change the string to this JSX block
+      tools: ["Python", "Pandas", "NumPy", "Scikit-Learn", "SQL", "MySQL"],
       description: (
         <div className="space-y-5 text-left">
           <p>
@@ -446,6 +478,7 @@ const Skills = () => {
       title: "Data/DE",
       icon: <Database size={20} />,
       list: "Airflow, dbt, Snowflake, Spark/PySpark",
+      tools: ["Apache Airflow", "dbt", "Snowflake", "Spark", "PySpark"],
       description: (
         <div className="space-y-3 text-left">
           <p>
@@ -472,6 +505,7 @@ const Skills = () => {
       title: "BI/Apps, GIS",
       icon: <LineChart size={20} />,
       list: "Power BI, Streamlit, GIS & Spatial Analytics",
+      tools: ["Power BI", "Streamlit", "QGIS Map Rendering", "Spatial Queries"],
       description: (
         <div className="space-y-3 text-left">
           <p>
@@ -494,6 +528,7 @@ const Skills = () => {
       title: "ML/CV",
       icon: <Layers size={20} />,
       list: "CNN, YOLO, OpenCV, NLP basics",
+      tools: ["CNN / RNN Models", "YOLOv8", "OpenCV DNN", "NLP Preprocessing"],
       description: (
         <div className="space-y-3 text-left">
           <p>
@@ -516,6 +551,7 @@ const Skills = () => {
       title: "Domain",
       icon: <Cpu size={20} className="relative -top-1" />,
       list: "AI & DS, Machine Learning, IoT/Robotics",
+      tools: ["AI & DS", "Machine Learning", "IoT", "Automation", "Deep Learning"],
       description: (
         <div className="relative -top-1 grid grid-cols-1 gap-x-10 gap-y-8 text-left lg:grid-cols-2">
           {/* Left Column */}
@@ -561,23 +597,67 @@ const Skills = () => {
         </div>
       ),
     },
+    {
+      id: 6,
+      title: "Full-Stack & Systems Engineering",
+      icon: <Layers size={20} />,
+      list: "React 19, Next.js, Node/Express, MongoDB, GSAP, Lenis, Stripe/Razorpay",
+      tools: [
+        "React 19 / Next.js",
+        "GSAP & Lenis",
+        "Node.js / Express",
+        "MongoDB (Mongoose)",
+        "Stripe & Razorpay",
+        "Icecat API",
+        "Nodemailer",
+        "Cloudinary"
+      ],
+      description: (
+        <div className="space-y-4 text-left">
+          <p>
+            <strong className="block text-slate-900">Performance Optimization & Asset Pipelines</strong>
+            Configured programmatic <strong>Cloudinary</strong> image fetch proxies to dynamically optimize, resize, and serve catalog assets in WebP/AVIF format, drastically reducing data footprint and layout shifts (CLS).
+          </p>
+          <p>
+            <strong className="block text-slate-900">Creative Interactions & Motion Design</strong>
+            Advanced sequencing of scroll-driven animations using <strong>GSAP (ScrollTrigger)</strong> and <strong>Framer Motion</strong> synchronized with <strong>Lenis smooth scrolling</strong> (managing frame rendering loops via <code>requestAnimationFrame</code>).
+          </p>
+          <p>
+            <strong className="block text-slate-900">Modern React Architectures</strong>
+            Deep hands-on experience using <strong>React 19 concurrent features</strong>, custom hooks for state sync, code-splitting (Rollup <strong>manualChunks</strong>), and manual history pop scroll restoration.
+          </p>
+          <p>
+            <strong className="block text-slate-900">Algorithmic Matching & Allocation Systems</strong>
+            Designed and implemented an <strong>O(N log N) algorithm</strong> for technician dispatch queues, evaluating service zones, ratings, and response times.
+          </p>
+          <p>
+            <strong className="block text-slate-900">Third-Party API & Specs Ingestion</strong>
+            Automated specs ingestion with the <strong>Icecat API</strong> via GTIN/EAN barcodes to parse product details and map to Mongoose schemas.
+          </p>
+          <p>
+            <strong className="block text-slate-900">Dual Payment Gateways & Asynchronous Workflows</strong>
+            Integrated <strong>Stripe/Razorpay checkouts</strong> with decoupled asynchronous <strong>Nodemailer</strong> mail queues.
+          </p>
+        </div>
+      ),
+    }
   ];
-  const containerVariants: Variants = {
+
+  const containerVariants = {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.18,
-        delayChildren: 0.2,
+        staggerChildren: 0.1,
       },
     },
   };
 
-  const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 24 },
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring", stiffness: 120, damping: 14 },
+      transition: { type: "spring", stiffness: 100, damping: 15 },
     },
   };
 
@@ -588,74 +668,134 @@ const Skills = () => {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.2, margin: "0px 0px -200px 0px" }}
+        viewport={{ once: true, amount: 0.1 }}
       >
         {skills.map((skill) => (
           <motion.div
             key={skill.id}
             variants={cardVariants}
-            layout // 👈 Senior Tip: This makes the transition smooth for the whole grid
+            layout
             onMouseEnter={() => setHoveredId(skill.id)}
             onMouseLeave={() => setHoveredId(null)}
+            onClick={() => setActiveSkill(skill)}
             whileHover={{
-              // ✅ CONDITIONAL SCALE
-              scale: skill.id === 5 ? 1.1 : 1.02, // Double size for Domain card (id=5), Normal for others
+              scale: 1.02,
               zIndex: 50,
-              transition: {
-                type: "spring",
-                stiffness: 200,
-                damping: 50,
-              },
+              transition: { type: "spring", stiffness: 200, damping: 50 },
             }}
             className={cn(
-              "relative flex flex-col rounded-xl border bg-white p-6",
-              "relative rounded-xl border bg-white/70 p-6 backdrop-blur-md transition-all duration-300",
-              hoveredId === skill.id
+              "relative flex flex-col rounded-xl border bg-white/70 p-6 backdrop-blur-md transition-all duration-300 cursor-pointer select-none",
+              hoveredId === skill.id || (activeSkill && activeSkill.id === skill.id)
                 ? "border-blue-400 shadow-2xl ring-1 ring-blue-100"
-                : "border-slate-100 shadow-sm",
-              skill.id === 5 && "md:col-span-2"
+                : "border-slate-100 shadow-sm"
             )}
           >
+            {/* Eye Icon on Hover */}
+            <AnimatePresence>
+              {hoveredId === skill.id && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  className="absolute right-4 top-4 text-blue-500 bg-blue-50 p-1.5 rounded-full z-20 shadow-sm"
+                >
+                  <Eye size={16} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Icon & Category */}
             <div className="mb-4 flex items-center gap-3">
               <div className="rounded-lg bg-blue-50 p-2 text-blue-600">{skill.icon}</div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 text-left">
                 {skill.title}
               </h3>
             </div>
 
             {/* Main Skill List */}
-            <p className="text-sm font-medium leading-relaxed text-slate-800">{skill.list}</p>
-
-            {/* 🔥 Expandable Details */}
-            <AnimatePresence>
-              {hoveredId === skill.id && (
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                  variants={{
-                    hidden: { opacity: 0, height: 0, marginTop: 0 },
-                    visible: {
-                      opacity: 1,
-                      height: "auto",
-                      marginTop: 16,
-                      transition: {
-                        height: { duration: 0.3 },
-                        staggerChildren: 0.12, // ⏱️ Time between each line appearing (reading speed)
-                        delayChildren: 0.15, // ⏱️ Wait for card to expand first
-                      },
-                    },
-                  }}
-                  className="overflow-hidden border-t border-slate-100 pt-4"
-                >
-                  {skill.description}
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <p className="text-sm font-medium leading-relaxed text-slate-800 text-left">{skill.list}</p>
           </motion.div>
         ))}
       </motion.div>
+
+      {/* Modal Dialog Overlay */}
+      <AnimatePresence>
+        {activeSkill && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActiveSkill(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm cursor-pointer"
+          >
+            {/* Modal Box */}
+            <motion.div
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl rounded-3xl border border-slate-100 bg-white p-6 md:p-8 shadow-2xl backdrop-blur-md cursor-default max-h-[85vh] overflow-y-auto"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setActiveSkill(null)}
+                className="absolute right-6 top-6 rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors"
+                aria-label="Close dialog"
+              >
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* Header */}
+              <div className="mb-6 flex items-center gap-4">
+                <div className="rounded-2xl bg-blue-50 p-3 text-blue-600 shadow-sm flex-shrink-0">
+                  {activeSkill.icon}
+                </div>
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-widest text-blue-600 block mb-0.5 text-left">
+                    Technical Capability
+                  </span>
+                  <h3 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-tight text-left">
+                    {activeSkill.title === "Core" ? "Core Programming & Data Science" :
+                     activeSkill.title === "Data/DE" ? "Data Engineering & Warehousing" :
+                     activeSkill.title === "BI/Apps, GIS" ? "BI, Applications & GIS Analytics" :
+                     activeSkill.title === "ML/CV" ? "Computer Vision & Deep Learning" :
+                     activeSkill.title === "Domain" ? "IoT, AI & Deep Learning Domains" :
+                     activeSkill.title}
+                  </h3>
+                </div>
+              </div>
+
+              {/* Summary / Tech List */}
+              <div className="mb-6 border-b border-slate-100 pb-5">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5 text-left">
+                  Applied Technologies & Key Tools
+                </h4>
+                <div className="flex flex-wrap gap-2 justify-start">
+                  {activeSkill.tools.map((tool: string, idx: number) => (
+                    <span
+                      key={idx}
+                      className="rounded-full bg-slate-50 border border-slate-200/40 px-3 py-1 text-xs font-bold uppercase tracking-tight text-slate-600"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Detailed Content */}
+              <div className="text-slate-700 text-sm leading-relaxed overflow-y-auto max-h-[45vh] pr-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 text-left">
+                  Engineering Breakdown & Impact
+                </h4>
+                {activeSkill.description}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Section>
   );
 };
@@ -699,6 +839,24 @@ const Projects = () => {
       ],
       video: "/images/Robot.mp4", // 👈 FIXED: Forward slashes, /path from public/
     },
+    {
+      title: "Quantum Desk",
+      subtitle: "High-Performance E-commerce & Hyper-Local Service Ecosystem",
+      date: "Dec 2025",
+      tech: "React 19, Vite, Next.js, Node.js, Express, MongoDB, Redux, Tailwind CSS, Framer Motion, GSAP, Lenis, Shadcn UI",
+      description: [
+        "A premium, enthusiast-grade hardware marketplace that bridges the gap between hardware sales and physical deployment, pairing tech with automated local setup scheduling.",
+        "Algorithmic Technician Matching: Developed an O(N log N) weighted scoring algorithm (TechnicianMatcher) based on Rating (40%), Completion Rate (30%), Speed (20%), and Specialization match (10%).",
+        "Dynamic Service Pricing: Custom BundleEngine pricing calculates installation fees dynamically based on complexity thresholds and real-time technician zone availability.",
+        "Automated Product Ingestion & Spec Scraper: Built an automated inventory addition system using the Icecat API that parses product details, technical spec groups, and extracts high-resolution images via barcode/EAN scans to dynamically populate the catalog.",
+        "Dynamic Image Optimization: intercepting URLs via Cloudinary fetch utility, converting to optimized WebP/AVIF formats with caching to reduce bandwidth.",
+        "Asynchronous Order Workflows: payment gateway simulation and asynchronous HTML email dispatching (Nodemailer) for zero API latency.",
+        "Cinematic Frontend UX: fluid layout animations, staggered cascades, and custom intro loaders built with Framer Motion, GSAP, and Lenis Scroll."
+      ],
+      github: "https://github.com/NithishKumar0990/Project_Quantumm_Desk",
+      live: "https://quantum-desk-nu.vercel.app/",
+      image: "/images/Quantum preview.png"
+    },
   ];
 
   return (
@@ -734,7 +892,7 @@ const Projects = () => {
                 {project.title}
               </h3>
               <p className="mb-6 text-lg font-medium text-slate-500">{project.subtitle}</p>
-              <div className="flex flex-wrap gap-2">
+              <div className="mb-6 flex flex-wrap gap-2">
                 {project.tech.split(",").map((t) => (
                   <span
                     key={t}
@@ -744,6 +902,33 @@ const Projects = () => {
                   </span>
                 ))}
               </div>
+              
+              {(project.github || project.live) && (
+                <div className="mt-6 flex items-center gap-3.5 text-sm font-semibold">
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="pulse-glow-button flex items-center gap-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-all duration-300 hover:-translate-y-0.5 hover:from-blue-700 hover:to-indigo-700 active:translate-y-0 shadow-md shadow-blue-500/20"
+                    >
+                      <ExternalLink size={14} />
+                      Live Demo
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:shadow-sm"
+                    >
+                      <GitHubIcon size={14} />
+                      Code
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="flex flex-col gap-6 md:col-span-8 md:gap-8 lg:flex-row">
@@ -759,23 +944,35 @@ const Projects = () => {
                 </ul>
               </div>
 
-              {project.video && (
-                <div className="video-section flex-shrink-0">
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="h-[200px] w-[280px] rounded-xl border-2 border-slate-200 object-cover shadow-lg transition-all hover:shadow-xl md:h-[220px] md:w-[320px] lg:h-[200px] lg:w-[280px] xl:h-[240px] xl:w-[340px]" /* 👈 CHANGE w-/h- for size */
-                    style={{
-                      /* 👈 FINE-TUNE POSITION (px values) */ minWidth: "280px" /* 👈 Min width */,
-                      maxWidth: "340px" /* 👈 Max width */,
-                      aspectRatio: "16/9" /* 👈 Keep 16:9 ratio */,
-                    }}
-                  >
-                    <source src={project.video} type="video/mp4" />
-                    {/* Fallback text hidden */}
-                  </video>
+              {(project.video || project.image) && (
+                <div className="media-section flex-shrink-0">
+                  {project.video ? (
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="h-[200px] w-[280px] rounded-xl border-2 border-slate-200 object-cover shadow-lg transition-all hover:shadow-xl md:h-[220px] md:w-[320px] lg:h-[200px] lg:w-[280px] xl:h-[240px] xl:w-[340px]"
+                      style={{
+                        minWidth: "280px",
+                        maxWidth: "340px",
+                        aspectRatio: "16/9",
+                      }}
+                    >
+                      <source src={project.video} type="video/mp4" />
+                    </video>
+                  ) : (
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="h-[200px] w-[280px] rounded-xl border-2 border-slate-200 object-cover shadow-lg transition-all hover:shadow-xl md:h-[220px] md:w-[320px] lg:h-[200px] lg:w-[280px] xl:h-[240px] xl:w-[340px]"
+                      style={{
+                        minWidth: "280px",
+                        maxWidth: "340px",
+                        aspectRatio: "16/9",
+                      }}
+                    />
+                  )}
                 </div>
               )}
             </div>
@@ -1279,8 +1476,16 @@ const Footer = () => (
             >
               View Resume
             </a>
-            <a
+             <a
               href="#top"
+              onClick={(e) => {
+                e.preventDefault();
+                if (window.lenis) {
+                  window.lenis.scrollTo(0);
+                } else {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
               className="rounded-full border border-slate-300 bg-white/50 px-5 py-2.5 text-sm font-semibold text-slate-600 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/80"
             >
               Back to Top ↑
@@ -1332,80 +1537,87 @@ const Footer = () => (
 );
 export default function App() {
   return (
-    <Routes>
-      {/* ✅ YOUR ORIGINAL HOME PAGE */}
-      <Route
-        path="/"
-        element={
-          <div className="min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
-            <DotMatrixBackground {...dotMatrixConfig} />
-            <Navbar /> {/* 👈 YOUR ORIGINAL HEADER IS BACK */}
-            <main className="mx-auto px-4 sm:px-6 lg:px-8">
-              <Hero />
-              {/* ... Your Profile Section ... */}
-              <Skills />
-              <Projects />
-              <Experience />
+    <SmoothScroll>
+      <ScrollToTopOnRouteChange />
+      <div id="main-scroll-container" className="h-screen w-screen">
+        <div id="main-content-wrapper" className="min-h-full w-full">
+          <Routes>
+            {/* ✅ YOUR ORIGINAL HOME PAGE */}
+            <Route
+              path="/"
+              element={
+                <div id="top" className="min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+                  <DotMatrixBackground {...dotMatrixConfig} />
+                  <Navbar /> {/* 👈 YOUR ORIGINAL HEADER IS BACK */}
+                  <main className="mx-auto px-4 sm:px-6 lg:px-8">
+                    <Hero />
+                    {/* ... Your Profile Section ... */}
+                    <Skills />
+                    <Projects />
+                    <Experience />
 
-              <Education />
-            </main>
-            <Publication />
-            <ContactForm />
-            <Footer />
-          </div>
-        }
-      />
+                    <Education />
+                  </main>
+                  <Publication />
+                  <ContactForm />
+                  <Footer />
+                </div>
+              }
+            />
 
-      {/* ✅ NEW BLOG LIST PAGE */}
-      <Route
-        path="/blog"
-        element={
-          <div className="relative min-h-screen font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
-            {/* Background sits behind everything */}
-            <div className="fixed inset-0 -z-10">
-              <DotMatrixBackground {...dotMatrixConfig} />
-            </div>
-            <Navbar /> {/* 👈 stays above background */}
-            <PageTransition>
-              <main className="relative z-10 mx-auto rounded-lg bg-white/80 px-4 pt-24 shadow-md sm:px-6 lg:px-8">
-                <BlogList />
-              </main>
-            </PageTransition>
-            <Footer />
-          </div>
-        }
-      />
+            {/* ✅ NEW BLOG LIST PAGE */}
+            <Route
+              path="/blog"
+              element={
+                <div id="top" className="relative min-h-screen font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+                  {/* Background sits behind everything */}
+                  <div className="fixed inset-0 -z-10">
+                    <DotMatrixBackground {...dotMatrixConfig} />
+                  </div>
+                  <Navbar /> {/* 👈 stays above background */}
+                  <PageTransition>
+                    <main className="relative z-10 mx-auto rounded-lg bg-white/80 px-4 pt-24 shadow-md sm:px-6 lg:px-8">
+                      <BlogList />
+                    </main>
+                  </PageTransition>
+                  <Footer />
+                </div>
+              }
+            />
 
-      {/* ✅ NEW SINGLE BLOG POST PAGE */}
-      <Route
-        path="/blog/:slug"
-        element={
-          <div className="min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
-            <DotMatrixBackground {...dotMatrixConfig} />
-            <Navbar /> {/* 👈 YOUR ORIGINAL HEADER */}
-            <main className="mx-auto rounded-lg bg-transparent px-4 pt-24 shadow-md sm:px-6 lg:px-8">
-              <BlogPost />
-            </main>
-            <Footer />
-          </div>
-        }
-      />
+            {/* ✅ NEW SINGLE BLOG POST PAGE */}
+            <Route
+              path="/blog/:slug"
+              element={
+                <div id="top" className="min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+                  <DotMatrixBackground {...dotMatrixConfig} />
+                  <Navbar /> {/* 👈 YOUR ORIGINAL HEADER */}
+                  <main className="mx-auto rounded-lg bg-transparent px-4 pt-24 shadow-md sm:px-6 lg:px-8">
+                    <BlogPost />
+                  </main>
+                  <Footer />
+                </div>
+              }
+            />
 
-      <Route
-        path="/contact"
-        element={
-          <div className="relative flex min-h-screen flex-col bg-white font-sans text-slate-900 antialiased">
-            <DotMatrixBackground {...dotMatrixConfig} />
-            <Navbar />
-            <PageTransition1>
-              <main className="relative z-10 mx-auto w-full flex-1 px-4 pt-24 sm:px-6 lg:px-8">
-                <ContactForm />
-              </main>
-            </PageTransition1>
-            <Footer />
-          </div>
-        }
-      />
-    </Routes>
+            <Route
+              path="/contact"
+              element={
+                <div id="top" className="relative flex min-h-screen flex-col bg-white font-sans text-slate-900 antialiased">
+                  <DotMatrixBackground {...dotMatrixConfig} />
+                  <Navbar />
+                  <PageTransition1>
+                    <main className="relative z-10 mx-auto w-full flex-1 px-4 pt-24 sm:px-6 lg:px-8">
+                      <ContactForm />
+                    </main>
+                  </PageTransition1>
+                  <Footer />
+                </div>
+              }
+            />
+          </Routes>
+        </div>
+      </div>
+    </SmoothScroll>
   );
 }

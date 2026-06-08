@@ -17,6 +17,7 @@
         <a href="/">Home</a>
         <a href="/about">About</a>
         <a href="{{ route('projects.index') }}">Manage Projects</a>
+        <a href="{{ route('posts.index') }}">Manage Blog</a>
     </nav>
 
     <!-- 

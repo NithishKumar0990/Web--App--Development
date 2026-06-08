@@ -28,3 +28,7 @@ use App\Models\Message;
 Route::get('/debug/messages', function() {
     return Message::latest()->get(); // Shows all messages as JSON
 });
+
+Route::get('/debug/posts', function() {
+    return App\Models\Post::all(); // Shows all posts in the database as JSON
+});

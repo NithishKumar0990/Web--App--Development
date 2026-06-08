@@ -1,0 +1,9 @@
+/vendor
+/node_modules
+/tests
+.env
+.git
+.github
+.idea
+.vscode
+*.bat
