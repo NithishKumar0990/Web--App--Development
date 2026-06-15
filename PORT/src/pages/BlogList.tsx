@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getApiUrl } from "../utils/api";
 
 type Post = {
   id: number;
@@ -15,8 +16,7 @@ export default function BlogList() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const apiBase = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
-    fetch(`${apiBase}/api/posts`)
+    fetch(getApiUrl("/api/posts"))
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Server responded with ${res.status}: ${res.statusText}`);

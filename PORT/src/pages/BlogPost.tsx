@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useParams, Link } from "react-router-dom";
+import { getApiUrl } from "../utils/api";
 
 type Post = {
   title: string;
@@ -169,8 +170,7 @@ export default function BlogPost() {
 
   useEffect(() => {
     if (!slug) return;
-    const apiBase = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
-    fetch(`${apiBase}/api/posts/${slug}`)
+    fetch(getApiUrl(`/api/posts/${slug}`))
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Server responded with ${res.status}: ${res.statusText}`);

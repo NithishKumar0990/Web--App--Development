@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Mail, Phone, User, MessageSquare, Send, CheckCircle, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { getApiUrl } from "../utils/api";
 
 export default function ContactForm() {
   const [success, setSuccess] = useState(false);
@@ -58,8 +59,7 @@ export default function ContactForm() {
     setLoading(true);
 
     try {
-      const apiBase = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
-      const response = await fetch(`${apiBase}/api/contact`, {
+      const response = await fetch(getApiUrl("/api/contact"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
