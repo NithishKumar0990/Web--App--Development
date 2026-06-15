@@ -169,7 +169,8 @@ export default function BlogPost() {
 
   useEffect(() => {
     if (!slug) return;
-    fetch(`/api/posts/${slug}`)
+    const apiBase = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+    fetch(`${apiBase}/api/posts/${slug}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Server responded with ${res.status}: ${res.statusText}`);

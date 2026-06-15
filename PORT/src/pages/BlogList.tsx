@@ -15,7 +15,8 @@ export default function BlogList() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/posts")
+    const apiBase = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+    fetch(`${apiBase}/api/posts`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Server responded with ${res.status}: ${res.statusText}`);
