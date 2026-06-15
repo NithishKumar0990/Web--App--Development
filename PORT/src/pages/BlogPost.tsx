@@ -1,6 +1,9 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useParams, Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { getApiUrl } from "../utils/api";
+import { useSkeletonTransition } from "../hooks/useSkeletonTransition";
+import { SkeletonBlogDetail } from "../components/ui/skeleton";
 
 type Post = {
   title: string;
@@ -162,11 +165,27 @@ const renderPostBody = (body: string) => {
   });
 };
 
+/** Crossfade animation variants for skeleton → content transition */
+const fadeVariants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
+  },
+  exit: {
+    opacity: 0,
+    y: -4,
+    transition: { duration: 0.2, ease: "easeIn" },
+  },
+};
+
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { showSkeleton } = useSkeletonTransition(loading);
 
   useEffect(() => {
     if (!slug) return;
@@ -185,7 +204,6 @@ export default function BlogPost() {
       .finally(() => setLoading(false));
   }, [slug]);
 
-  if (loading) return <div className="p-8 text-center text-xl">Loading post...</div>;
   if (error) return (
     <div className="mx-auto max-w-3xl px-4 py-12 text-center text-red-500">
       <h1 className="mb-4 text-2xl font-bold">Error Loading Post</h1>
@@ -195,24 +213,48 @@ export default function BlogPost() {
       </Link>
     </div>
   );
-  if (!post) return <div className="p-8 text-center text-xl text-red-500">Post not found</div>;
+
+  if (!showSkeleton && !post) return <div className="p-8 text-center text-xl text-red-500">Post not found</div>;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <Link to="/blog" className="mb-8 inline-block font-medium text-blue-600 hover:text-blue-800">
-        ← Back to Blog
-      </Link>
+    <AnimatePresence mode="wait">
+      {showSkeleton ? (
+        <motion.div
+          key="skeleton"
+          variants={fadeVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          aria-busy="true"
+        >
+          <SkeletonBlogDetail />
+        </motion.div>
+      ) : post ? (
+        <motion.div
+          key="content"
+          variants={fadeVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          <div className="mx-auto max-w-3xl px-4 py-12">
+            <Link to="/blog" className="mb-8 inline-block font-medium text-blue-600 hover:text-blue-800">
+              ← Back to Blog
+            </Link>
 
-      <article className="rounded-3xl border border-slate-100 bg-white p-8 shadow-sm">
-        <h1 className="mb-4 text-4xl font-bold text-slate-900">{post.title}</h1>
-        <small className="mb-8 block border-b pb-4 text-slate-500">
-          Published on {new Date(post.created_at).toLocaleDateString()}
-        </small>
+            <article className="rounded-3xl border border-slate-100 bg-white p-8 shadow-sm">
+              <h1 className="mb-4 text-4xl font-bold text-slate-900">{post.title}</h1>
+              <small className="mb-8 block border-b pb-4 text-slate-500">
+                Published on {new Date(post.created_at).toLocaleDateString()}
+              </small>
 
-        <div className="prose prose-slate max-w-none leading-loose text-slate-700">
-          {renderPostBody(post.body)}
-        </div>
-      </article>
-    </div>
+              <div className="prose prose-slate max-w-none leading-loose text-slate-700">
+                {renderPostBody(post.body)}
+              </div>
+            </article>
+          </div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
   );
 }
