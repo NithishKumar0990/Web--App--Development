@@ -21,8 +21,14 @@ require __DIR__.'/../vendor/autoload.php';
 /** @var Application $app */
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
-$app->handleRequest(Request::capture());
-
-
+try {
+    $response = $app->handleRequest(Request::capture());
+    $response->send();
+    $app->terminate();
+} catch (\Throwable $e) {
+    echo "ORIGINAL FATAL ERROR: " . $e->getMessage() . "\n";
+    echo $e->getTraceAsString();
+    exit(1);
+}
 
 
