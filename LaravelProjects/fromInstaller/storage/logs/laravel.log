@@ -4784,3 +4784,26 @@ Test email from Laravel
 #38 C:/Web--App--Development/LaravelProjects/fromInstaller/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #39 {main}
 "} 
+[2026-06-15 08:24:11] local.ERROR: The "intl" PHP extension is required to use the [format] method. {"exception":"[object] (RuntimeException(code: 0): The \"intl\" PHP extension is required to use the [format] method. at C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Support/Number.php:443)
+[stacktrace]
+#0 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Support/Number.php(38): Illuminate/Support/Number::ensureIntlExtensionIsInstalled()
+#1 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Support/Number.php(216): Illuminate/Support/Number::format(1.546875, 2, NULL)
+#2 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Database/Console/ShowCommand.php(176): Illuminate/Support/Number::fileSize(1.546875, 2)
+#3 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Database/Console/ShowCommand.php(136): Illuminate/Database/Console/ShowCommand->displayForCli(Array)
+#4 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Database/Console/ShowCommand.php(65): Illuminate/Database/Console/ShowCommand->display(Array)
+#5 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate/Database/Console/ShowCommand->handle(Object(Illuminate/Database/DatabaseManager))
+#6 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#7 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(96): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#8 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#9 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Container/Container.php(799): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#10 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate/Container/Container->call(Array)
+#11 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/symfony/console/Command/Command.php(341): Illuminate/Console/Command->execute(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#12 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony/Component/Console/Command/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#13 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/symfony/console/Application.php(1117): Illuminate/Console/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#14 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/symfony/console/Application.php(356): Symfony/Component/Console/Application->doRunCommand(Object(Illuminate/Database/Console/ShowCommand), Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#15 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#16 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#17 C:/Web--App--Development/LaravelProjects/fromInstaller/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#18 C:/Web--App--Development/LaravelProjects/fromInstaller/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
+#19 {main}
+"} 
