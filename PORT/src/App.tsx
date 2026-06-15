@@ -1569,17 +1569,17 @@ export default function App() {
             <Route
               path="/blog"
               element={
-                <div id="top" className="relative min-h-screen font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+                <div id="top" className="relative flex flex-col min-h-screen font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
                   {/* Background sits behind everything */}
                   <div className="fixed inset-0 -z-10">
                     <DotMatrixBackground {...dotMatrixConfig} />
                   </div>
                   <Navbar /> {/* 👈 stays above background */}
-                  <PageTransition>
-                    <main className="relative z-10 mx-auto rounded-lg bg-white/80 px-4 pt-24 shadow-md sm:px-6 lg:px-8">
+                  <main className="relative z-10 flex-grow flex-1 w-full mx-auto rounded-lg bg-white/80 px-4 pt-24 shadow-md sm:px-6 lg:px-8">
+                    <PageTransition>
                       <BlogList />
-                    </main>
-                  </PageTransition>
+                    </PageTransition>
+                  </main>
                   <Footer />
                 </div>
               }
@@ -1589,10 +1589,10 @@ export default function App() {
             <Route
               path="/blog/:slug"
               element={
-                <div id="top" className="min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+                <div id="top" className="relative flex flex-col min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
                   <DotMatrixBackground {...dotMatrixConfig} />
                   <Navbar /> {/* 👈 YOUR ORIGINAL HEADER */}
-                  <main className="mx-auto rounded-lg bg-transparent px-4 pt-24 shadow-md sm:px-6 lg:px-8">
+                  <main className="flex-grow flex-1 w-full mx-auto rounded-lg bg-transparent px-4 pt-24 shadow-md sm:px-6 lg:px-8">
                     <BlogPost />
                   </main>
                   <Footer />
@@ -1603,14 +1603,14 @@ export default function App() {
             <Route
               path="/contact"
               element={
-                <div id="top" className="relative flex min-h-screen flex-col bg-white font-sans text-slate-900 antialiased">
+                <div id="top" className="relative flex flex-col min-h-screen bg-white font-sans text-slate-900 antialiased">
                   <DotMatrixBackground {...dotMatrixConfig} />
                   <Navbar />
-                  <PageTransition1>
-                    <main className="relative z-10 mx-auto w-full flex-1 px-4 pt-24 sm:px-6 lg:px-8">
+                  <main className="relative z-10 mx-auto w-full flex-grow flex-1 px-4 pt-24 sm:px-6 lg:px-8">
+                    <PageTransition1>
                       <ContactForm />
-                    </main>
-                  </PageTransition1>
+                    </PageTransition1>
+                  </main>
                   <Footer />
                 </div>
               }
