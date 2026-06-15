@@ -32,14 +32,3 @@ Route::get('/debug/messages', function() {
 Route::get('/debug/posts', function() {
     return App\Models\Post::all(); // Shows all posts in the database as JSON
 });
-
-use Illuminate\Support\Facades\Artisan;
-
-Route::get('/run-migrations-secure-xyz789', function () {
-    try {
-        Artisan::call('migrate', ['--force' => true]);
-        return 'Migrations completed successfully!';
-    } catch (\Exception $e) {
-        return 'Migration error: ' . $e->getMessage();
-    }
-});
