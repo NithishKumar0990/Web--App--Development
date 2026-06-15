@@ -174,7 +174,7 @@ const Navbar = () => {
 
             {/* Desktop Profile Image */}
             <motion.img
-              src="/images/image 1.png"
+              src="https://res.cloudinary.com/diqsdku1v/image/upload/v1781510851/image_1_ewnf3p.png"
               alt="Profile illustration"
               className="h-10 w-10 cursor-pointer rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl lg:h-12 lg:w-12"
               initial={{ opacity: 0, scale: 0.8 }}
@@ -213,7 +213,7 @@ const Navbar = () => {
 
             {/* Mobile Profile Image */}
             <motion.img
-              src="/images/image 1.png"
+              src="https://res.cloudinary.com/diqsdku1v/image/upload/v1781510851/image_1_ewnf3p.png"
               alt="Profile"
               className="ml-3 h-8 w-8 cursor-pointer rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl"
               initial={{ opacity: 0, x: 20 }}
@@ -405,7 +405,7 @@ const Hero = () => (
         <div className="absolute left-1/2 top-1/2 h-[90%] w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/20 opacity-60 blur-3xl" />
 
         <img
-          src="/images/image 1.png"
+          src="https://res.cloudinary.com/diqsdku1v/image/upload/v1781510851/image_1_ewnf3p.png"
           alt="Nithish Kumar L"
           className={`/* ✅ Lift image slightly up */ /* Offset only on desktop */ /* Rotation ONLY on desktop, not mobile */ relative z-10 aspect-square w-full max-w-[280px] -translate-y-4 rounded-2xl object-cover shadow-lg shadow-slate-200/80 transition-all duration-500 ease-out hover:scale-[0.97] sm:max-w-[340px] lg:max-w-md lg:-translate-x-[70px] lg:-translate-y-12 lg:rotate-[-3deg] hover:lg:rotate-0`}
         />
