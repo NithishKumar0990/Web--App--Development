@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import BlogPost from "./pages/BlogPost";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -132,7 +132,7 @@ const Navbar = () => {
             : "border-b border-transparent bg-white/40 backdrop-blur-sm"
         }`}
       >
-        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
           {/* Logo/Name - Always visible */}
           <motion.span
             className="cursor-pointer text-sm font-semibold tracking-tight text-slate-900 transition-transform hover:scale-105 sm:text-base"
@@ -283,10 +283,10 @@ const Navbar = () => {
 
 // Hero Component
 const Hero = () => (
-  <section className="relative z-0 flex min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] items-center px-6 pb-12 pt-20 md:pt-24 lg:pt-28">
+  <section className="relative z-0 flex min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] items-center pb-12 pt-20 md:pt-24 lg:pt-28">
     {/* Left Gradient Beam - covers the left side and stops at 75% height (before contact buttons) */}
     <div className="pointer-events-none absolute left-0 top-0 -z-10 h-[75%] w-[80%] bg-gradient-to-r from-blue-100/60 via-cyan-50/30 to-transparent blur-3xl" />
-    <div className="max-w-10xl mx-auto grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2">
+    <div className="mx-auto grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2">
       {/* --- LEFT SIDE: Refined Dual Identity --- */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
@@ -426,8 +426,8 @@ const Section = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <section id={id} className={cn("px-6 py-20", className)}>
-    <div className="max-w-10xl mx-auto px-4">
+  <section id={id} className={cn("py-16 md:py-24", className)}>
+    <div className="mx-auto w-full">
       <div className="mb-12 flex items-center gap-4">
         <h2 className="text-2xl font-bold tracking-tight text-slate-900">{title}</h2>
         <div className="h-px flex-grow bg-slate-100"></div>
@@ -800,6 +800,57 @@ const Skills = () => {
   );
 };
 
+const LazyVideo = ({
+  src,
+  className,
+  style,
+}: {
+  src: string;
+  className?: string;
+  style?: React.CSSProperties;
+}) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          videoRef.current?.play().catch(() => {});
+        } else {
+          videoRef.current?.pause();
+        }
+      },
+      { threshold: 0.1, rootMargin: "150px" } // Load video slightly before it scrolls into view
+    );
+
+    const currentRef = videoRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      src={shouldLoad ? src : undefined}
+      preload="metadata"
+      loop
+      muted
+      playsInline
+      className={className}
+      style={style}
+    />
+  );
+};
+
 // Projects Component (FULL FIXED CODE - Syntax Cleaned + Video Added)
 const Projects = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -813,45 +864,9 @@ const Projects = () => {
 
   const projects = [
     {
-      title: "Geospatial Analytics Platform",
-      subtitle: "Water Resource Management",
-      date: "Dec 2025",
-      tech: "Python, Streamlit, Plotly, SQL",
-      description: [
-        "Processed 1.2M+ satellite data points across 108 water bodies to generate seasonal trend insights.",
-        "Reduced manual reporting time by 85% (40 hrs/week → 6 hrs/week) using automation and dashboards.",
-        "Built an ETL workflow integrating NDVI/SAR indices with temporal analysis.",
-      ],
-      video: "/images/78198-565144809_medium.mp4", // 👈 FIXED: Use /path (public folder)
-    },
-    {
-      title: "Object Detection Platform",
-      subtitle: "YOLOv8 & Computer Vision",
-      date: "Oct 2025",
-      tech: "PyTorch, MLOps, CV",
-      description: [
-        "Built a pipeline over 5,000+ high-resolution images for multi-class detection; achieved 91% mAP.",
-        "Designed as a reusable framework for QC automation, inventory monitoring, and visual search.",
-        "Implemented real-time object tracking with OpenCV’s DNN module, achieving stable detection across varied lighting and motion conditions.",
-      ],
-      video: "/images/objectdet.mp4", // 👈 FIXED: Forward slashes, /path from public/
-    },
-    {
-      title: "Autonomous 4WD Robot", // 👈 FIXED: Merged duplicates (AWD/4WD), removed syntax error
-      subtitle: "Sensor Fusion & Hardware",
-      date: "2024",
-      tech: "Arduino, C++, Python",
-      description: [
-        "Integrated 5 sensor types (ultrasonic, IR, gyro, accelerometer, camera) for obstacle avoidance.",
-        "Built modular code for fast feature additions and hardware scalability.",
-        "Designed a scalable communication bus (I²C/SPI/UART) to support additional sensors and actuators without major code refactoring.",
-      ],
-      video: "/images/Robot.mp4", // 👈 FIXED: Forward slashes, /path from public/
-    },
-    {
       title: "Quantum Desk",
       subtitle: "High-Performance E-commerce & Hyper-Local Service Ecosystem",
-      date: "Dec 2025",
+      date: "May 2026",
       tech: "React 19, Vite, Next.js, Node.js, Express, MongoDB, Redux, Tailwind CSS, Framer Motion, GSAP, Lenis, Shadcn UI",
       description: [
         "A premium, enthusiast-grade hardware marketplace that bridges the gap between hardware sales and physical deployment, pairing tech with automated local setup scheduling.",
@@ -865,6 +880,42 @@ const Projects = () => {
       github: "https://github.com/NithishKumar0990/Project_Quantumm_Desk",
       live: "https://quantum-desk-nu.vercel.app/",
       image: "/images/Quantum preview.png"
+    },
+    {
+      title: "Geospatial Analytics Platform",
+      subtitle: "Water Resource Management",
+      date: "Dec 2025",
+      tech: "Python, Streamlit, Plotly, SQL",
+      description: [
+        "Processed 1.2M+ satellite data points across 108 water bodies to generate seasonal trend insights.",
+        "Reduced manual reporting time by 85% (40 hrs/week → 6 hrs/week) using automation and dashboards.",
+        "Built an ETL workflow integrating NDVI/SAR indices with temporal analysis.",
+      ],
+      video: "https://res.cloudinary.com/diqsdku1v/video/upload/v1781521041/78198-565144809_medium_ocnjaq.mp4",
+    },
+    {
+      title: "Object Detection Platform",
+      subtitle: "YOLOv8 & Computer Vision",
+      date: "Oct 2025",
+      tech: "PyTorch, MLOps, CV",
+      description: [
+        "Built a pipeline over 5,000+ high-resolution images for multi-class detection; achieved 91% mAP.",
+        "Designed as a reusable framework for QC automation, inventory monitoring, and visual search.",
+        "Implemented real-time object tracking with OpenCV’s DNN module, achieving stable detection across varied lighting and motion conditions.",
+      ],
+      video: "https://res.cloudinary.com/diqsdku1v/video/upload/v1781521067/objectdet_xdkckq.mp4",
+    },
+    {
+      title: "Autonomous 4WD Robot", // 👈 FIXED: Merged duplicates (AWD/4WD), removed syntax error
+      subtitle: "Sensor Fusion & Hardware",
+      date: "Nov 2024",
+      tech: "Arduino, C++, Python",
+      description: [
+        "Integrated 5 sensor types (ultrasonic, IR, gyro, accelerometer, camera) for obstacle avoidance.",
+        "Built modular code for fast feature additions and hardware scalability.",
+        "Designed a scalable communication bus (I²C/SPI/UART) to support additional sensors and actuators without major code refactoring.",
+      ],
+      video: "https://res.cloudinary.com/diqsdku1v/video/upload/v1781521092/Robot_l1x224.mp4",
     },
   ];
 
@@ -954,27 +1005,22 @@ const Projects = () => {
               </div>
 
               {(project.video || project.image) && (
-                <div className="media-section flex-shrink-0">
+                <div className="media-section flex-shrink-0 flex justify-center w-full lg:w-auto">
                   {project.video ? (
-                    <video
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="h-[200px] w-[280px] rounded-xl border-2 border-slate-200 object-cover shadow-lg transition-all hover:shadow-xl md:h-[220px] md:w-[320px] lg:h-[200px] lg:w-[280px] xl:h-[240px] xl:w-[340px]"
+                    <LazyVideo
+                      src={project.video}
+                      className="block mx-auto h-[200px] w-[280px] rounded-xl border-2 border-slate-200 object-cover shadow-lg transition-all hover:shadow-xl md:h-[220px] md:w-[320px] lg:h-[200px] lg:w-[280px] xl:h-[240px] xl:w-[340px]"
                       style={{
                         minWidth: "280px",
                         maxWidth: "340px",
                         aspectRatio: "16/9",
                       }}
-                    >
-                      <source src={project.video} type="video/mp4" />
-                    </video>
+                    />
                   ) : (
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="h-[200px] w-[280px] rounded-xl border-2 border-slate-200 object-cover shadow-lg transition-all hover:shadow-xl md:h-[220px] md:w-[320px] lg:h-[200px] lg:w-[280px] xl:h-[240px] xl:w-[340px]"
+                      className="block mx-auto h-[200px] w-[280px] rounded-xl border-2 border-slate-200 object-cover shadow-lg transition-all hover:shadow-xl md:h-[220px] md:w-[320px] lg:h-[200px] lg:w-[280px] xl:h-[240px] xl:w-[340px]"
                       style={{
                         minWidth: "280px",
                         maxWidth: "340px",
@@ -1380,8 +1426,8 @@ const Education = () => {
 
 // Publication & Languages Component
 const Publication = () => (
-  <section className="relative bg-transparent px-10 py-20">
-    <div className="mx-auto max-w-[90%]">
+  <section className="relative bg-transparent px-4 py-16 sm:px-6 lg:px-8 mx-auto max-w-5xl">
+    <div className="mx-auto w-full">
       <div className="mb-24 grid grid-cols-1 gap-16 md:grid-cols-2">
         {/* Publication */}
         <div>
@@ -1441,7 +1487,7 @@ const Publication = () => (
 const Footer = () => (
   <footer className="relative mt-24 px-4 pb-12 bg-white sm:px-6 lg:px-8">
     <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-100/60 via-cyan-50/30 to-white/80" />
-    <div className="group mx-auto max-w-[90rem] overflow-hidden rounded-3xl border border-white/60 bg-white/70 shadow-[0_20px_60px_rgba(148,163,184,0.18)] backdrop-blur-2xl">
+    <div className="group mx-auto max-w-7xl overflow-hidden rounded-3xl border border-white/60 bg-white/70 shadow-[0_20px_60px_rgba(148,163,184,0.18)] backdrop-blur-2xl">
       {/* 🎯 GIF — Appears when footer scrolls into view */}
       <motion.img
         src="/images/Footer.gif"
@@ -1451,7 +1497,7 @@ const Footer = () => (
         whileInView={{ opacity: 0.9, y: 0, x: 0 }}
         transition={{ duration: 1.0, ease: "easeOut" }}
         viewport={{ once: false, amount: 0.5 }}
-        className="hidden lg:block bottom-[4.5rem] right-[7.5rem] pointer-events-none absolute z-[1] h-[75%] w-auto max-w-[48%] object-contain object-right-bottom mix-blend-darken"
+        className="hidden lg:block bottom-[4.5rem] right-[1.5rem] pointer-events-none absolute z-[1] h-[75%] w-auto max-w-[38%] object-contain object-right-bottom mix-blend-darken"
       />
       {/* subtle gradient top border */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-400 to-blue-500" />
@@ -1559,7 +1605,7 @@ export default function App() {
   return (
     <SmoothScroll>
       <ScrollToTopOnRouteChange />
-      <div id="main-scroll-container" className="h-screen w-screen">
+      <div id="main-scroll-container" className="h-screen w-full overflow-x-hidden">
         <div id="main-content-wrapper" className="min-h-full w-full">
           <Routes>
             {/* ✅ YOUR ORIGINAL HOME PAGE */}
@@ -1569,7 +1615,7 @@ export default function App() {
                 <div id="top" className="min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
                   <DotMatrixBackground {...dotMatrixConfig} />
                   <Navbar /> {/* 👈 YOUR ORIGINAL HEADER IS BACK */}
-                  <main className="mx-auto px-4 sm:px-6 lg:px-8">
+                  <main className="mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8">
                     <Hero />
                     {/* ... Your Profile Section ... */}
                     <Skills />
@@ -1595,7 +1641,7 @@ export default function App() {
                     <DotMatrixBackground {...dotMatrixConfig} />
                   </div>
                   <Navbar /> {/* 👈 stays above background */}
-                  <main className="relative z-10 flex-grow flex-1 w-full mx-auto rounded-lg bg-white/80 px-4 pt-24 shadow-md sm:px-6 lg:px-8">
+                  <main className="relative z-10 flex-grow flex-1 w-full mx-auto max-w-7xl rounded-lg bg-white/80 px-4 pt-24 shadow-md sm:px-6 lg:px-8">
                     <PageTransition>
                       <BlogList />
                     </PageTransition>
@@ -1612,7 +1658,7 @@ export default function App() {
                 <div id="top" className="relative flex flex-col min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
                   <DotMatrixBackground {...dotMatrixConfig} />
                   <Navbar /> {/* 👈 YOUR ORIGINAL HEADER */}
-                  <main className="flex-grow flex-1 w-full mx-auto rounded-lg bg-transparent px-4 pt-24 shadow-md sm:px-6 lg:px-8">
+                  <main className="flex-grow flex-1 w-full mx-auto max-w-7xl rounded-lg bg-transparent px-4 pt-24 shadow-md sm:px-6 lg:px-8">
                     <BlogPost />
                   </main>
                   <Footer />
@@ -1626,7 +1672,7 @@ export default function App() {
                 <div id="top" className="relative flex flex-col min-h-screen bg-white font-sans text-slate-900 antialiased">
                   <DotMatrixBackground {...dotMatrixConfig} />
                   <Navbar />
-                  <main className="relative z-10 mx-auto w-full flex-grow flex-1 px-4 pt-24 sm:px-6 lg:px-8">
+                  <main className="relative z-10 mx-auto w-full max-w-7xl flex-grow flex-1 px-4 pt-24 sm:px-6 lg:px-8">
                     <PageTransition1>
                       <ContactForm />
                     </PageTransition1>
