@@ -802,6 +802,15 @@ const Skills = () => {
 
 // Projects Component (FULL FIXED CODE - Syntax Cleaned + Video Added)
 const Projects = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const projects = [
     {
       title: "Geospatial Analytics Platform",
@@ -865,19 +874,19 @@ const Projects = () => {
         {projects.map((project, index) => (
           <motion.div
             key={index}
-            initial={{
+            initial={isMobile ? { opacity: 1, x: 0 } : {
               opacity: 0,
               x: index % 2 === 0 ? -100 : 100,
             }}
-            whileInView={{
+            whileInView={isMobile ? { opacity: 1, x: 0 } : {
               opacity: 1,
               x: 0,
             }}
             viewport={{
               once: false,
-              amount: 0.65,
+              amount: isMobile ? 0.01 : 0.65,
             }}
-            transition={{
+            transition={isMobile ? { duration: 0 } : {
               duration: 0.5,
               ease: "easeOut",
               opacity: { duration: 0.6 },
@@ -1294,69 +1303,80 @@ const Experience = () => (
 
 // Education Component
 
-const Education = () => (
-  <Section id="education" title="Education">
-    <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
-      {/* --- LEFT COLUMN: B.Tech Card (Slides from LEFT) --- */}
-      <motion.div
-        initial={{ opacity: 0, x: -80 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: false, amount: 0.75 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        className="group relative overflow-hidden rounded-3xl bg-slate-900 p-8 text-white"
-      >
-        <div className="absolute right-0 top-0 p-8 opacity-10 transition-transform duration-300 group-hover:scale-110">
-          <Code2 size={120} />
-        </div>
-        <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-blue-400">
-          B.Tech - Artificial Intelligence & Data Science
-        </h3>
-        <p className="mb-1 text-xl font-bold">Sethu Institute of Technology</p>
-        <p className="mb-6 text-sm opacity-60"> Tamil Nadu | 2021 – 2025</p>
-        <div className="flex items-center gap-3">
-          <div className="rounded-full bg-white/70 px-4 py-1.5 text-sm font-bold backdrop-blur-md">
-            CGPA: 8.0/10
-          </div>
-        </div>
-      </motion.div>
+const Education = () => {
+  const [isMobile, setIsMobile] = useState(false);
 
-      {/* --- RIGHT COLUMN: School Info (Slides from RIGHT) --- */}
-      <motion.div
-        initial={{ opacity: 0, x: 80 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: false, amount: 0.75 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        className="flex flex-col justify-center space-y-8 rounded-3xl border border-slate-200 bg-slate-100 p-3 shadow-sm backdrop-blur-md"
-      >
-        {/* HSC */}
-        <div className="flex gap-4">
-          <div className="h-auto w-1 rounded-full bg-slate-100"></div>
-          <div>
-            <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">
-              HSC - 84%
-            </h3>
-            <p className="text-base font-bold text-slate-800">
-              C.S. Ramachary Memorial Matriculation & hr.sec School
-            </p>
-            <p className="text-xs text-slate-500">Madurai | 2021</p>
-          </div>
-        </div>
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
-        {/* SSLC */}
-        <div className="flex gap-4">
-          <div className="h-auto w-1 rounded-full bg-slate-200"></div>
-          <div>
-            <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">
-              SSLC - 80.2%
-            </h3>
-            <p className="text-base font-bold text-slate-800">Linga Matriculation School</p>
-            <p className="text-xs text-slate-500"> Madurai | 2019</p>
+  return (
+    <Section id="education" title="Education">
+      <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+        {/* --- LEFT COLUMN: B.Tech Card (Slides from LEFT) --- */}
+        <motion.div
+          initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: -80 }}
+          whileInView={isMobile ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
+          viewport={{ once: false, amount: isMobile ? 0.01 : 0.75 }}
+          transition={isMobile ? { duration: 0 } : { duration: 1, ease: "easeOut" }}
+          className="group relative overflow-hidden rounded-3xl bg-slate-900 p-8 text-white"
+        >
+          <div className="absolute right-0 top-0 p-8 opacity-10 transition-transform duration-300 group-hover:scale-110">
+            <Code2 size={120} />
           </div>
-        </div>
-      </motion.div>
-    </div>
-  </Section>
-);
+          <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-blue-400">
+            B.Tech - Artificial Intelligence & Data Science
+          </h3>
+          <p className="mb-1 text-xl font-bold">Sethu Institute of Technology</p>
+          <p className="mb-6 text-sm opacity-60"> Tamil Nadu | 2021 – 2025</p>
+          <div className="flex items-center gap-3">
+            <div className="rounded-full bg-white/70 px-4 py-1.5 text-sm font-bold backdrop-blur-md">
+              CGPA: 8.0/10
+            </div>
+          </div>
+        </motion.div>
+
+        {/* --- RIGHT COLUMN: School Info (Slides from RIGHT) --- */}
+        <motion.div
+          initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: 80 }}
+          whileInView={isMobile ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
+          viewport={{ once: false, amount: isMobile ? 0.01 : 0.75 }}
+          transition={isMobile ? { duration: 0 } : { duration: 1, ease: "easeOut" }}
+          className="flex flex-col justify-center space-y-8 rounded-3xl border border-slate-200 bg-slate-100 p-3 shadow-sm backdrop-blur-md"
+        >
+          {/* HSC */}
+          <div className="flex gap-4">
+            <div className="h-auto w-1 rounded-full bg-slate-100"></div>
+            <div>
+              <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">
+                HSC - 84%
+              </h3>
+              <p className="text-base font-bold text-slate-800">
+                C.S. Ramachary Memorial Matriculation & hr.sec School
+              </p>
+              <p className="text-xs text-slate-500">Madurai | 2021</p>
+            </div>
+          </div>
+
+          {/* SSLC */}
+          <div className="flex gap-4">
+            <div className="h-auto w-1 rounded-full bg-slate-200"></div>
+            <div>
+              <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">
+                SSLC - 80.2%
+              </h3>
+              <p className="text-base font-bold text-slate-800">Linga Matriculation School</p>
+              <p className="text-xs text-slate-500"> Madurai | 2019</p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </Section>
+  );
+};
 
 // Publication & Languages Component
 const Publication = () => (
