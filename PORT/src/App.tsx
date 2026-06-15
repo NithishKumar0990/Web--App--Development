@@ -1419,7 +1419,7 @@ const Publication = () => (
 
 //footer
 const Footer = () => (
-  <footer className="relative mt-24 px-6 pb-12 bg-white">
+  <footer className="relative mt-24 px-4 pb-12 bg-white sm:px-6 lg:px-8">
     <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-100/60 via-cyan-50/30 to-white/80" />
     <div className="group mx-auto max-w-[90rem] overflow-hidden rounded-3xl border border-white/60 bg-white/70 shadow-[0_20px_60px_rgba(148,163,184,0.18)] backdrop-blur-2xl">
       {/* 🎯 GIF — Appears when footer scrolls into view */}
@@ -1431,13 +1431,13 @@ const Footer = () => (
         whileInView={{ opacity: 0.9, y: 0, x: 0 }}
         transition={{ duration: 1.0, ease: "easeOut" }}
         viewport={{ once: false, amount: 0.5 }}
-        className="bottom-18 right-30 pointer-events-none absolute z-[1] h-[75%] w-auto max-w-[48%] object-contain object-right-bottom mix-blend-darken"
+        className="hidden lg:block bottom-[4.5rem] right-[7.5rem] pointer-events-none absolute z-[1] h-[75%] w-auto max-w-[48%] object-contain object-right-bottom mix-blend-darken"
       />
       {/* subtle gradient top border */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-400 to-blue-500" />
 
       {/* --- THE UNTOUCHED TOP PART --- */}
-      <div className="px-5 py-5 md:px-3 md:py-1">
+      <div className="px-6 py-10 sm:px-10 sm:py-12 md:px-16 md:py-16">
         {/* Left Side (This part is exactly as you provided) */}
         <div className="max-w-2xl">
           <div className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/40 bg-gradient-to-r from-emerald-500/20 via-cyan-400/20 to-blue-500/20 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 shadow-md backdrop-blur-md">
@@ -1447,7 +1447,7 @@ const Footer = () => (
           </div>
 
           <div className="mt-3">
-            <h3 className="text-3xl font-bold leading-tight text-slate-900 md:text-5xl">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-slate-900">
               Let’s build something impactful together.
             </h3>
             <div className="mt-3 h-1 w-24 rounded-full bg-gradient-to-r from-emerald-500 via-cyan-400 to-blue-500" />
@@ -1497,12 +1497,12 @@ const Footer = () => (
 
       {/* --- THE NEW, CONSOLIDATED BOTTOM SECTION --- */}
       <div className="border-t border-white/60 px-8 py-6 md:px-10">
-        <div className="flex flex-col-reverse items-start justify-between gap-6 md:flex-row md:items-center">
+        <div className="flex flex-col-reverse items-center justify-between gap-6 md:flex-row md:items-center">
           {/* Copyright */}
-          <p className="text-sm text-slate-500">© {new Date().getFullYear()} Nithish Kumar L</p>
+          <p className="text-sm text-slate-500 text-center md:text-left">© {new Date().getFullYear()} Nithish Kumar L</p>
 
           {/* All Links Grouped */}
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 md:justify-start">
             <a
               href="tel:+916382417367"
               className="text-sm font-medium text-slate-600 hover:text-emerald-600"
@@ -1525,7 +1525,7 @@ const Footer = () => (
             >
               LinkedIn
             </a>
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400 text-center md:text-left">
               AI • Data Science • Full Stack
             </p>
           </div>
