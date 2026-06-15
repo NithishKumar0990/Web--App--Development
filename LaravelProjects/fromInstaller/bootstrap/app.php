@@ -15,5 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->report(function (\Throwable $e) {
+            header('Content-Type: text/plain');
+            echo "ACTUAL BOOTSTRAP EXCEPTION: " . $e->getMessage() . "\n";
+            echo "File: " . $e->getFile() . " Line: " . $e->getLine() . "\n";
+            echo $e->getTraceAsString();
+            exit(1);
+        });
     })->create();
