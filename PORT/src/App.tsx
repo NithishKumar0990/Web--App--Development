@@ -664,7 +664,7 @@ const Skills = () => {
   return (
     <Section id="skills" title="Technical Skills" className="mb-0 mt-0 text-center">
       <motion.div
-        className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 lg:grid-cols-3"
+        className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
@@ -684,7 +684,7 @@ const Skills = () => {
               transition: { type: "spring", stiffness: 200, damping: 50 },
             }}
             className={cn(
-              "relative flex flex-col rounded-xl border bg-white/70 p-6 backdrop-blur-md transition-all duration-300 cursor-pointer select-none",
+              "relative flex flex-col h-full rounded-xl border bg-white/70 p-6 backdrop-blur-md transition-all duration-300 cursor-pointer select-none",
               hoveredId === skill.id || (activeSkill && activeSkill.id === skill.id)
                 ? "border-blue-400 shadow-2xl ring-1 ring-blue-100"
                 : "border-slate-100 shadow-sm"
@@ -736,6 +736,7 @@ const Skills = () => {
               transition={{ type: "spring", duration: 0.5 }}
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-2xl rounded-3xl border border-slate-100 bg-white p-6 md:p-8 shadow-2xl backdrop-blur-md cursor-default max-h-[85vh] overflow-y-auto"
+              data-lenis-prevent
             >
               {/* Close Button */}
               <button
@@ -786,7 +787,7 @@ const Skills = () => {
               </div>
 
               {/* Detailed Content */}
-              <div className="text-slate-700 text-sm leading-relaxed overflow-y-auto max-h-[45vh] pr-2">
+              <div className="text-slate-700 text-sm leading-relaxed overflow-y-auto max-h-[45vh] pr-2" data-lenis-prevent>
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 text-left">
                   Engineering Breakdown & Impact
                 </h4>
