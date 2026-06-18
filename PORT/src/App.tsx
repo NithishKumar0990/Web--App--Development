@@ -132,7 +132,7 @@ const Navbar = () => {
             : "border-b border-transparent bg-white/40 backdrop-blur-sm"
         }`}
       >
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-14 max-w-screen-2xl items-center justify-between px-3 sm:h-16 sm:px-5 lg:px-6">
           {/* Logo/Name - Always visible */}
           <motion.span
             className="cursor-pointer text-sm font-semibold tracking-tight text-slate-900 transition-transform hover:scale-105 sm:text-base"
@@ -1492,9 +1492,9 @@ const Publication = () => (
 
 //footer
 const Footer = () => (
-  <footer className="relative mt-24 px-4 pb-12 bg-white sm:px-6 lg:px-8">
+  <footer className="relative mt-24 px-3 pb-12 bg-white sm:px-5 lg:px-6">
     <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-100/60 via-cyan-50/30 to-white/80" />
-    <div className="group mx-auto max-w-7xl overflow-hidden rounded-3xl border border-white/60 bg-white/70 shadow-[0_20px_60px_rgba(148,163,184,0.18)] backdrop-blur-2xl">
+    <div className="group mx-auto max-w-screen-2xl overflow-hidden rounded-3xl border border-white/60 bg-white/70 shadow-[0_20px_60px_rgba(148,163,184,0.18)] backdrop-blur-2xl">
       {/* 🎯 GIF — Appears when footer scrolls into view */}
       <motion.img
         src="/images/Footer.gif"
@@ -1622,7 +1622,7 @@ export default function App() {
                 <div id="top" className="min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
                   <DotMatrixBackground {...dotMatrixConfig} />
                   <Navbar /> {/* 👈 YOUR ORIGINAL HEADER IS BACK */}
-                  <main className="mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8">
+                  <main className="mx-auto max-w-screen-2xl w-full px-3 sm:px-5 lg:px-6">
                     <Hero />
                     {/* ... Your Profile Section ... */}
                     <Skills />
@@ -1648,7 +1648,7 @@ export default function App() {
                     <DotMatrixBackground {...dotMatrixConfig} />
                   </div>
                   <Navbar /> {/* 👈 stays above background */}
-                  <main className="relative z-10 flex-grow flex-1 w-full mx-auto max-w-7xl rounded-lg bg-white/80 px-4 pt-24 shadow-md sm:px-6 lg:px-8">
+                  <main className="relative z-10 flex-grow flex-1 w-full mx-auto max-w-screen-2xl rounded-lg bg-white/80 px-3 pt-24 shadow-md sm:px-5 lg:px-6">
                     <PageTransition>
                       <BlogList />
                     </PageTransition>
@@ -1665,7 +1665,7 @@ export default function App() {
                 <div id="top" className="relative flex flex-col min-h-screen bg-transparent font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
                   <DotMatrixBackground {...dotMatrixConfig} />
                   <Navbar /> {/* 👈 YOUR ORIGINAL HEADER */}
-                  <main className="flex-grow flex-1 w-full mx-auto max-w-7xl rounded-lg bg-transparent px-4 pt-24 shadow-md sm:px-6 lg:px-8">
+                  <main className="flex-grow flex-1 w-full mx-auto max-w-screen-2xl rounded-lg bg-transparent px-3 pt-24 shadow-md sm:px-5 lg:px-6">
                     <BlogPost />
                   </main>
                   <Footer />
@@ -1679,7 +1679,7 @@ export default function App() {
                 <div id="top" className="relative flex flex-col min-h-screen bg-white font-sans text-slate-900 antialiased">
                   <DotMatrixBackground {...dotMatrixConfig} />
                   <Navbar />
-                  <main className="relative z-10 mx-auto w-full max-w-7xl flex-grow flex-1 px-4 pt-24 sm:px-6 lg:px-8">
+                  <main className="relative z-10 mx-auto w-full max-w-screen-2xl flex-grow flex-1 px-3 pt-24 sm:px-5 lg:px-6">
                     <PageTransition1>
                       <ContactForm />
                     </PageTransition1>
