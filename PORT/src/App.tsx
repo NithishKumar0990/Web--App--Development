@@ -176,6 +176,8 @@ const Navbar = () => {
             <motion.img
               src="https://res.cloudinary.com/diqsdku1v/image/upload/v1781510851/image_1_ewnf3p.png"
               alt="Profile illustration"
+              fetchPriority="high"
+              loading="eager"
               className="h-10 w-10 cursor-pointer rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl lg:h-12 lg:w-12"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -215,6 +217,8 @@ const Navbar = () => {
             <motion.img
               src="https://res.cloudinary.com/diqsdku1v/image/upload/v1781510851/image_1_ewnf3p.png"
               alt="Profile"
+              fetchPriority="high"
+              loading="eager"
               className="ml-3 h-8 w-8 cursor-pointer rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -407,7 +411,9 @@ const Hero = () => (
         <img
           src="https://res.cloudinary.com/diqsdku1v/image/upload/v1781510851/image_1_ewnf3p.png"
           alt="Nithish Kumar L"
-          className={`/* ✅ Lift image slightly up */ /* Offset only on desktop */ /* Rotation ONLY on desktop, not mobile */ relative z-10 aspect-square w-full max-w-[280px] -translate-y-4 rounded-2xl object-cover shadow-lg shadow-slate-200/80 transition-all duration-500 ease-out hover:scale-[0.97] sm:max-w-[340px] lg:max-w-md lg:-translate-x-[70px] lg:-translate-y-12 lg:rotate-[-3deg] hover:lg:rotate-0`}
+          fetchPriority="high"
+          loading="eager"
+          className={`relative z-10 aspect-square w-full max-w-[280px] -translate-y-4 rounded-2xl object-cover shadow-lg shadow-slate-200/80 transition-all duration-500 ease-out hover:scale-[0.97] sm:max-w-[340px] lg:max-w-md lg:-translate-x-[70px] lg:-translate-y-12 lg:rotate-[-3deg] hover:lg:rotate-0`}
         />
       </motion.div>
     </div>
